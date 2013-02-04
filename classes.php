@@ -1,7 +1,7 @@
 <?php
 /*etong mga classes ginawa ko para pag nagretrieve tayo sa table, itetreat natin yun as object*/
 /*constructor, setters and getters*/
-
+public $sched_id=1; //pede ba to?
 class Dormer
 {
 	private $username;
@@ -315,20 +315,22 @@ class Staff
 
 class Schedule
 {
-	private $schedule_id=1;
+	private $schedule_id;
 	private $day;
 	private $time;
 	private $location;
 	
-	function __contruct($schedule_id, $day, $time, $location)
+	//para dito
+	function __construct($day, $time, $location)
 	{
-		$this->schedule_id=$schedule_id;
+		$this->schedule_id=$sched_id++;
 		$this->day=$day;
 		$this->time=$time;
 		$this->location=$location;
 	}
 	
 	//di na natin kelangan to kasi id sya, di dapat napapaltan
+	//tsaka since incremental sya
 	function setScheduleId($schedule_id)
 	{
 		$this->schedule_id=$schedule_id;
