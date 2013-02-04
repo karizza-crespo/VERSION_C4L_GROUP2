@@ -315,7 +315,7 @@ class Staff
 
 class Schedule
 {
-	private $schedule_id;
+	private $schedule_id=1;
 	private $day;
 	private $time;
 	private $location;
@@ -328,6 +328,7 @@ class Schedule
 		$this->location=$location;
 	}
 	
+	//di na natin kelangan to kasi id sya, di dapat napapaltan
 	function setScheduleId($schedule_id)
 	{
 		$this->schedule_id=$schedule_id;
