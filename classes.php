@@ -1,7 +1,7 @@
 <?php
 /*etong mga classes ginawa ko para pag nagretrieve tayo sa table, itetreat natin yun as object*/
 /*constructor, setters and getters*/
-public $sched_id=1; //pede ba to?
+
 class Dormer
 {
 	private $username;
