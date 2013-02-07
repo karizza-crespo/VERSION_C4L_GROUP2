@@ -62,4 +62,3 @@ $_SESSION['username']='none';
 	</body>
 </html>
 <?phpsession_destroy();?>
-<!--kulang ko nalang yung kapag nag search ka, mali na ung form na napiprint nia-->

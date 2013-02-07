@@ -14,7 +14,6 @@ session_start();
 		<table>
 			<form name="update" action="updatePaymentDetails.php" method="post">
 				<?php
-					//dapat hindi retrieveAllRecords() kapag nagsearch kasi iba ung lalabas, kelangan ko makaisip ng condition!!!! paano mag global variables sa php?
 					if ($_SESSION['searchFlag']==1)
 						$records = $manager->searchRecords($_SESSION['username']);
 					else
