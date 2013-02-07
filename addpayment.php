@@ -16,9 +16,11 @@ $manager=new databaseManager;
 				if($payment==1)
 					echo "Payment Entry Added.<br />";
 				else if ($payment==2)
-					echo "<span style='color:red'>Username does not exist.</span><br />";
+					echo "<span style='color:red'>Payment Number already in the record.</span><br />";
 				else if ($payment==3)
 					echo "<span style='color:red'>Month already paid.</span><br />";
+				else if ($payment==4)
+					echo "<span style='color:red'>Amount is invalid.</span><br />";
 				else
 					echo "<span style='color:red'>Failed to add payment entry.</span><br />";
 			}
@@ -31,7 +33,7 @@ $manager=new databaseManager;
 				</tr>
 				<tr>
 					<td><label for="paymentnumber">Payment Number:</label></td>
-					<td><input type="number" id="paymentnumber" name="paymentnumber" min="0"/></td>
+					<td><input type="number" id="paymentnumber" name="paymentnumber" min="0" value='0'/></td>
 				</tr>
 				<tr>
 					<td><label for="username">Username:</label></td>
@@ -60,7 +62,7 @@ $manager=new databaseManager;
 				</tr>
 				<tr>
 					<td><label for="amount">Amount:</label></td>
-					<td><input type="number" id="amount" name="amount" min="0"/></td>
+					<td><input type="number" id="amount" name="amount" min="1" value="1"/></td>
 				</tr>
 				<tr>
 					<td></td>

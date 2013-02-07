@@ -2,6 +2,10 @@
 include("functions.php");
 $pattern="/^[A-Za-z0-9-,\s]+$/";
 $manager=new databaseManager;
+
+session_start();
+$_SESSION['searchFlag']=0;
+$_SESSION['username']='none';
 ?>
 <html>
 	<head>
@@ -26,6 +30,8 @@ $manager=new databaseManager;
 		<?php
 			if(isset($_POST['searchByUsername']))
 			{
+				$_SESSION['searchFlag']=1;
+				$_SESSION['username']=$_POST['recordUsername'];
 				echo "<form name='updateDetails' action='updatePaymentDetails.php' method='post'>";
 				$record = $manager->searchRecords($_POST['recordUsername']);
 				if($record!=null)
@@ -39,6 +45,7 @@ $manager=new databaseManager;
 			}
 			else
 			{
+				$_SESSION['searchFlag']=0;
 				echo "<form name='updateDetails' action='updatePaymentDetails.php' method='post'>";
 				$record = $manager->retrieveAllRecords();
 				if($record!=null)
@@ -50,6 +57,9 @@ $manager=new databaseManager;
 					echo "<span style='color:red'>Payment Records Table is Empty.</span><br />";
 				echo "</form>";
 			}
+			
 		?>
 	</body>
 </html>
+<?phpsession_destroy();?>
+<!--kulang ko nalang yung kapag nag search ka, mali na ung form na napiprint nia-->

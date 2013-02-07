@@ -18,11 +18,17 @@ class databaseManager
 		
 		if($count[0]!=0)
 		{
+			//if the amount entered by the dorm manager is 0, return 4
+			if($amount==0)
+				return 4;
+				
 			//check if the dormer already paid for that month
 			$stmt="SELECT count(*) FROM payment_record WHERE username='$username' AND month='$month';";
 			$count=pg_fetch_array(pg_query($stmt));
 			
-			if($count[0]==0)
+			$stmt="SELECT count(*) FROM payment_record WHERE payment_number='$payment_number';";
+			$anotherCount=pg_fetch_array(pg_query($stmt));
+			if($count[0]==0 && $anotherCount[0]==0)
 			{
 				$stmt="SELECT name FROM dormer WHERE username='$username';";
 				$name=pg_fetch_array(pg_query($stmt));
@@ -33,16 +39,17 @@ class databaseManager
 				//return 1 if entry is successfully inserted, 0 if not
 				if($success)
 					return 1;
-				else
-					return 0;
+				return 0;
 			}
 			//return 3 if dormer already paid for that month
 			else
+			{
+				//return 2 if payment number already exists
+				if($anotherCount[0]!=0)
+					return 2;
 				return 3;
+			}
 		}
-		//return 2 if dormer does not exist
-		else
-			return 2;
 	}
 	
 	public function retrieveAllRecords()
@@ -85,7 +92,7 @@ class databaseManager
 	
 	public function printUsername()
 	{
-		$stmt="SELECT DISTINCT username FROM payment_record;";
+		$stmt="SELECT DISTINCT username FROM dormer;";
 		$result=pg_query($stmt);
 		
 		while($row=pg_fetch_assoc($result))
@@ -108,12 +115,13 @@ class databaseManager
 	{
 		echo "<table>
 				<tr>
-					<td><label for='dateofpayment'>Date: </label></td>
-					<td><input type='date' id='dateofpayment' name='dateofpayment' value='".$recordDetails->getDOP()."'/></td>
-				</tr>
-				<tr>
 					<td><label for='paymentnumber'>Payment Number:</label></td>
 					<td><input type='number' id='paymentnumber' name='paymentnumber' disabled='disabled' value='".$recordDetails->getPaymentNumber()."'/></td>
+					<td><input type='hidden' name='paymentnumber' value='".$recordDetails->getPaymentNumber()."' /></td>
+				</tr>
+				<tr>
+					<td><label for='dateofpayment'>Date: </label></td>
+					<td><input type='date' id='dateofpayment' name='dateofpayment' value='".$recordDetails->getDOP()."'/></td>
 				</tr>
 				<tr>
 					<td><label for='username'>Username:</label></td>
@@ -170,13 +178,14 @@ class databaseManager
 							if($recordDetails->getMonth()=="December")
 								echo "<option value='December' selected='true'>December</option>";
 							else
-								echo "<option value='December'>December</option>
-						</select>
+								echo "<option value='December'>December</option>";
+						echo "</select>
 					</td>
+					<td><input type='hidden' name='oldmonth' value='".$recordDetails->getMonth()."'/></td>
 				</tr>
 				<tr>
 					<td><label for='amount'>Amount:</label></td>
-					<td><input type='number' id='amount' name='amount' value='".$recordDetails->getAmount()."'/></td>
+					<td><input type='number' id='amount' name='amount' value='".$recordDetails->getAmount()."' min='0'/></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -184,6 +193,35 @@ class databaseManager
 				</tr>
 			</table>
 		</form>";
+	}
+	
+	public function updatePaymentRecords($dateofpayment, $paymentnumber, $username, $month, $amount, $oldmonth)
+	{
+		$stmt="SELECT count(*) FROM dormer WHERE username='$username';";
+		$count=pg_fetch_array(pg_query($stmt));
+		
+		if($count[0]!=0)
+		{
+			$stmt="SELECT count(*) FROM payment_record WHERE username='$username' AND month='$month';";
+			$count=pg_fetch_array(pg_query($stmt));
+			
+			if($count[0]==0 || $oldmonth==$month)
+			{
+				if($amount==0)
+					return 4;
+
+				$stmt="UPDATE payment_record set date_of_payment='$dateofpayment', username='$username', month='$month', amount='$amount' WHERE payment_number='$paymentnumber';";
+				$success=pg_query($stmt);
+				
+				if($success)
+					return 1;
+				else
+					return 0;	
+			}
+			else
+				return 2;
+		}
+		return 3;
 	}
 }
 ?>
