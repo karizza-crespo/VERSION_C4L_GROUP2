@@ -76,9 +76,6 @@ if(isset($_POST['login'])){
 <p></p>
 
 
-<a href="register.php" >Register</a>
-
-
 
 <div id="login">
 <?php

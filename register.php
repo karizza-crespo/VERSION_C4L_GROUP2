@@ -1,5 +1,14 @@
 <?php
 
+session_start();
+if($_SESSION['username']!='postgres'){
+	header('Location: admin_db.php');
+	die;
+}
+
+?>
+
+<?php
 // connect to database
 $host = "localhost"; 
 $user = "postgres"; 
@@ -119,6 +128,7 @@ if(isset($_POST['register'])){ /* get the name of the button that is inside the 
 				</select></tr></td>
 		
 		<tr><td colspan="2"><center><br/><input type="submit" name="register" class = "register" value="REGISTER" /></td></tr>
+		 <a href="logout.php">Logout </a></br>
 		</table>
 	</form>
 
