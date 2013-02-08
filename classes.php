@@ -239,7 +239,8 @@ class Staff
 		$this->address=$address;
 		$this->contact_num=$contact_num;
 		$this->staff_type=$staff_type;
-		$this->staff_username=$staff_password;
+		$this->staff_username=$staff_username;
+		$this->staff_password=$staff_password;
 	}
 	
 	function setStaffNumber($staff_number)
@@ -267,7 +268,7 @@ class Staff
 		$this->address=$address;
 	}
 	
-	function getAdress()
+	function getAddress()
 	{
 		return $this->address;
 	}
@@ -299,7 +300,7 @@ class Staff
 	
 	function getStaffUsername()
 	{
-		return $sthis->staff_username;
+		return $this->staff_username;
 	}
 	
 	function setStaffPassword($staff_password)

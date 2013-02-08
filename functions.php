@@ -223,5 +223,117 @@ class databaseManager
 		}
 		return 3;
 	}
+	
+	public function retrieveAllDormers()
+	{
+		$allDormers = array();
+		
+		$stmt="SELECT * FROM dormer;";
+		$result=pg_query($stmt);
+		
+		while($row=pg_fetch_assoc($result))
+			$allDormers[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
+		return $allDormers;
+	}
+	
+	public function retrieveAllStaff()
+	{
+		$allStaff = array();
+		
+		$stmt="SELECT * FROM staff;";
+		$result=pg_query($stmt);
+		
+		while($row=pg_fetch_assoc($result))
+			$allStaff[] = new Staff($row['staff_number'], $row['name'], $row['address'], $row['contact_number'], $row['type'], $row['username'], $row['password']);
+		return $allStaff;
+	}
+	
+	public function printDelete($details, $type)
+	{
+		echo "<table border='1'>";
+		if($type=='dormer')
+		{
+			echo "<tr>
+				<th></th>
+				<th>Username</th>
+				<th>Name</th>
+				<th>Student Number</th>
+				<th>Home Address</th>
+				<th>Contact Number</th>
+				<th>Birthdate</th>
+				<th>Age</th>
+				<th>Course</th>
+				<th>Contact Person</th>
+				<th>Contact Person Number</th>
+				<th>Room Number</th>
+			</tr>";
+			echo "<input type='hidden' value='0' name='dormer' />";
+			for($ctr=0; $ctr<count($details); $ctr++)
+			{
+				echo "<tr>
+					<td><input type='checkbox' value='".$details[$ctr]->getUsername()."' name='dormer[]' id='dormer".$ctr."' /></td>
+					<td><label for='dormer".$ctr."'>".$details[$ctr]->getUsername()."</label></td>
+					<td>".$details[$ctr]->getName()."</td>
+					<td>".$details[$ctr]->getStudentNumber()."</td>
+					<td>".$details[$ctr]->getHomeAddress()."</td>
+					<td>".$details[$ctr]->getContactNumber()."</td>
+					<td>".$details[$ctr]->getBirthdate()."</td>
+					<td>".$details[$ctr]->getAge()."</td>
+					<td>".$details[$ctr]->getCourse()."</td>
+					<td>".$details[$ctr]->getContactPerson()."</td>
+					<td>".$details[$ctr]->getContactPersonNumber()."</td>
+					<td>".$details[$ctr]->getRoomNumber()."</td>
+				</tr>";
+			}
+		}
+		else if ($type=='staff')
+		{
+			echo "<tr>
+				<th></th>
+				<th>Staff Number</th>
+				<th>Username</th>
+				<th>Name</th>
+				<th>Address</th>
+				<th>Contact Number</th>
+				<th>Type</th>
+			</tr>";
+			echo "<input type='hidden' value='0' name='staff' />";
+			for($ctr=0; $ctr<count($details); $ctr++)
+			{
+				echo "<tr>
+					<td><input type='checkbox' value='".$details[$ctr]->getStaffNumber()."' name='staff[]' id='staff".$ctr."'/></td>
+					<td><label for='staff".$ctr."'>".$details[$ctr]->getStaffNumber()."</label></td>
+					<td>".$details[$ctr]->getStaffUsername()."</td>
+					<td>".$details[$ctr]->getStaffName()."</td>
+					<td>".$details[$ctr]->getAddress()."</td>
+					<td>".$details[$ctr]->getContactNum()."</td>
+					<td>".$details[$ctr]->getStaffType()."</td>
+				</tr>";
+			}
+		}
+		echo "</table>";
+	}
+	
+	public function deleteAccounts($deleteDormers, $deleteStaff)
+	{
+		for($ctr=0; $ctr<count($deleteDormers); $ctr++)
+		{
+			//kapag dormer, idelete mo siya sa payment_record, dormer_log, and dormer
+			$stmt="DELETE FROM payment_record WHERE username='$deleteDormers[$ctr]';";
+			pg_query($stmt);
+			$stmt="DELETE FROM dormer_log WHERE username='$deleteDormers[$ctr]';";
+			pg_query($stmt);
+			$stmt="DELETE FROM dormer WHERE username='$deleteDormers[$ctr]';";
+			pg_query($stmt);
+		}
+		for($ctr=0; $ctr<count($deleteStaff); $ctr++)
+		{
+			//kapag staff, delete mo siya sa staff_schedule and sa staff
+			$stmt="DELETE FROM staff_schedule WHERE staff_number='$deleteStaff[$ctr]';";
+			pg_query($stmt);
+			$stmt="DELETE FROM staff WHERE staff_number='$deleteStaff[$ctr]';";
+			pg_query($stmt);
+		}
+	}
 }
 ?>
