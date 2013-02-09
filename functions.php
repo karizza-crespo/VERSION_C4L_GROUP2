@@ -3,7 +3,7 @@ include("classes.php");
 
 //connect to the database
 /*palitan nio nalang yung dbname, user, password kung anu man yung sa inio :) */
-$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
+$db=pg_connect("host=localhost port=5432 dbname=dormmgtsys user=postgres password=Pass128");
 
 class databaseManager
 {
@@ -367,6 +367,21 @@ class databaseManager
 		while($row=pg_fetch_assoc($result))
 			$staff[] = new Staff($row['staff_number'], $row['name'], $row['address'], $row['contact_number'], $row['type'], $row['username'], $row['password']);
 		return $staff;
+
+	public function addDormerInformation($username, $name, $studentnumber, $course, $birthdate,	$age, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
+	{
+		$stmt="UPDATE DORMER SET Name='$name', Student_number='$studentnumber', Course='$course',";
+		$stmt.=" Birthdate='$birthdate', Age='$age', Home_address='$homeaddress',";
+		$stmt.=" Contact_number='$contactnumber', Contact_person='$contactperson',";
+		$stmt.=" Contact_person_number='$contactpersonnumber' WHERE Username='$username';";
+		pg_query($stmt);
+	}
+	
+	public function addStaffInformation($username, $name, $address, $contactnumber)
+	{
+		$stmt="UPDATE STAFF SET Name='$name', Address='$address', Contact_number='$contactnumber'";
+		$stmt.=" WHERE Username='$username';";
+		pg_query($stmt);
 	}
 }
 ?>
