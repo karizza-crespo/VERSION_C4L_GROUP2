@@ -3,7 +3,7 @@ include("classes.php");
 
 //connect to the database
 /*palitan nio nalang yung dbname, user, password kung anu man yung sa inio :) */
-$db=pg_connect("host=localhost port=5432 dbname=dormmgtsys user=postgres password=Pass128");
+$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
 
 class databaseManager
 {
@@ -367,6 +367,7 @@ class databaseManager
 		while($row=pg_fetch_assoc($result))
 			$staff[] = new Staff($row['staff_number'], $row['name'], $row['address'], $row['contact_number'], $row['type'], $row['username'], $row['password']);
 		return $staff;
+	}
 
 	public function addDormerInformation($username, $name, $studentnumber, $course, $birthdate,	$age, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
 	{
