@@ -11,6 +11,33 @@ $manager=new databaseManager;
 		<script src="js/script.js"></script>
 	</head>
 	<body>
+		<form name="searchSpecificDormer" action="deleteAccountSpecific.php" method="post">
+			<table>
+				<tr>
+					<td>Search Dormer By Username: </td>
+					<td>
+						<select id="deleteDormer" name="deleteDormer"><?php $manager->printUsername();?></select>
+					</td>
+					<td>
+						<input type="submit" value="Search" name="searchDormerByUsername"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<form name="searchSpecificStaff" action="deleteAccountSpecific.php" method="post">
+			<table>
+				<tr>
+					<td>Search Staff by Staff Number: </td>
+					<td>
+						<select id="deleteStaff" name="deleteStaff"><?php $manager->printStaffNumber();?></select>
+					</td>
+					<td>
+						<input type="submit" value="Search" name="searchStaffByNumber"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+
 		<form name="retrieveAll" action="deleteaccount.php" method="post">
 			<input type="button" value="Check All" name="check" onclick="checkall();"/>
 			<input type="button" value="Uncheck All" name="uncheck" onclick="uncheckall();"/>
@@ -18,6 +45,7 @@ $manager=new databaseManager;
 			<br />
 			<?php
 				$dormers = $manager->retrieveAllDormers();
+					
 				if($dormers!=null)
 				{
 					echo "<br />DORMERS: <br /><br />";
@@ -27,7 +55,9 @@ $manager=new databaseManager;
 					echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
 					
 				echo "<br />";
+				
 				$staff = $manager->retrieveAllStaff();
+				
 				if($staff!=null)
 				{
 					echo "<br />STAFF: <br /><br />";

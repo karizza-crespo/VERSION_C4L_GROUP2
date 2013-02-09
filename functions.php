@@ -99,6 +99,15 @@ class databaseManager
 			echo "<option value='".$row['username']."'>".$row['username']."</option>";
 	}
 	
+	public function printStaffNumber()
+	{
+		$stmt="SELECT DISTINCT staff_number FROM staff;";
+		$result=pg_query($stmt);
+		
+		while($row=pg_fetch_assoc($result))
+			echo "<option value='".$row['staff_number']."'>".$row['staff_number']."</option>";
+	}
+	
 	public function searchRecords($username)
 	{
 		$records = array();
@@ -334,6 +343,30 @@ class databaseManager
 			$stmt="DELETE FROM staff WHERE staff_number='$deleteStaff[$ctr]';";
 			pg_query($stmt);
 		}
+	}
+	
+	public function searchDormer($username)
+	{
+		$dormers = array();
+		
+		$stmt="SELECT * FROM dormer WHERE username='$username';";
+		$result=pg_query($stmt);
+		
+		while($row=pg_fetch_assoc($result))
+			$dormers[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
+		return $dormers;
+	}
+	
+	public function searchStaff($number)
+	{
+		$staff = array();
+		
+		$stmt="SELECT * FROM staff WHERE staff_number='$number';";
+		$result=pg_query($stmt);
+		
+		while($row=pg_fetch_assoc($result))
+			$staff[] = new Staff($row['staff_number'], $row['name'], $row['address'], $row['contact_number'], $row['type'], $row['username'], $row['password']);
+		return $staff;
 	}
 }
 ?>

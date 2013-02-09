@@ -15,7 +15,7 @@ Constraint dormer_username_pk PRIMARY KEY (Username)
 );
 
 CREATE TABLE LOG(
-Log_id INTEGER,
+Log_id SERIAL,
 Log_date DATE NOT NULL,
 Log_time TIME NOT NULL,
 Type VARCHAR(10) NOT NULL,
