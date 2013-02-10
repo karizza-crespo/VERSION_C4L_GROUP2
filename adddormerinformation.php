@@ -4,7 +4,13 @@ $pattern="/^[A-Za-z0-9-,\s]+$/";
 $manager=new databaseManager;
 
 session_start();
-$_SESSION['username']='dormer';
+
+if($_SESSION['accountType']=='notLoggedIn')
+{
+	header('Location: login.php');
+	die;
+}
+
 ?>
 
 <html>
@@ -16,11 +22,14 @@ $_SESSION['username']='dormer';
 		<?php
 			if(isset($_POST["adddormerinfo"]))
 			{
-				$manager->addDormerInformation($_SESSION['username'], $_POST["name"], $_POST["studentnumber"],
-						$_POST["course"], $_POST["birthdate"], $_POST["age"],	$_POST["homeaddress"],
-						$_POST["contactnumber"], $_POST["contactperson"], $_POST["contactpersonnumber"]);
+				$success=$manager->addDormerInformation($_SESSION['username'], $_POST["name"], $_POST["studentnumber"], $_POST["course"], $_POST["birthdate"], $_POST["age"], $_POST["homeaddress"], $_POST["contactnumber"], $_POST["contactperson"], $_POST["contactpersonnumber"]);
 				
-				echo "<h2>Information successfully added.</h2><br/>";
+				if($success==1)
+					echo "<h2>Information successfully added.</h2><br/>";
+				else if ($success==3)
+					echo "<span style='color:red'>Student Number already in the Database.</span><br /><br />";
+				else
+					echo "<span style='color:red'>Failed to Add Information.</span><br /><br />";
 			}
 		?>
 		<form name="addDormerInformation" action="adddormerinformation.php" method="post">
@@ -66,6 +75,7 @@ $_SESSION['username']='dormer';
 				</tr>
 			</table>
 		</form>
+		<br />
+		<a href="dormer_db.php" title="Back to Dormer Home Page">Back to Dormer Home Page</a>
 	</body>
 </html>
-<?phpsession_destroy();?>

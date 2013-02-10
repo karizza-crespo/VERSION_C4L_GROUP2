@@ -20,7 +20,9 @@ Log_date DATE NOT NULL,
 Log_time TIME NOT NULL,
 Type VARCHAR(10) NOT NULL,
 Whereabouts VARCHAR(80) NOT NULL,
-Constraint log_id_pk PRIMARY KEY (Log_id)
+Username VARCHAR(20) NOT NULL,
+Constraint log_id_pk PRIMARY KEY (Log_id),
+Constraint log_username_fk FOREIGN KEY (username) REFERENCES DORMER(username)
 );
 
 CREATE TABLE DORMER_LOG(

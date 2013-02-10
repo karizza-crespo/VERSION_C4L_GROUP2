@@ -16,7 +16,8 @@ or die ("Could not connect to server\n");
 */
 
 $_SESSION['username']='none';
-	
+$_SESSION['accountType']='notLoggedIn';
+
 if(isset($_POST['login'])){
 	//get the username
 	$username = $_POST['username'];  
@@ -27,6 +28,7 @@ if(isset($_POST['login'])){
 	if(($username=='postgres') && ($password =='password')){
 			session_start();
 			$_SESSION['username'] = 'postgres';
+			$_SESSION['accountType']='admin';
 			header('Location: admin_db.php');
 			die;
 		}
@@ -38,6 +40,7 @@ if(isset($_POST['login'])){
 		if($count[0]!=0 ){	
 			session_start();
 			$_SESSION['username'] = $username;
+			$_SESSION['accountType']='dormer';
 			header('Location: dormer_db.php');
 			die;
 		}
@@ -48,6 +51,7 @@ if(isset($_POST['login'])){
 			if($anotherCount[0]!=0 ){	
 				session_start();
 				$_SESSION['username'] = $username;
+				$_SESSION['accountType']='staff';
 				header('Location: staff_db.php');
 				die;
 			}else if ($anotherCount[0]==0){

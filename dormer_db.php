@@ -95,6 +95,9 @@ or die ("Could not connect to server\n");
 	<br />
 	<br />
 	
+	<a href="adddormerinformation.php" title="Add Personal Information">Add Personal Information</a>
+	<br />
+	<br />
 	
 	 <a href="logout.php">Sign Out </a></br>
 

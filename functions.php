@@ -371,18 +371,44 @@ class databaseManager
 
 	public function addDormerInformation($username, $name, $studentnumber, $course, $birthdate,	$age, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
 	{
-		$stmt="UPDATE DORMER SET Name='$name', Student_number='$studentnumber', Course='$course',";
-		$stmt.=" Birthdate='$birthdate', Age='$age', Home_address='$homeaddress',";
-		$stmt.=" Contact_number='$contactnumber', Contact_person='$contactperson',";
-		$stmt.=" Contact_person_number='$contactpersonnumber' WHERE Username='$username';";
-		pg_query($stmt);
+		$stmt="SELECT count(*) FROM dormer WHERE student_number='$studentnumber';";
+		$count=pg_fetch_array(pg_query($stmt));
+		
+		if($count[0]==0)
+		{
+			$stmt="UPDATE DORMER SET name='$name', student_number='$studentnumber', course='$course',";
+			$stmt.=" birthdate='$birthdate', age='$age', home_address='$homeaddress',";
+			$stmt.=" contact_number='$contactnumber', contact_person='$contactperson',";
+			$stmt.=" contact_person_number='$contactpersonnumber' WHERE username='$username';";
+			$success=pg_query($stmt);
+		
+			if($success)
+				return 1;
+			else
+				return 0;
+		}
+		else
+			return 3;
 	}
 	
-	public function addStaffInformation($username, $name, $address, $contactnumber)
+	public function addStaffInformation($staffnumber, $username, $name, $address, $contactnumber, $stafftype)
 	{
-		$stmt="UPDATE STAFF SET Name='$name', Address='$address', Contact_number='$contactnumber'";
-		$stmt.=" WHERE Username='$username';";
-		pg_query($stmt);
+		$stmt="SELECT count(*) FROM staff WHERE staff_number='$staffnumber';";
+		$count=pg_fetch_array(pg_query($stmt));
+		
+		if($count[0]==0)
+		{
+			$stmt="UPDATE STAFF SET staff_number='$staffnumber', name='$name', address='$address', contact_number='$contactnumber', type='$stafftype'";
+			$stmt.=" WHERE username='$username';";
+			$success=pg_query($stmt);
+		
+			if($success)
+				return 1;
+			else
+				return 0;
+		}
+		else
+			return 3;
 	}
 }
 ?>
