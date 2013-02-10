@@ -2,6 +2,8 @@
 include("functions.php");
 $pattern="/^[A-Za-z0-9-,\s]+$/";
 $manager=new databaseManager;
+
+session_start();
 ?>
 <html>
 	<head>
@@ -70,5 +72,7 @@ $manager=new databaseManager;
 				</tr>
 			</table>
 		</form>
+		
+		<a href='staff_db.php' title='Back to Staff Home Page'>Back to Staff Home Page</a>
 	</body>
 </html>

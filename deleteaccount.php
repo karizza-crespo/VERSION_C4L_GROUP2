@@ -2,6 +2,8 @@
 include("functions.php");
 $pattern="/^[A-Za-z0-9-,\s]+$/";
 $manager=new databaseManager;
+
+session_start();
 ?>
 
 <html>

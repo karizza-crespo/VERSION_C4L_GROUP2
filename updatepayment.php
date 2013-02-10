@@ -5,7 +5,7 @@ $manager=new databaseManager;
 
 session_start();
 $_SESSION['searchFlag']=0;
-$_SESSION['username']='none';
+$_SESSION['searchUsername']='none';
 ?>
 <html>
 	<head>
@@ -31,7 +31,7 @@ $_SESSION['username']='none';
 			if(isset($_POST['searchByUsername']))
 			{
 				$_SESSION['searchFlag']=1;
-				$_SESSION['username']=$_POST['recordUsername'];
+				$_SESSION['searchUsername']=$_POST['recordUsername'];
 				echo "<form name='updateDetails' action='updatePaymentDetails.php' method='post'>";
 				$record = $manager->searchRecords($_POST['recordUsername']);
 				if($record!=null)
@@ -59,5 +59,6 @@ $_SESSION['username']='none';
 			}
 			
 		?>
+		<a href='staff_db.php' title='Back to Staff Home Page'>Back to Staff Home Page</a>
 	</body>
 </html>

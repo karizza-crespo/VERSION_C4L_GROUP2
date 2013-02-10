@@ -15,7 +15,7 @@ session_start();
 			<form name="update" action="updatePaymentDetails.php" method="post">
 				<?php
 					if ($_SESSION['searchFlag']==1)
-						$records = $manager->searchRecords($_SESSION['username']);
+						$records = $manager->searchRecords($_SESSION['searchUsername']);
 					else
 						$records=$manager->retrieveAllRecords();
 					for($i=0; $i<count($records); $i++)

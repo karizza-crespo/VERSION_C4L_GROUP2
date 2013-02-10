@@ -38,7 +38,16 @@ or die ("Could not connect to server\n");
 	<a href="addstaffinformation.php" title="Add Personal Information">Add Personal Information</a>
 	<br />
 	<br />
+	<?php
+		$stmt="SELECT type from staff WHERE username='$current_user';";
+		$result=pg_fetch_array(pg_query($stmt));
 	
+		if($result[0]=='Dorm Manager')
+		{
+			echo "<a href='addpayment.php' title='Add Payment Records'>Add Payment Records</a><br /><br />";
+			echo "<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />";
+		}
+	?>
 	 <a href="logout.php">Sign Out </a></br>
 
 
