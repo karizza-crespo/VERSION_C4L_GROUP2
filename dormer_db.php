@@ -1,10 +1,11 @@
 <?php
+include("functions.php");
 session_start();
-if($_SESSION['username']!=$_SESSION['username']){
+if($_SESSION['username']=='none'){
 	header('Location: login.php');
 	die;
 }
-
+/*
 // connect to database
 $host = "localhost"; 
 $user = "postgres"; 
@@ -15,9 +16,9 @@ $db = "postgres";
 $con = pg_connect("host=$host dbname=$db user=$user password=$pass")
 or die ("Could not connect to server\n");
 
+*/
 
 $current_user = $_SESSION['username'];
-$log_type = $_POST['button'];
 $default_char = 'none';
 $login = 'logged in';
 $logout = 'logged out';
@@ -25,8 +26,6 @@ $default_int = 10;
 $default_date= '2013-02-07';
 $date =  sprintf("%04d-%02d-%02d",$year,$month,$day);
 $default_time = '12:00:00.00';
-
-
 
 
 if ($log_type==1){
@@ -67,8 +66,7 @@ if ($log_type ==2){
 
             <button value="1" input type="submit" name="button" >IN</button>
             <button value="2" input type="submit" name="button" >OUT</button>
-		
-		
+			
 		</form>
 
  <a href="logout.php">Log Out </a></br>

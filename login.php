@@ -1,5 +1,7 @@
 <?php
+include("functions.php");
 
+/*
 // connect to database
 $host = "localhost"; 
 $user = "postgres"; 
@@ -8,8 +10,9 @@ $db = "postgres";
  
 $con = pg_connect("host=$host dbname=$db user=$user password=$pass")
 or die ("Could not connect to server\n"); 	
+*/
+$_SESSION['username']='none';
 	
-		
 if(isset($_POST['login'])){
 	//get the username
 	$username = preg_replace('/[^A-Za-z]/', '', $_POST['username']);  
@@ -47,11 +50,6 @@ if(isset($_POST['login'])){
 			echo 'invalid Username/Password';
 			}
 	}}}
-	 	
-		
-	
-	
-
 ?>
 
 
@@ -62,7 +60,7 @@ if(isset($_POST['login'])){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <LINK HREF="welcome.css" rel="stylesheet" TYPE="text/css">
-<title><center>Welcome</center></title>
+<title>.::Dormitory Management System::.</title>
 
 </head>
 
@@ -78,21 +76,9 @@ if(isset($_POST['login'])){
 
 
 <div id="login">
-<?php
-			if($error){
-				echo '<p><center>Invalid username and/or password</center></p>';
-			}
-			?>
-			
-<form method="post" action="">
+	<form method="post" action="">
 			<table><tr> <td>Username: </td><td> <input type="text" name="username" size="15" /></td></tr>
-			<tr><td>Password:</td><td> <input type="password" name="password" size="15" /></td><tr></table><br/>
-			<?php
-			if($error){
-				echo '<p><center>Invalid username and/or password</center></p>';
-			}
-			?>
-			
+			<tr><td>Password:</td><td> <input type="password" name="password" size="15" /></td><tr></table><br/>		
 			<input type="submit" value="LOGIN" class="login" name="login" /></center>
 		</form>
 </div>
