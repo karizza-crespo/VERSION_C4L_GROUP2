@@ -44,4 +44,3 @@ session_start();
 		</table>
 	</body>
 </html>
-<?phpsession_destroy();?>

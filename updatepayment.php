@@ -61,4 +61,3 @@ $_SESSION['username']='none';
 		?>
 	</body>
 </html>
-<?phpsession_destroy();?>

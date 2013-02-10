@@ -1,11 +1,17 @@
 <?php
 include("functions.php");
+
 session_start();
+
 if($_SESSION['username']=='none'){
 	header('Location: login.php');
 	die;
 }
+
+$current_user = $_SESSION['username'];
 /*
+//ate verna, nakacomment out kasi to sa akin kasi yung pagconnect ko sa database nasa functions.php na :)
+
 // connect to database
 $host = "localhost"; 
 $user = "postgres"; 
@@ -17,59 +23,78 @@ $con = pg_connect("host=$host dbname=$db user=$user password=$pass")
 or die ("Could not connect to server\n");
 
 */
-
-$current_user = $_SESSION['username'];
-$default_char = 'none';
-$login = 'logged in';
-$logout = 'logged out';
-$default_int = 10;
-$default_date= '2013-02-07';
-$date =  sprintf("%04d-%02d-%02d",$year,$month,$day);
-$default_time = '12:00:00.00';
-
-
-if ($log_type==1){
-			//insert values into the table named logs
-			$stmt="INSERT INTO log VALUES ('$default_int',current_date,current_time,'$login','$default_char');";
-			$success=pg_query($stmt);
-			//echo $stmt;
-		}
-	
-	
-if ($log_type ==2){
-			//insert values into the table named logs
-			$stmt="INSERT INTO log VALUES ('$default_int',current_date,current_time,'$logout','$default_char');";
-			$success=pg_query($stmt);
-			//echo $stmt;
-		
-}
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<LINK HREF="welcome.css" rel="stylesheet" TYPE="text/css">
-<title>Welcome</title>
-
-</head>
-
+	<head>
+		<title>.::Dormitory Management System::.</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="welcome.css" rel="stylesheet" type="text/css">
+		<script> function option1() {document.myform.whereabouts.disabled=1; }
+				function option2() {document.myform.whereabouts.disabled=0;} 
+		</script> 
+	</head>
 <body>
+	<h1>Welcome, Dormer: <?php echo $current_user ?> 	!!!</h1>
 
-<h1>Welcome, Dormer: <?php echo $current_user ?> 	!!!</h1>
+	<?php
+	$current='none';
+	//selects all the entries of the user
+	$stmt="SELECT type FROM log WHERE username='$current_user';";
+	$result=pg_query($stmt);
 
-	
-<form method="post" action="">
+	//looks for the last entry of the user
+	while($row=pg_fetch_assoc($result))
+		$current=$row['type'];
+
+	if(isset($_POST['filluplogs']))
+	{
+		$default_char = 'dorm';
+		$log_type=$_POST['button'];
+		$login = 'logged in';
+		$logout = 'logged out';
 		
-		<input type="hidden" name="own" value="" id="own">
-
-            <button value="1" input type="submit" name="button" >IN</button>
-            <button value="2" input type="submit" name="button" >OUT</button>
+		//if the user selects log in and the user's current status is not logged in, insert to logs
+		if ($log_type==1){
+			if($current!="logged in")
+			{
+				//insert values into the table named logs
+				$stmt="INSERT INTO log (log_date, log_time, type, whereabouts, username) VALUES (current_date,current_time,'$login','$default_char', '$current_user');";
+				$success=pg_query($stmt);
+			}
+			else
+				echo "<span style='color:blue'>You are currently Logged In.</span><br /><br />";
+		}
 			
-		</form>
+		//if the user selects log out and the user's current status is not logged out, insert to logs
+		if ($log_type ==2){
+			if($current!="logged out")
+			{
+				$whereabouts = $_POST['whereabouts']; 
+				//insert values into the table named logs
+				$stmt="INSERT INTO log (log_date, log_time, type, whereabouts, username) VALUES (current_date,current_time,'$logout','$whereabouts', '$current_user');";
+				$success=pg_query($stmt);
+			}
+			else
+				echo "<span style='color:blue'>You are currently Logged Out.</span><br /><br />";
+		}
+	}
+	?>
 
- <a href="logout.php">Log Out </a></br>
+	Logs: 
+		
+	<form name="myform" method="post" action="">
+		<input type="radio" name="button" id="in" value="1" onclick = option1() checked="checked"><label for="in">LOG IN</label>
+	    <input type="radio" name="button" id="out" value="2" onclick = option2()><label for="out">LOG OUT</label>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="whereabouts">Whereabouts:</label><input type="text" name="whereabouts" id="whereabouts" disabled=1>
+		<br /><br/>
+		
+		<input type="submit" name="filluplogs" value="Submit" />
+	</form>	
+	<br />
+
+	 <a href="logout.php">Sign Out </a></br>
 
 
 </body>

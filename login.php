@@ -1,7 +1,10 @@
 <?php
 include("functions.php");
+session_start();
 
 /*
+//ate verna, nakacomment out kasi to sa akin kasi yung pagconnect ko sa database nasa functions.php na :)
+
 // connect to database
 $host = "localhost"; 
 $user = "postgres"; 
@@ -11,6 +14,7 @@ $db = "postgres";
 $con = pg_connect("host=$host dbname=$db user=$user password=$pass")
 or die ("Could not connect to server\n"); 	
 */
+
 $_SESSION['username']='none';
 	
 if(isset($_POST['login'])){
