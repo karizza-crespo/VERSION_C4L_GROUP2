@@ -93,7 +93,9 @@ or die ("Could not connect to server\n");
 		<input type="submit" name="filluplogs" value="Submit" />
 	</form>	
 	<br />
-
+	<br />
+	
+	
 	 <a href="logout.php">Sign Out </a></br>
 
 

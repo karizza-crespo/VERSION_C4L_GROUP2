@@ -25,7 +25,7 @@ $default_int = 0;
 $default_date= '2013-02-07';
 
 if(isset($_POST['register'])){ /* get the name of the button that is inside the same php file*/
-	$username = preg_replace('/[^A-Za-z]/', '', $_POST['username']);
+	$username = $_POST['username'];
 	//$email = $_POST['email'];
 	$password = $_POST['password'];
 	$c_password = $_POST['c_password'];

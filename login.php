@@ -19,7 +19,7 @@ $_SESSION['username']='none';
 	
 if(isset($_POST['login'])){
 	//get the username
-	$username = preg_replace('/[^A-Za-z]/', '', $_POST['username']);  
+	$username = $_POST['username'];  
 	//get the password
 	$password = $_POST['password'];
 	
@@ -42,18 +42,20 @@ if(isset($_POST['login'])){
 			die;
 		}
 		else if ($count[0]==0)
-			{
+		{
 			$stmt="SELECT count(*) FROM staff WHERE username='$username' and password='$password';";
-			$count=pg_fetch_array(pg_query($stmt));
-			if($count[0]!=0 ){	
+			$anotherCount=pg_fetch_array(pg_query($stmt));
+			if($anotherCount[0]!=0 ){	
 				session_start();
 				$_SESSION['username'] = $username;
 				header('Location: staff_db.php');
 				die;
-			}else if ($count[0]==0){
-			echo 'invalid Username/Password';
+			}else if ($anotherCount[0]==0){
+				echo 'invalid Username/Password';
 			}
-	}}}
+		}
+	}
+}
 ?>
 
 
