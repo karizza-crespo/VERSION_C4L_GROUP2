@@ -3,7 +3,7 @@ include("functions.php");
 
 session_start();
 
-if($_SESSION['username']=='none'){
+if($_SESSION['accountType']!='staff'){
 	header('Location: login.php');
 	die;
 }

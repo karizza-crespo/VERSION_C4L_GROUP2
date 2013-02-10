@@ -3,7 +3,7 @@ include("functions.php");
 
 session_start();
 if($_SESSION['username']!='postgres'){
-	header('Location: admin_db.php');
+	header('Location: login.php');
 	die;
 }
 
@@ -116,6 +116,7 @@ or die ("Could not connect to server\n");
 			<tr><td colspan="2"><center><br/><input type="submit" name="register" class = "register" value="REGISTER" /></td></tr>
 			</table>
 		</form>
-		<a href="logout.php">Logout </a></br>
+		<br />
+		<a href="admin_db.php" title="Back to Admin Home Page">Back to Admin Home Page </a></br>
 	</body>
 </html>

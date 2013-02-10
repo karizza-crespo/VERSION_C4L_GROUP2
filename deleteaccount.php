@@ -4,6 +4,12 @@ $pattern="/^[A-Za-z0-9-,\s]+$/";
 $manager=new databaseManager;
 
 session_start();
+
+if($_SESSION['accountType']!='admin')
+{
+	header('Location: login.php');
+	die;
+}
 ?>
 
 <html>
@@ -77,5 +83,6 @@ session_start();
 				}
 			?>
 		</form>
+		<a href='admin_db.php' title='Back to Admin Home Page'>Back to Admin Home Page</a>
 	</body>
 </html>

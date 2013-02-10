@@ -3,6 +3,20 @@ include("functions.php");
 $pattern="/^[A-Za-z0-9-,\s]+$/";
 $manager=new databaseManager;
 session_start();
+
+if($_SESSION['accountType']!='staff')
+{
+	header('Location: login.php');
+	die;
+}
+else
+{
+	$stmt="SELECT type from staff WHERE username='".$_SESSION['username']."';";
+	$result=pg_fetch_array(pg_query($stmt));
+	
+	if($result[0]!='Dorm Manager')
+		header('Location: login.php');
+}
 ?>
 
 <html>

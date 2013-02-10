@@ -5,7 +5,7 @@ $manager=new databaseManager;
 
 session_start();
 
-if($_SESSION['accountType']=='notLoggedIn')
+if($_SESSION['accountType']!='staff')
 {
 	header('Location: login.php');
 	die;
