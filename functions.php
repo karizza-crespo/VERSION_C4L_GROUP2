@@ -410,5 +410,41 @@ class databaseManager
 		else
 			return 3;
 	}
+	
+	public function printSchedule($day)
+	{
+		
+		echo "<tr>";
+			
+			echo "<th colspan=5>";
+				$stmt="SELECT to_char(current_date + $day, 'Day'), current_date+$day;";
+				$result=pg_query($stmt);
+				$day = pg_fetch_array($result);
+				echo $day[0];
+			echo "</th>";
+			
+		echo "</tr>";
+		echo "<tr>";
+			echo "<th colspan=5>";
+				echo $day[1];
+			echo "</th>";
+		echo "</tr>";
+			
+	}
+	
+	
+	public function retrieveStaff($staffType)
+	{
+		$i=0;
+		$staff = array();
+		$stmt="SELECT name from staff where type like '$staffType';";
+		$result= pg_query($stmt);
+		
+		while($a = pg_fetch_array($result))
+			$staff[$i++]=$a[0];
+		
+		return $staff;
+	}
+	
 }
 ?>
