@@ -410,14 +410,15 @@ class databaseManager
 		else
 			return 3;
 	}
-	
+	//Ian's functions
+	//-----------------------------------------------------------------------------------------------------
 	public function printSchedule($day)
 	{
 		
 		echo "<tr>";
 			
 			echo "<th colspan=5>";
-				$stmt="SELECT to_char(current_date + $day, 'Day'), current_date+$day FROM schedule;";
+				$stmt="SELECT to_char(current_date + $day, 'Day'), current_date+$day;";
 				$result=pg_query($stmt);
 				$day = pg_fetch_array($result);
 				echo $day[0];
@@ -446,5 +447,33 @@ class databaseManager
 		return $staff;
 	}
 	
+	public function retrieveStafffromSched($location,$day,$time)
+	{
+		$stmt="SELECT name from staff
+		where
+		staff_number = (select staff_number from schedule
+		where day like to_char (current_date + $day,'Day')
+		and time = '$time' and location like '$location'
+		);";
+		$result= pg_query($stmt);
+		$a = pg_fetch_array($result);
+		$staff=$a[0];
+		return $staff;
+	}
+	
+	
+	
+	public function addScheduleEntry($schedid,$day,$time,$location,$staffno)
+	{
+	
+		$stmt = "INSERT into schedule values($schedid,TO_CHAR(current_date + $day,'Day'),'$time','$location',$staffno);";
+		$result= pg_query($stmt);
+		if($result)
+			return 1;
+		else return 0;
+
+	}
+	
+	//------------------------------------------------------------------------------------------------------
 }
 ?>
