@@ -35,7 +35,15 @@
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	
-		$_SESSION["view"]=1;
+	$_SESSION["view"]=1;
+	
+	if(!isset($_SESSION["dmarray"]))
+		$_SESSION["dmarray"]=array(0,0,0);
+	if(!isset($_SESSION["manarray"]))
+		$_SESSION["manarray"]=array(0,0,0,0,0,0);
+	if(!isset($_SESSION["garray"]))
+		$_SESSION["garray"]=array(0,0,0,0,0,0);
+		
 	
 	//checks for every session if it is add,edit or view
 	//trigger session if one is being used
@@ -114,102 +122,119 @@
 		$g=array();
 		
 		for($i=1 ; $i<4 ; $i++){
-			if($_POST["dm$i"]!=""){
-				if(!isset($_SESSION["schedid"]) || $_SESSION["schedid"]>=1106)
-					$_SESSION["schedid"]=1001;
-				else $_SESSION["schedid"]++;
+			if($_SESSION["dmarray"][$i-1]==0){
+				if($_POST["dm$i"]!=" " ){
+					if(!isset($_SESSION["schedid"]) || $_SESSION["schedid"]>=1106)
+						$_SESSION["schedid"]=1001;
+					else $_SESSION["schedid"]++;
+					
+					$schedid=$_SESSION["schedid"];
 				
-				$schedid=$_SESSION["schedid"];
-			
-			
-				$dmname=$_POST["dm$i"];
-				$stmt="SELECT staff_number from staff where name like '$dmname';";
-				$result= pg_query($stmt);
-				$a = pg_fetch_array($result);
-				$d[$i-1]=$a[0];
-	
-	
-				if($i==1){
-					$time='22:00';
-				}
-				if($i==2){
-					$time='06:00';
-				}
-				if($i==3){
-					$time='14:00';
-				}
 				
-				$dayToSee=$_SESSION["day"];
-				$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'informationarea',$d[$i-1]);
-				if($check==1)
-					echo "Added Succesfully";
-				else echo "Error";
-				
+					$dmname=$_POST["dm$i"];
+					$stmt="SELECT staff_number from staff where name like '$dmname';";
+					$result= pg_query($stmt);
+					$a = pg_fetch_array($result);
+					$d[$i-1]=$a[0];
+		
+					
+					if($i==1){
+						$time='22:00';
+					}
+					if($i==2){
+						$time='06:00';
+					}
+					if($i==3){
+						$time='14:00';
+					}
+					
+					$dayToSee=$_SESSION["day"];
+					
+					$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'informationarea',$d[$i-1]);
+					if($check==1){
+						echo "Added Succesfully";
+						$_SESSION["dmarray"][$i-1]=1;
+					}else echo "Error";
+					
+				}
 			}
 		}
 		for($i=1 ; $i<7 ; $i++){
-			if($_POST["man$i"]){
-				
-				if(!isset($_SESSION["schedid"]))
-					$_SESSION["schedid"]=1001;
-				else $_SESSION["schedid"]++;
-		
-				$schedid=$_SESSION["schedid"];
+			if($_SESSION["manarray"][$i-1]==0){
+				if($_POST["man$i"]!=" "){
+					
+					if(!isset($_SESSION["schedid"]))
+						$_SESSION["schedid"]=1001;
+					else $_SESSION["schedid"]++;
 			
-				$mname=$_POST["man$i"];
-				$stmt="SELECT staff_number from staff where name like '$mname';";
-				$result= pg_query($stmt);
-				$a = pg_fetch_array($result);
-				$m[$i-1]=$a[0];
+					$schedid=$_SESSION["schedid"];
 				
-				if($i==1){
-					$time='22:00';
+					$mname=$_POST["man$i"];
+					$stmt="SELECT staff_number from staff where name like '$mname';";
+					$result= pg_query($stmt);
+					$a = pg_fetch_array($result);
+					$m[$i-1]=$a[0];
+					
+					if($i==1 || $i==4){
+						$time='22:00';
+					}
+					if($i==2 || $i==5){
+						$time='06:00';
+					}
+					if($i==3 || $i==6){
+						$time='14:00';
+					}
+					
+					
+					$dayToSee=$_SESSION["day"];
+					if($i>3)
+						$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'unit2',$m[$i-1]);
+					else $check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'unit1',$m[$i-1]);
+					
+					if($check==1){
+						echo "Added Succesfully";
+						$_SESSION["manarray"][$i-1]=1;
+					}else echo "Error";
 				}
-				if($i==2){
-					$time='06:00';
-				}
-				if($i==3){
-					$time='14:00';
-				}
-				
-				$dayToSee=$_SESSION["day"];
-				$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'informationarea',$m[$i-1]);
-				if($check==1)
-					echo "Added Succesfully";
-				else echo "Error";
 			}
 		}
 		for($i=1 ; $i<7 ; $i++){
-			if($_POST["g$i"]){
-			
-				if(!isset($_SESSION["schedid"]))
-					$_SESSION["schedid"]=1001;
-				else $_SESSION["schedid"]++;
-		
-				$schedid=$_SESSION["schedid"];
-			
-				$gname=$_POST["g$i"];
-				$stmt="SELECT staff_number from staff where name like '$gname';";
-				$result= pg_query($stmt);
-				$a = pg_fetch_array($result);
-				$g[$i-1]=$a[0];
-				echo $g[$i-1];
+			if($_SESSION["garray"][$i-1]==0){
+				if($_POST["g$i"]!=" "){
 				
-				if($i==1){
-					$time='22:00';
-				}
-				if($i==2){
-					$time='06:00';
-				}
-				if($i==3){
-					$time='14:00';
-				}
+					if(!isset($_SESSION["schedid"]))
+						$_SESSION["schedid"]=1001;
+					else $_SESSION["schedid"]++;
+			
+					$schedid=$_SESSION["schedid"];
 				
-				$dayToSee=$_SESSION["day"];
-				$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'informationarea',$g[$i-1]);
-				if($check==1)
-					echo "Added Succesfully";
-				else echo "Error";
+					$gname=$_POST["g$i"];
+					$stmt="SELECT staff_number from staff where name like '$gname';";
+					$result= pg_query($stmt);
+					$a = pg_fetch_array($result);
+					$g[$i-1]=$a[0];
+					echo $g[$i-1];
+					
+					if($i==1  || $i==4){
+						$time='22:00';
+					}
+					if($i==2 || $i==5){
+						$time='06:00';
+					}
+					if($i==3  || $i==6){
+						$time='14:00';
+					}
+					
+					$dayToSee=$_SESSION["day"];
+					
+					if($i>3)
+						$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'westgate',$g[$i-1]);
+					else $check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'eastgate',$g[$i-1]);
+					if($check==1){
+						echo "Added Succesfully";
+						$_SESSION["garray"][$i-1]=1;
+					}else echo "Error";
+				}
 			}
 		}
 			
@@ -257,15 +282,15 @@
 								if($_SESSION["view"]==1){
 									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'22:00:00');
 									//if($printName!=0)
-										echo $printName; 
+										echo $printName;
 								}
 								if($_SESSION["add"]==1){
 									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'22:00:00');
 									if($printName!=NULL)
 										echo $printName;
 									else{
-										echo '<select id="selItem" value="" name="dm1">';
-											echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="dm1">';
+											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfDormMan); $i++){
 												
 												echo '<option value="'.$listOfDormMan[$i].'">';
@@ -288,8 +313,8 @@
 									if($printName!=NULL)
 										echo $printName;
 									else{
-										echo '<select id="selItem" value="" name="dm2">';
-											echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="dm2">';
+											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfDormMan); $i++){
 												
 												echo '<option value="'.$listOfDormMan[$i].'">';
@@ -303,17 +328,17 @@
 							echo '</td>';
 							echo '<td align="center">';
 								if($_SESSION["view"]==1){
-									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'14:00:00');
 									//if($printName!=0)
 										echo $printName; 
 								}
 								if($_SESSION["add"]==1){
-									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'14:00:00');
 									if($printName!=NULL)
 										echo $printName;
 									else{
-										echo '<select id="selItem" value="" name="dm3">';
-											echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="dm3">';
+											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfDormMan); $i++){
 												
 												echo '<option value="'.$listOfDormMan[$i].'">';
@@ -347,8 +372,8 @@
 									if($printName!=NULL)
 										echo $printName;
 									else {
-										echo '<select id="selItem" value="" name="man1">';
-										echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="man1">';
+										echo '<option selected="true" value=" "></option>';
 										for($i=0; $i<count($listOfMan); $i++){
 											
 											echo '<option value="'.$listOfMan[$i].'">';
@@ -371,8 +396,8 @@
 									if($printName!=NULL)
 										echo $printName;
 									else {
-										echo '<select id="selItem" value="" name="man2">';
-										echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="man2">';
+										echo '<option selected="true" value=" "></option>';
 										for($i=0; $i<count($listOfMan); $i++){
 											
 											echo '<option value="'.$listOfMan[$i].'">';
@@ -386,17 +411,17 @@
 							echo '</td>';
 							echo '<td align="center">';
 								if($_SESSION["view"]==1){
-									$printName=$dormManager->retrieveStafffromSched('unit1',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('unit1',$dayToSee,'14:00:00');
 									//if($printName!=0)
 										echo $printName; 
 								}else
 								if($_SESSION["add"]==1){
-									$printName=$dormManager->retrieveStafffromSched('unit1',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('unit1',$dayToSee,'14:00:00');
 									if($printName!=NULL)
 										echo $printName;
 									else {
-										echo '<select id="selItem" value="" name="man3">';
-										echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="man3">';
+										echo '<option selected="true" value=" "></option>';
 										for($i=0; $i<count($listOfMan); $i++){
 											
 											echo '<option value="'.$listOfMan[$i].'">';
@@ -425,8 +450,8 @@
 									if($printName!=NULL)
 										echo $printName;
 									else {
-										echo '<select id="selItem" value="" name="man4">';
-										echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="man4">';
+										echo '<option selected="true" value=" "></option>';
 										for($i=0; $i<count($listOfMan); $i++){
 											
 											echo '<option value="'.$listOfMan[$i].'">';
@@ -449,8 +474,8 @@
 									if($printName!=NULL)
 										echo $printName;
 									else {
-										echo '<select id="selItem" value="" name="man5">';
-										echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="man5">';
+										echo '<option selected="true" value=" "></option>';
 										for($i=0; $i<count($listOfMan); $i++){
 											
 											echo '<option value="'.$listOfMan[$i].'">';
@@ -464,17 +489,17 @@
 							echo '</td>';
 							echo '<td align="center">';
 								if($_SESSION["view"]==1){
-									$printName=$dormManager->retrieveStafffromSched('unit2',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('unit2',$dayToSee,'14:00:00');
 									//if($printName!=0)
 										echo $printName; 
 								}
 								if($_SESSION["add"]==1){
-									$printName=$dormManager->retrieveStafffromSched('unit2',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('unit2',$dayToSee,'14:00:00');
 									if($printName!=NULL)
 										echo $printName;
 									else {
-										echo '<select id="selItem" value="" name="man6">';
-										echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="man6">';
+										echo '<option selected="true" value=" "></option>';
 										for($i=0; $i<count($listOfMan); $i++){
 											
 											echo '<option value="'.$listOfMan[$i].'">';
@@ -507,8 +532,8 @@
 									if($printName!=NULL)
 										echo $printName;
 									else{
-										echo '<select id="selItem" value="" name="g1">';
-											echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="g1">';
+											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfGuard); $i++){
 												
 												echo '<option value="'.$listOfGuard[$i].'">';
@@ -531,8 +556,8 @@
 									if($printName!=NULL)
 										echo $printName;
 									else{
-										echo '<select id="selItem" value="" name="g2">';
-											echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="g2">';
+											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfGuard); $i++){
 												
 												echo '<option value="'.$listOfGuard[$i].'">';
@@ -545,17 +570,17 @@
 							echo '</td>';
 							echo '<td align="center">';
 								if($_SESSION["view"]==1){
-									$printName=$dormManager->retrieveStafffromSched('eastgate',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('eastgate',$dayToSee,'14:00:00');
 									//if($printName!=0)
 										echo $printName; 
 								}
 								if($_SESSION["add"]==1){
-									$printName=$dormManager->retrieveStafffromSched('eastgate',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('eastgate',$dayToSee,'14:00:00');
 									if($printName!=NULL)
 										echo $printName;
 									else{
-										echo '<select id="selItem" value="" name="g3">';
-											echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="g3">';
+											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfGuard); $i++){
 												
 												echo '<option value="'.$listOfGuard[$i].'">';
@@ -583,8 +608,8 @@
 									if($printName!=NULL)
 										echo $printName;
 									else{
-										echo '<select id="selItem" value="" name="g4">';
-											echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="g4">';
+											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfGuard); $i++){
 												
 												echo '<option value="'.$listOfGuard[$i].'">';
@@ -606,8 +631,8 @@
 									if($printName!=NULL)
 										echo $printName;
 									else{
-										echo '<select id="selItem" value="" name="g5">';
-											echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="g5">';
+											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfGuard); $i++){
 												
 												echo '<option value="'.$listOfGuard[$i].'">';
@@ -620,17 +645,17 @@
 							echo '</td>';
 							echo '<td align="center">';
 								if($_SESSION["view"]==1){
-									$printName=$dormManager->retrieveStafffromSched('westgate',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('westgate',$dayToSee,'14:00:00');
 									//if($printName!=0)
 										echo $printName; 
 								}
 								if($_SESSION["add"]==1){
-									$printName=$dormManager->retrieveStafffromSched('westgate',$dayToSee,'02:00:00');
+									$printName=$dormManager->retrieveStafffromSched('westgate',$dayToSee,'14:00:00');
 									if($printName!=NULL)
 										echo $printName;
 									else{
-										echo '<select id="selItem" value="" name="g6">';
-											echo '<option value=NULL></option>';
+										echo '<select id="selItem"  name="g6">';
+											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfGuard); $i++){
 												
 												echo '<option value="'.$listOfGuard[$i].'">';
@@ -666,6 +691,8 @@
 			
 					
 					</table>
+					
+					
 				</form>
 					<div id="choose">
 						<form name="chooseFrom" action="sched.php" method="post">
