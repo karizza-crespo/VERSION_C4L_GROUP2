@@ -474,6 +474,18 @@ class databaseManager
 
 	}
 	
+	public function isThereisStaff($location,$day,$time){
+		$stmt = "SELECT staff_number from schedule where 
+			day like TO_CHAR(current_date + $day,'Day') and
+			location like '$location' and 
+			time = '$time';";
+		$result= pg_query($stmt);
+		
+		if($result)
+			return 1;
+		else return 0;
+	}
+	
 	//------------------------------------------------------------------------------------------------------
 }
 ?>
