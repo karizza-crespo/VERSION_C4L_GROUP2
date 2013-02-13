@@ -47,8 +47,12 @@ or die ("Could not connect to server\n");
 			echo "<a href='addpayment.php' title='Add Payment Records'>Add Payment Records</a><br /><br />";
 			echo "<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />";
 		}
+		echo "<form name='sched' action='sched.php' method='post'>
+				<input type='submit' value='Staff Schedule' name='viewSched' />
+		</form>";
 	?>
-	 <a href="logout.php">Sign Out </a></br>
+	<br />
+	<a href="logout.php">Sign Out </a></br>
 
 
 </body>

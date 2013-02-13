@@ -417,7 +417,7 @@ class databaseManager
 		echo "<tr>";
 			
 			echo "<th colspan=5>";
-				$stmt="SELECT to_char(current_date + $day, 'Day'), current_date+$day;";
+				$stmt="SELECT to_char(current_date + $day, 'Day'), current_date+$day FROM schedule;";
 				$result=pg_query($stmt);
 				$day = pg_fetch_array($result);
 				echo $day[0];

@@ -98,7 +98,12 @@ or die ("Could not connect to server\n");
 	<a href="adddormerinformation.php" title="Add Personal Information">Add Personal Information</a>
 	<br />
 	<br />
-	
+	<?php
+		echo "<form name='sched' action='sched.php' method='post'>
+				<input type='submit' value='Staff Schedule' name='viewSched' />
+			</form>";
+	?>
+	<br />
 	 <a href="logout.php">Sign Out </a></br>
 
 

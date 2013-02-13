@@ -1,11 +1,34 @@
 <?php
+	session_start();
 
-  session_start();
-	
 	include("functions.php");
 	
-	$db=pg_connect("host=localhost dbname=postgres port=5432 user=postgres password=000000");
 	$dormManager=new databaseManager;
+	
+	if($_SESSION['accountType']=='notLoggedIn')
+	{
+		header('Location: login.php');
+		die;
+	}
+	else
+	{
+		if($_SESSION['accountType']=='dormer')
+			$disable = "disabled=true";
+		else if($_SESSION['accountType']=='staff')
+		{
+			$stmt="SELECT type from staff WHERE username='".$_SESSION['username']."';";
+			$result=pg_fetch_array(pg_query($stmt));
+			
+			if($result[0]!='Dorm Manager')
+			{
+				$disable = "disabled=true";
+			}
+			else
+				$disable = "null";
+		}
+		else
+			$disable = "null";
+	}
 	
 	//for viewing the next schedules
 	if(isset($_POST["nextSched"])){
@@ -309,17 +332,19 @@
 						<form name="chooseFrom" action="sched.php" method="post">
 							<?php
 								if($_SESSION["add"]==0)
-									echo '<input type="submit" name="addSched" value="Add Sched"/>';
+									echo "<input type='submit' name='addSched' value='Add Sched' $disable/>";
 								if($_SESSION["edit"]==0)
-									echo '<input type="submit" name="editSched" value="Edit Sched"/>';
+									echo "<input type='submit' name='editSched' value='Edit Sched' $disable/>";
 								if($_SESSION["view"]==0)
-									echo '<input type="submit" name="viewSched" value="View Sched"/>';
-							?>
-	
+									echo "<input type='submit' name='viewSched' value='View Sched' $disable/>";
+							?>	
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
+		<?php
+		echo "<a href='".$_SESSION['accountType']."_db.php' Title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
+		?>
 	</body>
 </html>
