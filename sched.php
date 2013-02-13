@@ -34,7 +34,6 @@
 	}
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	
 	$_SESSION["view"]=1;
 	
 	//creating checker arrays 
@@ -746,12 +745,13 @@
 					<div id="choose">
 						<form name="chooseFrom" action="sched.php" method="post">
 							<?php
+								//yung $disable po na variable, pang disable ng button, kapag dormer and staff yung nakalog in, $disable = "disabled=true" kapag admin tsaka dorm manager $disable = null
 								if($_SESSION["add"]==0)
-									echo '<input type="submit" name="addSched" value="Add Sched"/>';
+									echo "<input type='submit' name='addSched' value='Add Sched' $disable/>";
 								if($_SESSION["edit"]==0)
-									echo '<input type="submit" name="editSched" value="Edit Sched"/>';
+									echo "<input type='submit' name='editSched' value='Edit Sched' $disable/>";
 								if($_SESSION["view"]==0)
-									echo '<input type="submit" name="viewSched" value="View Sched"/>';
+									echo "<input type='submit' name='viewSched' value='View Sched' $disable/>";
 							?>
 	
 						</form>
