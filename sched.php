@@ -94,6 +94,15 @@
 		$_SESSION["day"]++;//increase the day
 	}
 	
+	//start the viewing session from the present day
+	if(isset($_POST["viewSched"])){
+		//triggers
+		$_SESSION["day"]=0;
+		$_SESSION["edit"]=0;
+		$_SESSION["add"]=0;
+		$_SESSION["view"]=1;
+	}
+	
 	//for 7 days only
 	if($_SESSION["day"]>6)
 		$_SESSION["day"]=0;
@@ -115,8 +124,6 @@
 		$_SESSION["day"]--;//decrease the day
 	}
 	
-	
-	
 	//if add sched is clicked
 	if(isset($_POST["addSched"])){
 		//triggers
@@ -132,16 +139,6 @@
 		$_SESSION["add"]=0;
 		$_SESSION["view"]=0;
 	}
-	
-	//start the viewing session from the present day
-	if(isset($_POST["viewSched"])){
-		//triggers
-		$_SESSION["day"]=0;
-		$_SESSION["edit"]=0;
-		$_SESSION["add"]=0;
-		$_SESSION["view"]=1;
-	}
-
 	
 	
 	//once no more viewing and in adding info
