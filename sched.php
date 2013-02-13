@@ -5,6 +5,9 @@
 	
 	$dormManager=new databaseManager;
 	
+	//-------------------------------------------------------------------------kuya e2 po yung dinagdag ko-------------------------------------------------------------------------
+	//dito po check kung anu klase yung user, kapag hindi dorm manager or admin, disabled yung add and update sched
+	//tpos kapag hindi nakalog in, babalik sa log in page
 	if($_SESSION['accountType']=='notLoggedIn')
 	{
 		header('Location: login.php');
@@ -29,6 +32,8 @@
 		else
 			$disable = "null";
 	}
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
 	
 	//for viewing the next schedules
 	if(isset($_POST["nextSched"])){
@@ -71,10 +76,6 @@
 		$_SESSION["add"]=0;
 		$_SESSION["view"]=1;
 	}
-
-
-
-
 ?>
 <html>
 	<head>
@@ -344,6 +345,7 @@
 			</div>
 		</div>
 		<?php
+		//link lang to pabalik sa dormer_db, staff_db or admin_db
 		echo "<a href='".$_SESSION['accountType']."_db.php' Title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
 		?>
 	</body>
