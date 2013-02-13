@@ -37,13 +37,44 @@
 	
 	$_SESSION["view"]=1;
 	
-	if(!isset($_SESSION["dmarray"]))
-		$_SESSION["dmarray"]=array(0,0,0);
-	if(!isset($_SESSION["manarray"]))
-		$_SESSION["manarray"]=array(0,0,0,0,0,0);
-	if(!isset($_SESSION["garray"]))
-		$_SESSION["garray"]=array(0,0,0,0,0,0);
+	//creating checker arrays 
+	//used for inserting information to the database
+	if(!isset($_SESSION["dmarray"])){
+		$_SESSION["dmarray"] = array(
+			array(0,0,0),//currentday
+			array(0,0,0),//currentday+1
+			array(0,0,0),//currentday+2
+			array(0,0,0),//currentday+3
+			array(0,0,0),//currentday+4
+			array(0,0,0),//currentday+5
+			array(0,0,0)//currentday+6
+		);
 		
+	}
+	if(!isset($_SESSION["manarray"])){
+		$_SESSION["manarray"]=array(
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0)
+			
+		);
+	}
+	if(!isset($_SESSION["garray"])){
+		$_SESSION["garray"]=array(
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0),
+			array(0,0,0,0,0,0)
+			
+		);
+	}
 	
 	//checks for every session if it is add,edit or view
 	//trigger session if one is being used
@@ -63,6 +94,10 @@
 		}
 		$_SESSION["day"]++;//increase the day
 	}
+	
+	//for 7 days only
+	if($_SESSION["day"]>6)
+		$_SESSION["day"]=0;
 	
 	//for viewing the previous schedules
 	if(isset($_POST["prevSched"])){
@@ -108,6 +143,8 @@
 		$_SESSION["view"]=1;
 	}
 
+	
+	
 	//once no more viewing and in adding info
 	if(isset($_POST["saveSched"])){
 		
@@ -116,28 +153,32 @@
 		$_SESSION["edit"]=0;
 		
 		
+		$dayToSee=$_SESSION["day"];
 		
 		$d=array();
 		$m=array();
 		$g=array();
 		
 		for($i=1 ; $i<4 ; $i++){
-			if($_SESSION["dmarray"][$i-1]==0){
+			//checks if there is already set dorm manager for the specified slot
+			if($_SESSION["dmarray"][$dayToSee][$i-1]==0){
+				//checks if not null or not chosen any of the options
 				if($_POST["dm$i"]!=" " ){
+					//set the sched id if not yet set or greater than 106 entries
 					if(!isset($_SESSION["schedid"]) || $_SESSION["schedid"]>=1106)
 						$_SESSION["schedid"]=1001;
 					else $_SESSION["schedid"]++;
 					
 					$schedid=$_SESSION["schedid"];
 				
-				
+					//get the staff number of the chosen staff
 					$dmname=$_POST["dm$i"];
 					$stmt="SELECT staff_number from staff where name like '$dmname';";
 					$result= pg_query($stmt);
 					$a = pg_fetch_array($result);
 					$d[$i-1]=$a[0];
 		
-					
+					//sets the time schedule since there are 3 time slots
 					if($i==1){
 						$time='22:00';
 					}
@@ -148,19 +189,22 @@
 						$time='14:00';
 					}
 					
-					$dayToSee=$_SESSION["day"];
 					
+					
+					//add to the database
 					$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'informationarea',$d[$i-1]);
 					if($check==1){
 						echo "Added Succesfully";
-						$_SESSION["dmarray"][$i-1]=1;
+						$_SESSION["dmarray"][$dayToSee][$i-1]=1;//updates the dorm manager checker array
 					}else echo "Error";
 					
 				}
 			}
 		}
+		
+		//same with the dorm manager
 		for($i=1 ; $i<7 ; $i++){
-			if($_SESSION["manarray"][$i-1]==0){
+			if($_SESSION["manarray"][$dayToSee][$i-1]==0){
 				if($_POST["man$i"]!=" "){
 					
 					if(!isset($_SESSION["schedid"]))
@@ -175,6 +219,7 @@
 					$a = pg_fetch_array($result);
 					$m[$i-1]=$a[0];
 					
+					//since there are 6 slots, 2 location* 3 time slots
 					if($i==1 || $i==4){
 						$time='22:00';
 					}
@@ -186,20 +231,24 @@
 					}
 					
 					
-					$dayToSee=$_SESSION["day"];
+					
+					
+					//checks for the location
 					if($i>3)
 						$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'unit2',$m[$i-1]);
 					else $check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'unit1',$m[$i-1]);
 					
 					if($check==1){
 						echo "Added Succesfully";
-						$_SESSION["manarray"][$i-1]=1;
+						$_SESSION["manarray"][$dayToSee][$i-1]=1;
 					}else echo "Error";
 				}
 			}
 		}
+		
+		//same with the maintenance
 		for($i=1 ; $i<7 ; $i++){
-			if($_SESSION["garray"][$i-1]==0){
+			if($_SESSION["garray"][$dayToSee][$i-1]==0){
 				if($_POST["g$i"]!=" "){
 				
 					if(!isset($_SESSION["schedid"]))
@@ -225,14 +274,14 @@
 						$time='14:00';
 					}
 					
-					$dayToSee=$_SESSION["day"];
+					
 					
 					if($i>3)
 						$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'westgate',$g[$i-1]);
 					else $check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'eastgate',$g[$i-1]);
 					if($check==1){
 						echo "Added Succesfully";
-						$_SESSION["garray"][$i-1]=1;
+						$_SESSION["garray"][$dayToSee][$i-1]=1;
 					}else echo "Error";
 				}
 			}
