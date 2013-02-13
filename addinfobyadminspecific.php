@@ -5,7 +5,7 @@ $manager=new databaseManager;
 
 session_start();
 
-if($_SESSION['accountType']!='dormer')
+if($_SESSION['accountType']!='admin')
 {
 	header('Location: login.php');
 	die;
@@ -19,7 +19,7 @@ if($_SESSION['accountType']!='dormer')
 	</head>
 	<body>
 		<?php
-			if(isset($_POST["adddormerinfo"]))
+			/*if(isset($_POST["adddormerinfo"]))
 			{
 				$success=$manager->addDormerInformation($_SESSION['username'], $_POST["name"],
 						$_POST["studentnumber"], $_POST["course"], $_POST["birthdate"], $_POST["age"],
@@ -32,14 +32,30 @@ if($_SESSION['accountType']!='dormer')
 					echo "<span style='color:red'>Student Number already in the Database.</span><br /><br />";
 				else
 					echo "<span style='color:red'>Failed to Add Information.</span><br /><br />";
-			}
+			} else if(isset($_POST["addstaffinfo"]))
+			{
+				$success=$manager->addStaffInformation($_SESSION['username'],
+						$_POST["name"], $_POST["address"], $_POST["contactnumber"], $_POST['stafftype']);
+
+				if($success==1)
+					echo "<h2>Information successfully added.</h2><br/>";
+				else
+					echo "<span style='color:red'>Failed to add information.</span><br /><br />";
+			}*/
 		?>
-		<form name="addDormerInformation" action="adddormerinformation.php" method="post">
+		<form name="addInfo" action="addinfobyadminspecific.php" method="post">
 			<?php
-				$manager->printAddInfoForm('dormer');
+				if(isset($_POST['adddormerinfobyadmin']))
+				{
+					$manager->printAddInfoForm('dormer');
+				}
+				if(isset($_POST['addstaffinfobyadmin']))
+				{
+					$manager->printAddInfoForm('staff');
+				}
 			?>
 		</form>
 		<br />
-		<a href="dormer_db.php" title="Back to Dormer Home Page">Back to Dormer Home Page</a>
+		<a href="addinfobyadmin.php" title="Back to List of Dormers and Staff">Back to List of Dormers and Staff</a>
 	</body>
 </html>

@@ -34,7 +34,7 @@ Constraint dl_logid_fk FOREIGN KEY (Log_id) REFERENCES LOG(Log_id)
 );
 
 CREATE TABLE STAFF(
-Staff_number INTEGER,
+Staff_number SERIAL,
 Name VARCHAR(80) NOT NULL,
 Address VARCHAR(80) NOT NULL,
 Contact_number VARCHAR(11) NOT NULL,

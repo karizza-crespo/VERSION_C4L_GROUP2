@@ -3,7 +3,7 @@ include("classes.php");
 
 //connect to the database
 /*palitan nio nalang yung dbname, user, password kung anu man yung sa inio :) */
-$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
+$db=pg_connect("host=localhost port=5432 dbname=DMS user=postgres password=Pass128");
 
 class databaseManager
 {
@@ -369,6 +369,147 @@ class databaseManager
 		return $staff;
 	}
 
+	public function printAddInfo($details, $type)
+	{
+		echo "<table border='1'>";
+		if($type=='dormer')
+		{
+			echo "<tr>
+				<th>Username</th>
+				<th>Name</th>
+				<th>Student Number</th>
+				<th>Home Address</th>
+				<th>Contact Number</th>
+				<th>Birthdate</th>
+				<th>Age</th>
+				<th>Course</th>
+				<th>Contact Person</th>
+				<th>Contact Person Number</th>
+				<th>Room Number</th>
+				<th></th>
+			</tr>";
+			echo "<input type='hidden' value='0' name='dormer' />";
+			for($ctr=0; $ctr<count($details); $ctr++)
+			{
+				echo "<tr>
+					<td><label for='dormer".$ctr."'>".$details[$ctr]->getUsername()."</label></td>
+					<td>".$details[$ctr]->getName()."</td>
+					<td>".$details[$ctr]->getStudentNumber()."</td>
+					<td>".$details[$ctr]->getHomeAddress()."</td>
+					<td>".$details[$ctr]->getContactNumber()."</td>
+					<td>".$details[$ctr]->getBirthdate()."</td>
+					<td>".$details[$ctr]->getAge()."</td>
+					<td>".$details[$ctr]->getCourse()."</td>
+					<td>".$details[$ctr]->getContactPerson()."</td>
+					<td>".$details[$ctr]->getContactPersonNumber()."</td>
+					<td>".$details[$ctr]->getRoomNumber()."</td>
+					<td><input type='submit' id='adddormerinfobyadmin' name='adddormerinfobyadmin' value='Add Information'/></td>
+				</tr>
+				</tr>";
+			}
+		}
+		else if ($type=='staff')
+		{
+			echo "<tr>
+				<th>Staff Number</th>
+				<th>Username</th>
+				<th>Name</th>
+				<th>Address</th>
+				<th>Contact Number</th>
+				<th>Type</th>
+				<th></th>
+			</tr>";
+			echo "<input type='hidden' value='0' name='staff' />";
+			for($ctr=0; $ctr<count($details); $ctr++)
+			{
+				echo "<tr>
+					<td><label for='staff".$ctr."'>".$details[$ctr]->getStaffNumber()."</label></td>
+					<td>".$details[$ctr]->getStaffUsername()."</td>
+					<td>".$details[$ctr]->getStaffName()."</td>
+					<td>".$details[$ctr]->getAddress()."</td>
+					<td>".$details[$ctr]->getContactNum()."</td>
+					<td>".$details[$ctr]->getStaffType()."</td>
+					<td><input type='submit' id='addstaffinfobyadmin' name='addstaffinfobyadmin' value='Add Information'/></td>
+				</tr>";
+			}
+		}
+		echo "</table>";
+	}
+	
+	public function printAddInfoForm($type)
+	{
+		echo "<table border='1'>";
+		if($type=='dormer')
+		{
+			echo "<tr>
+				<td><label for='name'>Name: </label></td>
+				<td><input type='text' id='name' name='name' maxlength='80'></td>
+			</tr>
+			<tr>
+				<td><label for='studentnumber'>Student Number: </label></td>
+				<td><input type='text' id='studentnumber' name='studentnumber' pattern='[0-9]{4}[-][0-9]{5}'></td>
+			</tr>
+			<tr>
+				<td><label for='course'>Course: </label></td>
+				<td><input type='text' id='course' name='course' pattern='[A-Za-z]{3,20}'></td>
+			</tr>
+			<tr>
+				<td><label for='birthdate'>Birthdate: </label></td>
+				<td><input type='date' id='birthdate' name='birthdate'></td>
+			</tr>
+			<tr>
+				<td><label for='age'>Age: </label></td>
+				<td><input type='text' id='age' name='age' pattern='[0-9]{1,3}'></td>
+			</tr>
+			<tr>
+				<td><label for='homeaddress'>Home Address: </label></td>
+				<td><input type='text' id='homeaddress' name='homeaddress' maxlength='80'></td>
+			</tr>
+			<tr>
+				<td><label for='contactnumber'>Contact Number: </label></td>
+				<td><input type='text' id='contactnumber' name='contactnumber' pattern='[0-9]{11}'></td>
+			</tr>
+			<tr>
+				<td><label for='contactperson'>Contact Person: </label></td>
+				<td><input type='text' id='contactperson' name='contactperson' maxlength='80'></td>
+			</tr>
+			<tr>
+				<td><label for='contactpersonnumber'>Contact Person Number: </label></td>
+				<td><input type='text' id='contactpersonnumber' name='contactpersonnumber' pattern='[0-9]{11}'></td>
+			</tr>
+			</table>
+			<br />
+			<input type='submit' id='adddormerinfo' name='adddormerinfo' value='Add Information'>";
+		} else if ($type=='staff')
+		{
+			echo "<tr>
+				<td><label for='name'>Name: </label></td>
+				<td><input type='text' id='name' name='name' maxlength='80'></td>
+			</tr>
+			<tr>
+				<td><label for='homeaddress'>Address: </label></td>
+				<td><input type='text' id='address' name='address' maxlength='80'></td>
+			</tr>
+			<tr>
+				<td><label for='contactnumber'>Contact Number: </label></td>
+				<td><input type='text' id='contactnumber' name='contactnumber' pattern='[0-9]{11}'></td>
+			</tr>
+			<tr>
+				<td><label for='stafftype'>Type: </label></td>
+				<td>
+					<select id='stafftype' name='stafftype'>
+						<option value='Dorm Manager'>Dorm Manager</option>
+						<option value='Maintenance'>Maintenance</option>
+						<option value='Guard'>Guard</option>
+					</select>
+				</td>
+			</tr>
+			</table>
+			<br />
+			<input type='submit' id='addstaffinfo' name='addstaffinfo' value='Add Information'>";
+		}
+	}
+	
 	public function addDormerInformation($username, $name, $studentnumber, $course, $birthdate,	$age, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
 	{
 		$stmt="SELECT count(*) FROM dormer WHERE student_number='$studentnumber';";
@@ -391,24 +532,16 @@ class databaseManager
 			return 3;
 	}
 	
-	public function addStaffInformation($staffnumber, $username, $name, $address, $contactnumber, $stafftype)
+	public function addStaffInformation($username, $name, $address, $contactnumber, $stafftype)
 	{
-		$stmt="SELECT count(*) FROM staff WHERE staff_number='$staffnumber';";
-		$count=pg_fetch_array(pg_query($stmt));
-		
-		if($count[0]==0)
-		{
-			$stmt="UPDATE STAFF SET staff_number='$staffnumber', name='$name', address='$address', contact_number='$contactnumber', type='$stafftype'";
-			$stmt.=" WHERE username='$username';";
-			$success=pg_query($stmt);
-		
-			if($success)
-				return 1;
-			else
-				return 0;
-		}
+		$stmt="UPDATE STAFF SET name='$name', address='$address', contact_number='$contactnumber', type='$stafftype'";
+		$stmt.=" WHERE username='$username';";
+		$success=pg_query($stmt);
+	
+		if($success)
+			return 1;
 		else
-			return 3;
+			return 0;
 	}
 	//Ian's functions
 	//-----------------------------------------------------------------------------------------------------

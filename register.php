@@ -83,7 +83,7 @@ or die ("Could not connect to server\n");
 		
 			if ($type == 2){
 				//insert values into the table named payment_record
-				$stmt="INSERT INTO staff VALUES ('$default_int','$default_char','$default_char','$default_char','$default_char','$username','$password');";
+				$stmt="INSERT INTO staff (name, address, contact_number, type, username, password) VALUES ('$default_char','$default_char','$default_char','$default_char','$username','$password');";
 				$success=pg_query($stmt);
 				if($success)
 					echo "Staff successfully added.<br />";
