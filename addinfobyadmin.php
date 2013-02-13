@@ -11,7 +11,6 @@ if($_SESSION['accountType']!='admin')
 	die;
 }
 
-$_SESSION['searchFlag']=0;
 $_SESSION['searchUsername']='none';
 ?>
 
@@ -51,7 +50,7 @@ $_SESSION['searchUsername']='none';
 		<form name="retrieveAll" action="addinfobyadminspecific.php" method="post">
 			<?php
 				$dormers = $manager->retrieveAllDormers();
-					
+
 				if($dormers!=null)
 				{
 					echo "<br />DORMERS: <br /><br />";
@@ -59,11 +58,11 @@ $_SESSION['searchUsername']='none';
 				}
 				else
 					echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
-					
+
 				echo "<br />";
-				
+
 				$staff = $manager->retrieveAllStaff();
-				
+
 				if($staff!=null)
 				{
 					echo "<br />STAFF: <br /><br />";

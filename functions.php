@@ -403,7 +403,7 @@ class databaseManager
 					<td>".$details[$ctr]->getContactPerson()."</td>
 					<td>".$details[$ctr]->getContactPersonNumber()."</td>
 					<td>".$details[$ctr]->getRoomNumber()."</td>
-					<td><input type='submit' id='adddormerinfobyadmin' name='adddormerinfobyadmin' value='Add Information'/></td>
+					<td><input type='submit' id='adddormerinfobyadmin$ctr' name='adddormerinfobyadmin$ctr' value='Add Information'/></td>
 				</tr>
 				</tr>";
 			}
@@ -429,7 +429,7 @@ class databaseManager
 					<td>".$details[$ctr]->getAddress()."</td>
 					<td>".$details[$ctr]->getContactNum()."</td>
 					<td>".$details[$ctr]->getStaffType()."</td>
-					<td><input type='submit' id='addstaffinfobyadmin' name='addstaffinfobyadmin' value='Add Information'/></td>
+					<td><input type='submit' id='addstaffinfobyadmin$ctr' name='addstaffinfobyadmin$ctr' value='Add Information'/></td>
 				</tr>";
 			}
 		}

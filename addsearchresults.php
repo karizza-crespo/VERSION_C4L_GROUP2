@@ -22,24 +22,25 @@ if($_SESSION['accountType']!='admin')
 			<?php
 				if(isset($_POST['searchDormerByUsername']))
 				{
-					$dormers = $manager->searchDormer($_POST['addInfoDormer']);
-					
-					if($dormers!=null)
+					$dormer = $manager->searchDormer($_POST['addInfoDormer']);
+
+					if($dormer!=null)
 					{
+						$_SESSION['searchUsername'] = $dormer[0]->getUsername();
 						echo "<br />DORMERS: <br /><br />";
-						$manager->printAddInfo($dormers, 'dormer');
+						$manager->printAddInfo($dormer, 'dormer');
 					}
 					else
 						echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
 						
 					echo "<br />";
-				}
-				if(isset($_POST['searchStaffByNumber']))
+				} else if(isset($_POST['searchStaffByNumber']))
 				{
 					$staff = $manager->searchStaff($_POST['addInfoStaff']);
 				
 					if($staff!=null)
 					{
+						$_SESSION['searchUsername'] = $staff[0]->getStaffUsername();
 						echo "<br />STAFF: <br /><br />";
 						$manager->printAddInfo($staff, 'staff');
 					}
