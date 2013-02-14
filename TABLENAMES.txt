@@ -50,7 +50,7 @@ Day VARCHAR(10) NOT NULL,
 Time TIME NOT NULL,
 Location VARCHAR(20) NOT NULL,
 Staff_number INTEGER,
-Constraint schedule_id_pk PRIMARY KEY (Schedule_id)
+Constraint schedule_id_pk PRIMARY KEY (Schedule_id),
 Constraint schedule_staff_number_fk FOREIGN KEY (Staff_number) REFERENCES STAFF(Staff_number)
 );
 
