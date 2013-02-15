@@ -2,13 +2,10 @@
 include("classes.php");
 
 //connect to the database
-/*palitan nio nalang yung dbname, user, password kung anu man yung sa inio :) */
-$db=pg_connect("host=localhost port=5432 dbname=DMS user=postgres password=Pass128");
+$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
 
 class databaseManager
-{
-	//dito nalang natin ilagay lahat ng functions natin para isang file nalang 
-	
+{	
 	//function for adding payment record entry
 	public function addPaymentEntry($dop, $payment_number, $username, $month, $amount)
 	{
@@ -52,6 +49,7 @@ class databaseManager
 		}
 	}
 	
+	//function for retrieving all entries in the payment_records table
 	public function retrieveAllRecords()
 	{
 		$allRecords = array();
@@ -59,11 +57,13 @@ class databaseManager
 		$stmt="SELECT * FROM payment_record;";
 		$result=pg_query($stmt);
 		
+		//insert into the array every payment record entry
 		while($row=pg_fetch_assoc($result))
 			$allRecords[] = new PaymentRecord($row['payment_number'], $row['name'], $row['month'], $row['username'], $row['amount'], $row['date_of_payment']);
 		return $allRecords;
 	}
 	
+	//function for printing the list of all records in a table form
 	public function printEdit($recordDetails)
 	{
 		echo "<table border='1'>";
@@ -90,6 +90,7 @@ class databaseManager
 		echo "</table>";
 	}
 	
+	//function for printing username in the select tag
 	public function printUsername()
 	{
 		$stmt="SELECT DISTINCT username FROM dormer;";
@@ -99,6 +100,7 @@ class databaseManager
 			echo "<option value='".$row['username']."'>".$row['username']."</option>";
 	}
 	
+	//function for printing the stagg 
 	public function printStaffNumber()
 	{
 		$stmt="SELECT DISTINCT staff_number FROM staff;";
@@ -108,18 +110,22 @@ class databaseManager
 			echo "<option value='".$row['staff_number']."'>".$row['staff_number']."</option>";
 	}
 	
+	//function for searching the payment_record table
 	public function searchRecords($username)
 	{
 		$records = array();
 		
+		//select all the entries of the user
 		$stmt="SELECT * FROM payment_record WHERE username='$username';";
 		$result=pg_query($stmt);
 		
+		//insert all the entries of user in an array
 		while($row=pg_fetch_assoc($result))
 			$records[] = new PaymentRecord($row['payment_number'], $row['name'], $row['month'], $row['username'], $row['amount'], $row['date_of_payment']);
 		return $records;
 	}
 	
+	//function for printing the edit form
 	public function printEditForm($recordDetails)
 	{
 		echo "<table>

@@ -2,22 +2,10 @@
 include("functions.php");
 
 session_start();
-if($_SESSION['username']!='postgres'){
-	header('Location: login.php');
+if($_SESSION['accountType']!='admin'){
+	header('Location: signin.php');
 	die;
 }
-
-/*
-// connect to database
-$host = "localhost"; 
-$user = "postgres"; 
-$pass = "password"; 
-$db = "postgres";
- 
- 
-$con = pg_connect("host=$host dbname=$db user=$user password=$pass")
-or die ("Could not connect to server\n");
-*/
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

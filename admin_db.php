@@ -2,7 +2,7 @@
 
 session_start();
 if($_SESSION['accountType']!='admin'){
-	header('Location: login.php');
+	header('Location: signin.php');
 	die;
 }
 
@@ -29,6 +29,6 @@ if($_SESSION['accountType']!='admin'){
 		</form>";
 		?>
 		<br />
-		<a href="logout.php">Logout </a></br>
+		<a href="signout.php">Sign Out </a></br>
 	</body>
 </html>

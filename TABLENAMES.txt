@@ -25,14 +25,6 @@ Constraint log_id_pk PRIMARY KEY (Log_id),
 Constraint log_username_fk FOREIGN KEY (username) REFERENCES DORMER(username)
 );
 
-CREATE TABLE DORMER_LOG(
-Username VARCHAR(20),
-Log_id INTEGER,
-Constraint dl_log_pk PRIMARY KEY (Username, Log_id),
-Constraint dl_username_fk FOREIGN KEY (Username) REFERENCES DORMER(Username),
-Constraint dl_logid_fk FOREIGN KEY (Log_id) REFERENCES LOG(Log_id)
-);
-
 CREATE TABLE STAFF(
 Staff_number SERIAL,
 Name VARCHAR(80) NOT NULL,
@@ -46,18 +38,12 @@ Constraint staff_number_pk PRIMARY KEY (Staff_number)
 
 CREATE TABLE SCHEDULE(
 Schedule_id INTEGER,
-Day VARCHAR(10) NOT NULL,
+Date Date NOT NULL,
 Time TIME NOT NULL,
 Location VARCHAR(20) NOT NULL,
-Constraint schedule_id_pk PRIMARY KEY (Schedule_id)
-);
-
-CREATE TABLE STAFF_SCHEDULE(
-Staff_number INTEGER,
-Schedule_id INTEGER,
-Constraint ss_id_pk PRIMARY KEY (Staff_number, Schedule_id),
-Constraint ss_snumber_fk FOREIGN KEY (Staff_number) REFERENCES STAFF(Staff_number),
-Constraint ss_sid_fk FOREIGN KEY (Schedule_id) REFERENCES SCHEDULE(Schedule_id)
+Staff_number INTEGER NOT NULL,
+Constraint schedule_id_pk PRIMARY KEY (Schedule_id),
+Constraint schedule_snumber_fk FOREIGN KEY (Staff_number) REFERENCES STAFF(Staff_number)
 );
 
 CREATE TABLE PAYMENT_RECORD(
