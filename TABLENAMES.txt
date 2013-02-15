@@ -46,6 +46,7 @@ Constraint schedule_id_pk PRIMARY KEY (Schedule_id),
 Constraint schedule_snumber_fk FOREIGN KEY (Staff_number) REFERENCES STAFF(Staff_number)
 );
 
+
 CREATE TABLE PAYMENT_RECORD(
 Payment_number INTEGER,
 Name VARCHAR(80) NOT NULL,
