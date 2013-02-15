@@ -624,7 +624,13 @@ class databaseManager
 			return 1;
 		else return 0;
 	}
-	
+	public function countSchedEntry(){
+		$stmt = "SELECT count(*) from schedule;";
+		$result= pg_query($stmt);
+		$a = pg_fetch_array($result);
+		
+		return $a[0];
+	}
 	//------------------------------------------------------------------------------------------------------
 }
 ?>
