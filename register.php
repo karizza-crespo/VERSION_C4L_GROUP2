@@ -2,22 +2,10 @@
 include("functions.php");
 
 session_start();
-if($_SESSION['username']!='postgres'){
-	header('Location: login.php');
+if($_SESSION['accountType']!='admin'){
+	header('Location:signin.php');
 	die;
 }
-
-/*
-// connect to database
-$host = "localhost"; 
-$user = "postgres"; 
-$pass = "password"; 
-$db = "postgres";
- 
- 
-$con = pg_connect("host=$host dbname=$db user=$user password=$pass")
-or die ("Could not connect to server\n");
-*/
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -25,8 +13,8 @@ or die ("Could not connect to server\n");
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<LINK HREF="welcome.css" rel="stylesheet" TYPE="text/css">
-		<SCRIPT language="JavaScript" SRC="swap.js"></SCRIPT>
+		<LINK HREF="style.css" rel="stylesheet" TYPE="text/css">
+		
 	</head>
 
 	<body>
@@ -71,7 +59,7 @@ or die ("Could not connect to server\n");
 			
 		if(count($errors) == 0){		
 			 if ($type == 1){
-				//insert values into the table named payment_record
+				//insert values into the table named dormer
 				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$default_char','$default_char','$default_char','$default_date','$default_int','$default_char','$default_char','$default_char','$default_int');";
 				$success=pg_query($stmt);
 				if($success)
@@ -82,8 +70,8 @@ or die ("Could not connect to server\n");
 		
 		
 			if ($type == 2){
-				//insert values into the table named payment_record
-				$stmt="INSERT INTO staff VALUES ('$default_int','$default_char','$default_char','$default_char','$default_char','$username','$password');";
+				//insert values into the table named staff
+				$stmt="INSERT INTO staff (name, address, contact_number, type, username, password) VALUES ('$default_char','$default_char','$default_char','$default_char','$username','$password');";
 				$success=pg_query($stmt);
 				if($success)
 					echo "Staff successfully added.<br />";

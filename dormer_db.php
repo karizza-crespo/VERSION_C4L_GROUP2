@@ -4,14 +4,14 @@ include("functions.php");
 session_start();
 
 if($_SESSION['accountType']!='dormer'){
-	header('Location: login.php');
+	header('Location: signin.php');
 	die;
 }
 
 $current_user = $_SESSION['username'];
-/*
-//ate verna, nakacomment out kasi to sa akin kasi yung pagconnect ko sa database nasa functions.php na :)
 
+//ate verna, nakacomment out kasi to sa akin kasi yung pagconnect ko sa database nasa functions.php na :)
+/*
 // connect to database
 $host = "localhost"; 
 $user = "postgres"; 
@@ -21,8 +21,8 @@ $db = "postgres";
  
 $con = pg_connect("host=$host dbname=$db user=$user password=$pass")
 or die ("Could not connect to server\n");
-
 */
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -30,7 +30,7 @@ or die ("Could not connect to server\n");
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="welcome.css" rel="stylesheet" type="text/css">
+		<link href="style.css" rel="stylesheet" type="text/css">
 		<script> function option1() {document.myform.whereabouts.disabled=1; }
 				function option2() {document.myform.whereabouts.disabled=0;} 
 		</script> 
@@ -98,8 +98,13 @@ or die ("Could not connect to server\n");
 	<a href="adddormerinformation.php" title="Add Personal Information">Add Personal Information</a>
 	<br />
 	<br />
-	
-	 <a href="logout.php">Sign Out </a></br>
+	<?php
+		echo "<form name='sched' action='sched.php' method='post'>
+				<input type='submit' value='Staff Schedule' name='viewSched' />
+			</form>";
+	?>
+	<br />
+	 <a href="signout.php">Sign Out </a></br>
 
 
 </body>

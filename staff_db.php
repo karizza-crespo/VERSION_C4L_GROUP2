@@ -4,25 +4,13 @@ include("functions.php");
 session_start();
 
 if($_SESSION['accountType']!='staff'){
-	header('Location: login.php');
+	header('Location: signin.php');
 	die;
 }
 
 $current_user = $_SESSION['username'];
-/*
-//ate verna, nakacomment out kasi to sa akin kasi yung pagconnect ko sa database nasa functions.php na :)
 
-// connect to database
-$host = "localhost"; 
-$user = "postgres"; 
-$pass = "password"; 
-$db = "postgres";
- 
- 
-$con = pg_connect("host=$host dbname=$db user=$user password=$pass")
-or die ("Could not connect to server\n");
 
-*/
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -30,7 +18,7 @@ or die ("Could not connect to server\n");
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="welcome.css" rel="stylesheet" type="text/css">
+		<link href="style.css" rel="stylesheet" type="text/css">
 	</head>
 <body>
 	<h1>Welcome, Staff: <?php echo $current_user ?> 	!!!</h1>
@@ -47,8 +35,12 @@ or die ("Could not connect to server\n");
 			echo "<a href='addpayment.php' title='Add Payment Records'>Add Payment Records</a><br /><br />";
 			echo "<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />";
 		}
+		echo "<form name='sched' action='sched.php' method='post'>
+				<input type='submit' value='Staff Schedule' name='viewSched' />
+		</form>";
 	?>
-	 <a href="logout.php">Sign Out </a></br>
+	<br />
+	<a href="signout.php">Sign Out </a></br>
 
 
 </body>

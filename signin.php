@@ -11,14 +11,19 @@ if(isset($_POST['login'])){
 	//get the password
 	$password = $_POST['password'];
 	
-	//check if admin
-	if(($username=='postgres') && ($password =='password')){
-			session_start();
-			$_SESSION['username'] = 'postgres';
+	//check if admin - start of changes
+	$stmt="SELECT count(*) FROM admin WHERE username='$username' and password='$password';";
+	$count=pg_fetch_array(pg_query($stmt));
+	
+	if ($count[0]!=0){
+		
+			$_SESSION['username'] = $username;
 			$_SESSION['accountType']='admin';
 			header('Location: admin_db.php');
 			die;
 		}
+	//end of changes
+	
 	else {
 		$stmt="SELECT count(*) FROM dormer WHERE username='$username' and password='$password';";
 		$count=pg_fetch_array(pg_query($stmt));
@@ -56,7 +61,7 @@ if(isset($_POST['login'])){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<LINK HREF="welcome.css" rel="stylesheet" TYPE="text/css">
+<LINK HREF="style.css" rel="stylesheet" TYPE="text/css">
 <title>.::Dormitory Management System::.</title>
 
 </head>
