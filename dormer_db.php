@@ -9,6 +9,7 @@ if($_SESSION['accountType']!='dormer'){
 }
 
 $current_user = $_SESSION['username'];
+<<<<<<< HEAD
 
 //ate verna, nakacomment out kasi to sa akin kasi yung pagconnect ko sa database nasa functions.php na :)
 /*
@@ -23,6 +24,8 @@ $con = pg_connect("host=$host dbname=$db user=$user password=$pass")
 or die ("Could not connect to server\n");
 */
 
+=======
+>>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -40,6 +43,7 @@ or die ("Could not connect to server\n");
 
 	<?php
 	$current='none';
+	
 	//selects all the entries of the user
 	$stmt="SELECT type FROM log WHERE username='$current_user';";
 	$result=pg_query($stmt);

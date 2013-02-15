@@ -7,7 +7,7 @@ session_start();
 
 if($_SESSION['accountType']!='staff')
 {
-	header('Location: login.php');
+	header('Location: signin.php');
 	die;
 }
 ?>

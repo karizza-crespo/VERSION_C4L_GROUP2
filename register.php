@@ -3,7 +3,11 @@ include("functions.php");
 
 session_start();
 if($_SESSION['accountType']!='admin'){
+<<<<<<< HEAD
 	header('Location:signin.php');
+=======
+	header('Location: signin.php');
+>>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 	die;
 }
 ?>
@@ -70,7 +74,11 @@ if($_SESSION['accountType']!='admin'){
 		
 		
 			if ($type == 2){
+<<<<<<< HEAD
 				//insert values into the table named staff
+=======
+				//insert values into the table named payment_record
+>>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 				$stmt="INSERT INTO staff (name, address, contact_number, type, username, password) VALUES ('$default_char','$default_char','$default_char','$default_char','$username','$password');";
 				$success=pg_query($stmt);
 				if($success)

@@ -7,7 +7,11 @@ session_start();
 
 if($_SESSION['accountType']!='admin')
 {
+<<<<<<< HEAD
 	header('Location: login.php');
+=======
+	header('Location: signin.php');
+>>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 	die;
 }
 ?>

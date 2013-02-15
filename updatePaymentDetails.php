@@ -6,7 +6,7 @@ session_start();
 
 if($_SESSION['accountType']!='staff')
 {
-	header('Location: login.php');
+	header('Location: signin.php');
 	die;
 }
 else
@@ -15,7 +15,7 @@ else
 	$result=pg_fetch_array(pg_query($stmt));
 	
 	if($result[0]!='Dorm Manager')
-		header('Location: login.php');
+		header('Location: signin.php');
 }
 ?>
 

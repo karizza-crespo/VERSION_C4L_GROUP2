@@ -9,8 +9,11 @@ if($_SESSION['accountType']!='staff'){
 }
 
 $current_user = $_SESSION['username'];
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
