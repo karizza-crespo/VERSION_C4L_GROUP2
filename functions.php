@@ -591,7 +591,7 @@ class databaseManager
 		$stmt="SELECT name from staff
 		where
 		staff_number = (select staff_number from schedule
-		where day like to_char (current_date + $day,'Day')
+		where date = ( select current_date + $day)
 		and time = '$time' and location like '$location'
 		);";
 		$result= pg_query($stmt);
@@ -605,7 +605,7 @@ class databaseManager
 	public function addScheduleEntry($schedid,$day,$time,$location,$staffno)
 	{
 	
-		$stmt = "INSERT into schedule values($schedid,TO_CHAR(current_date + $day,'Day'),'$time','$location',$staffno);";
+		$stmt = "INSERT into schedule values($schedid,current_date + $day,'$time','$location',$staffno);";
 		$result= pg_query($stmt);
 		if($result)
 			return 1;
@@ -615,7 +615,7 @@ class databaseManager
 	
 	public function isThereisStaff($location,$day,$time){
 		$stmt = "SELECT staff_number from schedule where 
-			day like TO_CHAR(current_date + $day,'Day') and
+			day = (select current_date + $day) and
 			location like '$location' and 
 			time = '$time';";
 		$result= pg_query($stmt);
@@ -628,7 +628,7 @@ class databaseManager
 		$stmt = "SELECT count(*) from schedule;";
 		$result= pg_query($stmt);
 		$a = pg_fetch_array($result);
-		
+
 		return $a[0];
 	}
 	//------------------------------------------------------------------------------------------------------
