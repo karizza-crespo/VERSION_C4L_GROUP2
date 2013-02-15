@@ -10,7 +10,7 @@
 	//tpos kapag hindi nakalog in, babalik sa log in page
 	if($_SESSION['accountType']=='notLoggedIn')
 	{
-		header('Location: login.php');
+		header('Location: signin.php');
 		die;
 	}
 	else
