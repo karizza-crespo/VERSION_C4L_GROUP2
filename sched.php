@@ -10,7 +10,7 @@
 	//tpos kapag hindi nakalog in, babalik sa log in page
 	if($_SESSION['accountType']=='notLoggedIn')
 	{
-		header('Location: signin.php');
+		header('Location: login.php');
 		die;
 	}
 	else
@@ -163,12 +163,9 @@
 			if($_SESSION["dmarray"][$dayToSee][$i-1]==0){
 				//checks if not null or not chosen any of the options
 				if($_POST["dm$i"]!=" " ){
-					//set the sched id if not yet set or greater than 106 entries
-					if(!isset($_SESSION["schedid"]) || $_SESSION["schedid"]>=1106)
-						$_SESSION["schedid"]=1001;
-					else $_SESSION["schedid"]++;
 					
-					$schedid=$_SESSION["schedid"];
+					
+					$schedid=1001 + $dormManager->countSchedEntry();
 				
 					//get the staff number of the chosen staff
 					$dmname=$_POST["dm$i"];
@@ -205,12 +202,8 @@
 		for($i=1 ; $i<7 ; $i++){
 			if($_SESSION["manarray"][$dayToSee][$i-1]==0){
 				if($_POST["man$i"]!=" "){
-					
-					if(!isset($_SESSION["schedid"]))
-						$_SESSION["schedid"]=1001;
-					else $_SESSION["schedid"]++;
 			
-					$schedid=$_SESSION["schedid"];
+					$schedid=1001 + $dormManager->countSchedEntry();
 				
 					$mname=$_POST["man$i"];
 					$stmt="SELECT staff_number from staff where name like '$mname';";
@@ -249,19 +242,14 @@
 		for($i=1 ; $i<7 ; $i++){
 			if($_SESSION["garray"][$dayToSee][$i-1]==0){
 				if($_POST["g$i"]!=" "){
-				
-					if(!isset($_SESSION["schedid"]))
-						$_SESSION["schedid"]=1001;
-					else $_SESSION["schedid"]++;
 			
-					$schedid=$_SESSION["schedid"];
+					$schedid=1001 + $dormManager->countSchedEntry();
 				
 					$gname=$_POST["g$i"];
 					$stmt="SELECT staff_number from staff where name like '$gname';";
 					$result= pg_query($stmt);
 					$a = pg_fetch_array($result);
 					$g[$i-1]=$a[0];
-					echo $g[$i-1];
 					
 					if($i==1  || $i==4){
 						$time='22:00';
@@ -746,12 +734,18 @@
 						<form name="chooseFrom" action="sched.php" method="post">
 							<?php
 								//yung $disable po na variable, pang disable ng button, kapag dormer and staff yung nakalog in, $disable = "disabled=true" kapag admin tsaka dorm manager $disable = null
-								if($_SESSION["add"]==0)
-									echo "<input type='submit' name='addSched' value='Add Sched' $disable/>";
-								if($_SESSION["edit"]==0)
-									echo "<input type='submit' name='editSched' value='Edit Sched' $disable/>";
-								if($_SESSION["view"]==0)
-									echo "<input type='submit' name='viewSched' value='View Sched' $disable/>";
+								if($_SESSION["add"]==0){
+									if($disable=="null")
+										echo "<input type='submit' name='addSched' value='Add Sched' />";
+								}
+								if($_SESSION["edit"]==0){
+									if($disable=="null")
+										echo "<input type='submit' name='editSched' value='Edit Sched'/>";
+								}
+								if($_SESSION["view"]==0){
+									if($disable=="null")
+										echo "<input type='submit' name='viewSched' value='View Sched'/>";
+								}
 							?>
 	
 						</form>
