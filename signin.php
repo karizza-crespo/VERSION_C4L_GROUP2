@@ -2,10 +2,6 @@
 include("functions.php");
 session_start();
 
-<<<<<<< HEAD:login.php
-$_SESSION['username']='none';
-$_SESSION['accountType']='notLoggedIn';
-=======
 //------------------------------check kung may initial value  na yung account type-----------------------------------
 if(empty($_SESSION['accountType']))
 {
@@ -23,7 +19,6 @@ else
 	else if ($_SESSION['accountType']=='admin')
 		header("Location:admin_db.php");
 }
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2:signin.php
 
 if(isset($_POST['login'])){
 	//get the username

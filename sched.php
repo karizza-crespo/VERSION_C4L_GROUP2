@@ -34,12 +34,9 @@
 	}
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-<<<<<<< HEAD
-=======
 	if(!isset($_SESSION["day"]))
 		$_SESSION["day"]=0;
 	
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 	$_SESSION["view"]=1;
 	
 	//creating checker arrays 
@@ -166,18 +163,15 @@
 			if($_SESSION["dmarray"][$dayToSee][$i-1]==0){
 				//checks if not null or not chosen any of the options
 				if($_POST["dm$i"]!=" " ){
-<<<<<<< HEAD
 					//set the sched id if not yet set or greater than 106 entries
 					if(!isset($_SESSION["schedid"]) || $_SESSION["schedid"]>=1106)
 						$_SESSION["schedid"]=1001;
 					else $_SESSION["schedid"]++;
 					
 					$schedid=$_SESSION["schedid"];
-=======
 					
 					
 					$schedid=1001 + $dormManager->countSchedEntry();
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 				
 					//get the staff number of the chosen staff
 					$dmname=$_POST["dm$i"];
@@ -214,17 +208,13 @@
 		for($i=1 ; $i<7 ; $i++){
 			if($_SESSION["manarray"][$dayToSee][$i-1]==0){
 				if($_POST["man$i"]!=" "){
-<<<<<<< HEAD
-					
 					if(!isset($_SESSION["schedid"]))
 						$_SESSION["schedid"]=1001;
 					else $_SESSION["schedid"]++;
 			
 					$schedid=$_SESSION["schedid"];
-=======
 			
 					$schedid=1001 + $dormManager->countSchedEntry();
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 				
 					$mname=$_POST["man$i"];
 					$stmt="SELECT staff_number from staff where name like '$mname';";
@@ -263,27 +253,22 @@
 		for($i=1 ; $i<7 ; $i++){
 			if($_SESSION["garray"][$dayToSee][$i-1]==0){
 				if($_POST["g$i"]!=" "){
-<<<<<<< HEAD
 				
 					if(!isset($_SESSION["schedid"]))
 						$_SESSION["schedid"]=1001;
 					else $_SESSION["schedid"]++;
 			
 					$schedid=$_SESSION["schedid"];
-=======
 			
 					$schedid=1001 + $dormManager->countSchedEntry();
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 				
 					$gname=$_POST["g$i"];
 					$stmt="SELECT staff_number from staff where name like '$gname';";
 					$result= pg_query($stmt);
 					$a = pg_fetch_array($result);
 					$g[$i-1]=$a[0];
-<<<<<<< HEAD
+
 					echo $g[$i-1];
-=======
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 					
 					if($i==1  || $i==4){
 						$time='22:00';
@@ -768,14 +753,6 @@
 						<form name="chooseFrom" action="sched.php" method="post">
 							<?php
 								//yung $disable po na variable, pang disable ng button, kapag dormer and staff yung nakalog in, $disable = "disabled=true" kapag admin tsaka dorm manager $disable = null
-<<<<<<< HEAD
-								if($_SESSION["add"]==0)
-									echo "<input type='submit' name='addSched' value='Add Sched' $disable/>";
-								if($_SESSION["edit"]==0)
-									echo "<input type='submit' name='editSched' value='Edit Sched' $disable/>";
-								if($_SESSION["view"]==0)
-									echo "<input type='submit' name='viewSched' value='View Sched' $disable/>";
-=======
 								if($_SESSION["add"]==0){
 									if($disable=="null")
 										echo "<input type='submit' name='addSched' value='Add Sched' />";
@@ -788,7 +765,6 @@
 									if($disable=="null")
 										echo "<input type='submit' name='viewSched' value='View Sched'/>";
 								}
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 							?>
 	
 						</form>

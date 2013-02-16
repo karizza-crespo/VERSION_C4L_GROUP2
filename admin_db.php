@@ -29,10 +29,6 @@ if($_SESSION['accountType']!='admin'){
 		</form>";
 		?>
 		<br />
-<<<<<<< HEAD
-		<a href="signout.php">Logout </a></br>
-=======
 		<a href="signout.php">Sign Out </a></br>
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 	</body>
 </html>

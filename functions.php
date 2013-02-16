@@ -2,14 +2,7 @@
 include("classes.php");
 
 //connect to the database
-<<<<<<< HEAD
-/*palitan nio nalang yung dbname, user, password kung anu man yung sa inio :) */
-$db=pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=password");
-
-
-=======
 $db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 
 class databaseManager
 {	
@@ -591,49 +584,6 @@ class databaseManager
 			$staff[$i++]=$a[0];
 		
 		return $staff;
-<<<<<<< HEAD
-	}
-	
-	public function retrieveStafffromSched($location,$day,$time)
-	{
-		$stmt="SELECT name from staff
-		where
-		staff_number = (select staff_number from schedule
-		where day like to_char (current_date + $day,'Day')
-		and time = '$time' and location like '$location'
-		);";
-		$result= pg_query($stmt);
-		$a = pg_fetch_array($result);
-		$staff=$a[0];
-		return $staff;
-	}
-	
-	
-	
-	public function addScheduleEntry($schedid,$day,$time,$location,$staffno)
-	{
-	
-		$stmt = "INSERT into schedule values($schedid,TO_CHAR(current_date + $day,'Day'),'$time','$location',$staffno);";
-		$result= pg_query($stmt);
-		if($result)
-			return 1;
-		else return 0;
-
-	}
-	
-	public function isThereisStaff($location,$day,$time){
-		$stmt = "SELECT staff_number from schedule where 
-			day like TO_CHAR(current_date + $day,'Day') and
-			location like '$location' and 
-			time = '$time';";
-		$result= pg_query($stmt);
-		
-		if($result)
-			return 1;
-		else return 0;
-	}
-	
-=======
 	}
 	
 	public function retrieveStafffromSched($location,$day,$time)
@@ -681,7 +631,6 @@ class databaseManager
 
 		return $a[0];
 	}
->>>>>>> fd5935510e3342ff30b9960f409296519d5e59a2
 	//------------------------------------------------------------------------------------------------------
 }
 ?>
