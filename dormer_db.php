@@ -36,7 +36,7 @@ $current_user = $_SESSION['username'];
 		$current=$row['type'];
 
 	if(isset($_POST['filluplogs']))
-	{
+	{	
 		$default_char = 'dorm';
 		$log_type=$_POST['button'];
 		$login = 'logged in';
@@ -58,10 +58,15 @@ $current_user = $_SESSION['username'];
 		if ($log_type ==2){
 			if($current!="logged out")
 			{
-				$whereabouts = $_POST['whereabouts']; 
-				//insert values into the table named logs
-				$stmt="INSERT INTO log (log_date, log_time, type, whereabouts, username) VALUES (current_date,current_time,'$logout','$whereabouts', '$current_user');";
-				$success=pg_query($stmt);
+				if($_POST['whereabouts']=="")
+					echo "<span style='color:red'>Please specify where you are going.</span><br />";
+				else
+				{
+					$whereabouts = $_POST['whereabouts']; 
+					//insert values into the table named logs
+					$stmt="INSERT INTO log (log_date, log_time, type, whereabouts, username) VALUES (current_date,current_time,'$logout','$whereabouts', '$current_user');";
+					$success=pg_query($stmt);
+				}
 			}
 			else
 				echo "<span style='color:blue'>You are currently Logged Out.</span><br /><br />";

@@ -7,7 +7,7 @@ $db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres pas
 class databaseManager
 {	
 	//function for adding payment record entry
-	public function addPaymentEntry($dop, $payment_number, $username, $month, $amount)
+	public function addPaymentEntry($dop, $username, $month, $amount)
 	{
 		//check first if the dormer is in the database
 		$stmt="SELECT count(*) FROM dormer WHERE username='$username';";
@@ -23,15 +23,13 @@ class databaseManager
 			$stmt="SELECT count(*) FROM payment_record WHERE username='$username' AND month='$month';";
 			$count=pg_fetch_array(pg_query($stmt));
 			
-			$stmt="SELECT count(*) FROM payment_record WHERE payment_number='$payment_number';";
-			$anotherCount=pg_fetch_array(pg_query($stmt));
-			if($count[0]==0 && $anotherCount[0]==0)
+			if($count[0]==0)
 			{
 				$stmt="SELECT name FROM dormer WHERE username='$username';";
 				$name=pg_fetch_array(pg_query($stmt));
 				
 				//insert values into the table named payment_record
-				$stmt="INSERT INTO payment_record VALUES ('$payment_number', '$name[0]', '$month', '$username', '$amount', '$dop');";
+				$stmt="INSERT INTO payment_record (name, month, username, amount, date_of_payment) VALUES ('$name[0]', '$month', '$username', '$amount', '$dop');";
 				$success=pg_query($stmt);
 				//return 1 if entry is successfully inserted, 0 if not
 				if($success)
@@ -336,7 +334,7 @@ class databaseManager
 			//kapag dormer, idelete mo siya sa payment_record, dormer_log, and dormer
 			$stmt="DELETE FROM payment_record WHERE username='$deleteDormers[$ctr]';";
 			pg_query($stmt);
-			$stmt="DELETE FROM dormer_log WHERE username='$deleteDormers[$ctr]';";
+			$stmt="DELETE FROM log WHERE username='$deleteDormers[$ctr]';";
 			pg_query($stmt);
 			$stmt="DELETE FROM dormer WHERE username='$deleteDormers[$ctr]';";
 			pg_query($stmt);

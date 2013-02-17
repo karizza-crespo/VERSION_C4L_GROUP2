@@ -48,7 +48,7 @@ Constraint schedule_snumber_fk FOREIGN KEY (Staff_number) REFERENCES STAFF(Staff
 
 
 CREATE TABLE PAYMENT_RECORD(
-Payment_number INTEGER,
+Payment_number SERIAL,
 Name VARCHAR(80) NOT NULL,
 Month VARCHAR(20) NOT NULL,
 Username VARCHAR(20) NOT NULL,

@@ -5,18 +5,18 @@ $manager=new databaseManager;
 
 session_start();
 
-if($_SESSION['accountType']!='staff')
-{
-	header('Location: signin.php');
-	die;
-}
-else
+if($_SESSION['accountType']=='staff')
 {
 	$stmt="SELECT type from staff WHERE username='".$_SESSION['username']."';";
 	$result=pg_fetch_array(pg_query($stmt));
 	
 	if($result[0]!='Dorm Manager')
 		header('Location: signin.php');
+}
+else if($_SESSION['accountType']!='admin')
+{
+	header('Location: signin.php');
+	die;
 }
 
 $_SESSION['searchFlag']=0;
@@ -73,7 +73,8 @@ $_SESSION['searchUsername']='none';
 				echo "</form>";
 			}
 			
+		//link lang to pabalik sa dormer_db, staff_db or admin_db
+			echo "<a href='".$_SESSION['accountType']."_db.php' Title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
 		?>
-		<a href='staff_db.php' title='Back to Staff Home Page'>Back to Staff Home Page</a>
 	</body>
 </html>

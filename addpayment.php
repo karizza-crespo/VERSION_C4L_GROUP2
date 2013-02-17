@@ -5,12 +5,7 @@ $manager=new databaseManager;
 
 session_start();
 
-if($_SESSION['accountType']!='staff')
-{
-	header('Location: signin.php');
-	die;
-}
-else
+if($_SESSION['accountType']=='staff')
 {
 	$stmt="SELECT type from staff WHERE username='".$_SESSION['username']."';";
 	$result=pg_fetch_array(pg_query($stmt));
@@ -18,17 +13,23 @@ else
 	if($result[0]!='Dorm Manager')
 		header('Location: signin.php');
 }
+else if($_SESSION['accountType']!='admin')
+{
+	header('Location: signin.php');
+	die;
+}
 ?>
 <html>
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/script.js"></script>
 	</head>
 	<body>
 		<?php
 			if(isset($_POST["addentry"]))
 			{
-				$payment=$manager->addPaymentEntry($_POST["dateofpayment"], $_POST["paymentnumber"], $_POST["username"], $_POST["month"], $_POST["amount"]);
+				$payment=$manager->addPaymentEntry($_POST["dateofpayment"], $_POST["username"], $_POST["month"], $_POST["amount"]);
 				if($payment==1)
 					echo "Payment Entry Added.<br />";
 				else if ($payment==2)
@@ -41,15 +42,11 @@ else
 					echo "<span style='color:red'>Failed to add payment entry.</span><br />";
 			}
 		?>
-		<form name="addPayment" action="addpayment.php" method="post">
+		<form name="addPayment" onsubmit="return validateAddPaymentForm();" action="addpayment.php" method="post">
 			<table>
 				<tr>
 					<td><label for="dateofpayment">Date: </label></td>
 					<td><input type="date" id="dateofpayment" name="dateofpayment"/></td>
-				</tr>
-				<tr>
-					<td><label for="paymentnumber">Payment Number:</label></td>
-					<td><input type="number" id="paymentnumber" name="paymentnumber" min="0" value='0'/></td>
 				</tr>
 				<tr>
 					<td><label for="username">Username:</label></td>
@@ -87,6 +84,9 @@ else
 			</table>
 		</form>
 		
-		<a href='staff_db.php' title='Back to Staff Home Page'>Back to Staff Home Page</a>
+		<?php
+		//link lang to pabalik sa dormer_db, staff_db or admin_db
+		echo "<a href='".$_SESSION['accountType']."_db.php' Title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
+		?>
 	</body>
 </html>

@@ -46,7 +46,7 @@ if($_SESSION['accountType']!='admin')
 			</table>
 		</form>
 
-		<form name="retrieveAll" action="deleteaccount.php" method="post">
+		<form name="retrieveAll" onsubmit="return areYouSureDelete()" action="deleteaccount.php" method="post">
 			<input type="button" value="Check All" name="check" onclick="checkall();"/>
 			<input type="button" value="Uncheck All" name="uncheck" onclick="uncheckall();"/>
 			<input type="submit" value="Delete" name="delete" />
