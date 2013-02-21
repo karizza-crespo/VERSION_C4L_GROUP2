@@ -163,12 +163,6 @@
 			if($_SESSION["dmarray"][$dayToSee][$i-1]==0){
 				//checks if not null or not chosen any of the options
 				if($_POST["dm$i"]!=" " ){
-					//set the sched id if not yet set or greater than 106 entries
-					if(!isset($_SESSION["schedid"]) || $_SESSION["schedid"]>=1106)
-						$_SESSION["schedid"]=1001;
-					else $_SESSION["schedid"]++;
-					
-					$schedid=$_SESSION["schedid"];
 					
 					
 					$schedid=1001 + $dormManager->countSchedEntry();
@@ -208,11 +202,6 @@
 		for($i=1 ; $i<7 ; $i++){
 			if($_SESSION["manarray"][$dayToSee][$i-1]==0){
 				if($_POST["man$i"]!=" "){
-					if(!isset($_SESSION["schedid"]))
-						$_SESSION["schedid"]=1001;
-					else $_SESSION["schedid"]++;
-			
-					$schedid=$_SESSION["schedid"];
 			
 					$schedid=1001 + $dormManager->countSchedEntry();
 				
@@ -253,12 +242,6 @@
 		for($i=1 ; $i<7 ; $i++){
 			if($_SESSION["garray"][$dayToSee][$i-1]==0){
 				if($_POST["g$i"]!=" "){
-				
-					if(!isset($_SESSION["schedid"]))
-						$_SESSION["schedid"]=1001;
-					else $_SESSION["schedid"]++;
-			
-					$schedid=$_SESSION["schedid"];
 			
 					$schedid=1001 + $dormManager->countSchedEntry();
 				
@@ -267,8 +250,6 @@
 					$result= pg_query($stmt);
 					$a = pg_fetch_array($result);
 					$g[$i-1]=$a[0];
-
-					echo $g[$i-1];
 					
 					if($i==1  || $i==4){
 						$time='22:00';
@@ -736,8 +717,8 @@
 							if(isset($_POST["editSched"]) || $_SESSION["edit"]==1){
 								echo '<input type="submit" name="updateSched" value="Update"/>';
 							}
-							
-							echo '<input type="submit" name="nextSched" value="Next"/>';
+							if($_SESSION["day"]<6)
+								echo '<input type="submit" name="nextSched" value="Next"/>';
 							
 						?>
 						</td>
