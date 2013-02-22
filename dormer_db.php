@@ -16,10 +16,8 @@ $current_user = $_SESSION['username'];
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="style.css" rel="stylesheet" type="text/css">
-		<script> function option1() {document.myform.whereabouts.disabled=1; }
-				function option2() {document.myform.whereabouts.disabled=0;} 
-		</script> 
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/script.js"></script>
 	</head>
 <body>
 	<h1>Welcome, Dormer: <?php echo $current_user ?> 	!!!</h1>
@@ -58,15 +56,10 @@ $current_user = $_SESSION['username'];
 		if ($log_type ==2){
 			if($current!="logged out")
 			{
-				if($_POST['whereabouts']=="")
-					echo "<span style='color:red'>Please specify where you are going.</span><br />";
-				else
-				{
-					$whereabouts = $_POST['whereabouts']; 
-					//insert values into the table named logs
-					$stmt="INSERT INTO log (log_date, log_time, type, whereabouts, username) VALUES (current_date,current_time,'$logout','$whereabouts', '$current_user');";
-					$success=pg_query($stmt);
-				}
+				$whereabouts = $_POST['whereabouts']; 
+				//insert values into the table named logs
+				$stmt="INSERT INTO log (log_date, log_time, type, whereabouts, username) VALUES (current_date,current_time,'$logout','$whereabouts', '$current_user');";
+				$success=pg_query($stmt);
 			}
 			else
 				echo "<span style='color:blue'>You are currently Logged Out.</span><br /><br />";
@@ -76,7 +69,7 @@ $current_user = $_SESSION['username'];
 
 	Logs: 
 		
-	<form name="myform" method="post" action="">
+	<form name="myform" onsubmit="return addWhereabouts();" method="post" action="dormer_db.php">
 		<input type="radio" name="button" id="in" value="1" onclick = option1() checked="checked"><label for="in">LOG IN</label>
 	    <input type="radio" name="button" id="out" value="2" onclick = option2()><label for="out">LOG OUT</label>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="whereabouts">Whereabouts:</label><input type="text" name="whereabouts" id="whereabouts" disabled=1>
@@ -87,9 +80,8 @@ $current_user = $_SESSION['username'];
 	<br />
 	<br />
 	
-	<a href="adddormerinformation.php" title="Add Personal Information">Add Personal Information</a>
-	<br />
-	<br />
+	<a href="adddormerinformation.php" title="Add Personal Information">Add Personal Information</a><br /><br />
+	<a href="viewlogs.php" title="View Logs">View Logs</a><br /><br />
 	<?php
 		echo "<form name='sched' action='sched.php' method='post'>
 				<input type='submit' value='Staff Schedule' name='viewSched' />

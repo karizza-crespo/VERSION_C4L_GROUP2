@@ -13,8 +13,7 @@ if($_SESSION['accountType']!='admin'){
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<LINK HREF="style.css" rel="stylesheet" TYPE="text/css">
-		
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
 	</head>
 
 	<body>

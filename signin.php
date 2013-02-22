@@ -25,19 +25,22 @@ if(isset($_POST['login'])){
 	$username = $_POST['username'];  
 	//get the password
 	$password = $_POST['password'];
+
+	$stmt="SELECT count(*) FROM admin WHERE username='$username' and password='$password';";
+	$count=pg_fetch_array(pg_query($stmt));
 	
 	//check if admin
-	if(($username=='postgres') && ($password =='password')){
-			$_SESSION['username'] = 'postgres';
+	if($count[0]!=0){
+			$_SESSION['username'] = $username;
 			$_SESSION['accountType']='admin';
 			header('Location: admin_db.php');
 			die;
-		}
+	}
 	else {
 		$stmt="SELECT count(*) FROM dormer WHERE username='$username' and password='$password';";
 		$count=pg_fetch_array(pg_query($stmt));
-		
-		
+
+
 		if($count[0]!=0 ){	
 			$_SESSION['username'] = $username;
 			$_SESSION['accountType']='dormer';
@@ -54,7 +57,7 @@ if(isset($_POST['login'])){
 				header('Location: staff_db.php');
 				die;
 			}else if ($anotherCount[0]==0){
-				echo 'invalid Username/Password';
+				echo '<span style="color:red"> Invalid Username/Password</span>';
 			}
 		}
 	}
@@ -68,7 +71,7 @@ if(isset($_POST['login'])){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<LINK HREF="welcome.css" rel="stylesheet" TYPE="text/css">
+<link rel="stylesheet" type="text/css" href="css/style.css" />
 <title>.::Dormitory Management System::.</title>
 </head>
 

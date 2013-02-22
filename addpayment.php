@@ -75,7 +75,7 @@ else if($_SESSION['accountType']!='admin')
 				</tr>
 				<tr>
 					<td><label for="amount">Amount:</label></td>
-					<td><input type="number" id="amount" name="amount" min="1" value="1"/></td>
+					<td><input type="number" id="amount" name="amount" min="1"/></td>
 				</tr>
 				<tr>
 					<td></td>

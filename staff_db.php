@@ -16,7 +16,7 @@ $current_user = $_SESSION['username'];
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="style.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
 	</head>
 <body>
 	<h1>Welcome, Staff: <?php echo $current_user ?> 	!!!</h1>
@@ -32,11 +32,12 @@ $current_user = $_SESSION['username'];
 		{
 			echo "<a href='addpayment.php' title='Add Payment Records'>Add Payment Records</a><br /><br />";
 			echo "<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />";
+			echo "<a href='viewlogs.php' title='View Logs'>View Logs</a><br /><br />";
 		}
-		echo "<form name='sched' action='sched.php' method='post'>
-				<input type='submit' value='Staff Schedule' name='viewSched' />
-		</form>";
 	?>
+	<form name='sched' action='sched.php' method='post'>
+		<input type='submit' value='Staff Schedule' name='viewSched' />
+	</form>
 	<br />
 	<a href="signout.php">Sign Out </a></br>
 

@@ -20,23 +20,13 @@
 
 body
 {
-	font-family:Allcaps;
+	font-family:QuickSand;
 }
 
 #header
 {
-	margin:5 5% 5 5%;
-	height:25%;
-	border-radius:10px;
-	background-color:pink;
 }
 
 #signin
 {
-	/*margin: top right bottom left*/
-	margin: 3% 5% 0 5%;
-	height:30%;
-	width:30%;
-	border-radius:10px;
-	background-color:blue;
 }

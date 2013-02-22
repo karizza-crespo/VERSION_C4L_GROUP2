@@ -98,7 +98,7 @@ class databaseManager
 			echo "<option value='".$row['username']."'>".$row['username']."</option>";
 	}
 	
-	//function for printing the stagg 
+	//function for printing the staff
 	public function printStaffNumber()
 	{
 		$stmt="SELECT DISTINCT staff_number FROM staff;";
@@ -630,5 +630,56 @@ class databaseManager
 		return $a[0];
 	}
 	//------------------------------------------------------------------------------------------------------
+	
+	public function viewAllLogs()
+	{
+		$allLogs = array();
+		
+		$stmt="SELECT * FROM log;";
+		$result=pg_query($stmt);
+		
+		//insert into the array every payment record entry
+		while($row=pg_fetch_assoc($result))
+			$allLogs[] = new Log($row['log_id'], $row['log_date'], $row['log_time'], $row['type'], $row['whereabouts'], $row['username']);
+		return $allLogs;
+	}
+	
+	public function searchSpecificLog($username)
+	{
+		$specificLogs = array();
+		
+		$stmt="SELECT * FROM log WHERE username='$username';";
+		$result=pg_query($stmt);
+		
+		//insert into the array every payment record entry
+		while($row=pg_fetch_assoc($result))
+			$specificLogs[] = new Log($row['log_id'], $row['log_date'], $row['log_time'], $row['type'], $row['whereabouts'], $row['username']);
+		return $specificLogs;
+	}
+	
+	public function printAllLogs($logs)
+	{
+		echo "<table border='1'>
+			<tr>
+				<th>Log ID</th>
+				<th>Username</th>
+				<th>Log Date</th>
+				<th>Log Time</th>
+				<th>Log Type</th>
+				<th>Whereabouts</th>
+			</tr>";
+		for($i=0; $i<count($logs); $i++)
+		{
+			echo "<tr>
+				<td>".$logs[$i]->getLogId()."</td>
+				<td>".$logs[$i]->getUsername()."</td>
+				<td>".$logs[$i]->getLogDate()."</td>
+				<td>".$logs[$i]->getLogTime()."</td>
+				<td>".$logs[$i]->getLogType()."</td>
+				<td>".$logs[$i]->getWhereabouts()."</td>
+			</tr>";
+		}
+		echo "</table>";
+	}
 }
 ?>

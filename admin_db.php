@@ -13,7 +13,7 @@ if($_SESSION['accountType']!='admin'){
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<LINK HREF="style.css" rel="stylesheet" TYPE="text/css">
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
 	</head>
 
 	<body>
@@ -25,6 +25,7 @@ if($_SESSION['accountType']!='admin'){
 		<a href="addinfobyadmin.php">Add Personal Information to Dormer/Staff</a><br /><br />
 		<a href='addpayment.php' title='Add Payment Records'>Add Payment Records</a><br /><br />
 		<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />
+		<a href='viewlogs.php' title='View Logs'>View Logs</a><br /><br />
 		<?php
 		echo "<form name='sched' action='sched.php' method='post'>
 				<input type='submit' value='Staff Schedule' name='viewSched' />

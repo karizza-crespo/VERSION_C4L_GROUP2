@@ -66,3 +66,31 @@ function areYouSureDelete()
 	
 	return confirmDelete;
 }
+
+function option1() 
+{
+	document.myform.elements[2].disabled=1; 
+}
+
+function option2() 
+{
+	document.myform.elements[2].disabled=0;
+} 
+
+function addWhereabouts()
+{
+	var box, i;
+	var form = document.myform;
+	
+	if(form.elements[1].checked)
+	{
+		box=form.elements[2];
+		if(!box.value)
+		{
+			alert('You haven\'t filled in the '+box.name+'.');
+			box.focus();
+			return false;
+		}
+	}
+	return true;
+}

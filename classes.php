@@ -161,14 +161,16 @@ class Log
 	private $log_time;
 	private $log_type;
 	private $whereabouts;
+	private $username;
 	
-	function __construct($log_id, $log_date, $log_time, $log_type, $whereabouts)
+	function __construct($log_id, $log_date, $log_time, $log_type, $whereabouts, $username)
 	{
 		$this->log_id=$log_id;
 		$this->log_date=$log_date;
 		$this->log_time=$log_time;
 		$this->log_type=$log_type;
 		$this->whereabouts=$whereabouts;
+		$this->username=$username;
 	}
 	
 	function setLogId($log_id)
@@ -219,6 +221,16 @@ class Log
 	function getWhereabouts()
 	{
 		return $this->whereabouts;
+	}
+	
+	function setUsername($username)
+	{
+		$this->username=$username;
+	}
+	
+	function getUsername()
+	{
+		return $this->username;
 	}
 }
 
