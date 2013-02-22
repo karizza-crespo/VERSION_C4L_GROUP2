@@ -55,9 +55,10 @@ class databaseManager
 		$stmt="SELECT * FROM payment_record;";
 		$result=pg_query($stmt);
 		
-		//insert into the array every payment record entry
+		//create an instance of each payment record and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$allRecords[] = new PaymentRecord($row['payment_number'], $row['name'], $row['month'], $row['username'], $row['amount'], $row['date_of_payment']);
+		//return the array of all payment records
 		return $allRecords;
 	}
 	
@@ -117,9 +118,10 @@ class databaseManager
 		$stmt="SELECT * FROM payment_record WHERE username='$username';";
 		$result=pg_query($stmt);
 		
-		//insert all the entries of user in an array
+		//create an instance of the payment record entries and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$records[] = new PaymentRecord($row['payment_number'], $row['name'], $row['month'], $row['username'], $row['amount'], $row['date_of_payment']);
+		//return the array of record entries
 		return $records;
 	}
 	
@@ -208,21 +210,27 @@ class databaseManager
 		</form>";
 	}
 	
+	//function for updating the entry in the payment records table
 	public function updatePaymentRecords($dateofpayment, $paymentnumber, $username, $month, $amount, $oldmonth)
 	{
+		//check first if the username is in the dormer table
 		$stmt="SELECT count(*) FROM dormer WHERE username='$username';";
 		$count=pg_fetch_array(pg_query($stmt));
 		
 		if($count[0]!=0)
 		{
+			//check if there is an entry in the payment record table that has the username and month specified 
 			$stmt="SELECT count(*) FROM payment_record WHERE username='$username' AND month='$month';";
 			$count=pg_fetch_array(pg_query($stmt));
 			
+			//if there is none, or the old month is equal to the new month
 			if($count[0]==0 || $oldmonth==$month)
 			{
+				//if amount is equal to 0 return 4
 				if($amount==0)
 					return 4;
 
+				//update entry in the database
 				$stmt="UPDATE payment_record set date_of_payment='$dateofpayment', username='$username', month='$month', amount='$amount' WHERE payment_number='$paymentnumber';";
 				$success=pg_query($stmt);
 				
@@ -231,12 +239,15 @@ class databaseManager
 				else
 					return 0;	
 			}
+			//if there is already the same month and username in the database, return 2
 			else
 				return 2;
 		}
+		//if not, return 3
 		return 3;
 	}
 	
+	//function for retrieving all dormers from the dormer table
 	public function retrieveAllDormers()
 	{
 		$allDormers = array();
@@ -244,11 +255,14 @@ class databaseManager
 		$stmt="SELECT * FROM dormer;";
 		$result=pg_query($stmt);
 		
+		//create an instance for every dormer and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$allDormers[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
+		//return the array of dormers
 		return $allDormers;
 	}
 	
+	//function for retrieving all staff from the staff table
 	public function retrieveAllStaff()
 	{
 		$allStaff = array();
@@ -256,8 +270,10 @@ class databaseManager
 		$stmt="SELECT * FROM staff;";
 		$result=pg_query($stmt);
 		
+		//create an instance for every staff and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$allStaff[] = new Staff($row['staff_number'], $row['name'], $row['address'], $row['contact_number'], $row['type'], $row['username'], $row['password']);
+		//return the array of staff
 		return $allStaff;
 	}
 	
@@ -327,11 +343,12 @@ class databaseManager
 		echo "</table>";
 	}
 	
+	//function for deleting accounts from the database
 	public function deleteAccounts($deleteDormers, $deleteStaff)
 	{
 		for($ctr=0; $ctr<count($deleteDormers); $ctr++)
 		{
-			//kapag dormer, idelete mo siya sa payment_record, dormer_log, and dormer
+			//before you delete the dormer, delete first all the entries of the dormer in the payment_record and log table
 			$stmt="DELETE FROM payment_record WHERE username='$deleteDormers[$ctr]';";
 			pg_query($stmt);
 			$stmt="DELETE FROM log WHERE username='$deleteDormers[$ctr]';";
@@ -341,7 +358,7 @@ class databaseManager
 		}
 		for($ctr=0; $ctr<count($deleteStaff); $ctr++)
 		{
-			//kapag staff, delete mo siya sa staff_schedule and sa staff
+			//before you delete the staff, delete first all the entries of the staff in the staff_schedule
 			$stmt="DELETE FROM staff_schedule WHERE staff_number='$deleteStaff[$ctr]';";
 			pg_query($stmt);
 			$stmt="DELETE FROM staff WHERE staff_number='$deleteStaff[$ctr]';";
@@ -349,6 +366,7 @@ class databaseManager
 		}
 	}
 	
+	//function for searching a specific dormer
 	public function searchDormer($username)
 	{
 		$dormers = array();
@@ -356,11 +374,14 @@ class databaseManager
 		$stmt="SELECT * FROM dormer WHERE username='$username';";
 		$result=pg_query($stmt);
 		
+		//create an instance for every dormer and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$dormers[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
+		//return the array of dormers
 		return $dormers;
 	}
 	
+	//function for searching a specific staff
 	public function searchStaff($number)
 	{
 		$staff = array();
@@ -368,11 +389,14 @@ class databaseManager
 		$stmt="SELECT * FROM staff WHERE staff_number='$number';";
 		$result=pg_query($stmt);
 		
+		//create and instance for every staff and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$staff[] = new Staff($row['staff_number'], $row['name'], $row['address'], $row['contact_number'], $row['type'], $row['username'], $row['password']);
+		//return the array of staff
 		return $staff;
 	}
 
+	//function for printing all the accounts in a table
 	public function printAddInfo($details, $type)
 	{
 		echo "<table border='1'>";
@@ -440,6 +464,7 @@ class databaseManager
 		echo "</table>";
 	}
 	
+	//function for printing the add info form
 	public function printAddInfoForm($type)
 	{
 		echo "<table border='1'>";
@@ -514,13 +539,16 @@ class databaseManager
 		}
 	}
 	
+	//function for adding dormer information
 	public function addDormerInformation($username, $name, $studentnumber, $course, $birthdate,	$age, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
 	{
+		//check first the if the student number entered by the user is already in the database
 		$stmt="SELECT count(*) FROM dormer WHERE student_number='$studentnumber';";
 		$count=pg_fetch_array(pg_query($stmt));
 		
 		if($count[0]==0)
 		{
+			//if not yet in the database, add all the information of the dormer to the table
 			$stmt="UPDATE DORMER SET name='$name', student_number='$studentnumber', course='$course',";
 			$stmt.=" birthdate='$birthdate', age='$age', home_address='$homeaddress',";
 			$stmt.=" contact_number='$contactnumber', contact_person='$contactperson',";
@@ -536,8 +564,10 @@ class databaseManager
 			return 3;
 	}
 	
+	//function for adding staff information
 	public function addStaffInformation($username, $name, $address, $contactnumber, $stafftype)
 	{
+		//add all the information of the staff to the database
 		$stmt="UPDATE STAFF SET name='$name', address='$address', contact_number='$contactnumber', type='$stafftype'";
 		$stmt.=" WHERE username='$username';";
 		$success=pg_query($stmt);
@@ -570,7 +600,6 @@ class databaseManager
 			
 	}
 	
-	
 	public function retrieveStaff($staffType)
 	{
 		$i=0;
@@ -597,8 +626,6 @@ class databaseManager
 		$staff=$a[0];
 		return $staff;
 	}
-	
-	
 	
 	public function addScheduleEntry($schedid,$day,$time,$location,$staffno)
 	{
@@ -631,6 +658,7 @@ class databaseManager
 	}
 	//------------------------------------------------------------------------------------------------------
 	
+	//function for viewing all log entries
 	public function viewAllLogs()
 	{
 		$allLogs = array();
@@ -638,12 +666,14 @@ class databaseManager
 		$stmt="SELECT * FROM log;";
 		$result=pg_query($stmt);
 		
-		//insert into the array every payment record entry
+		//create an instance for every log entry and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$allLogs[] = new Log($row['log_id'], $row['log_date'], $row['log_time'], $row['type'], $row['whereabouts'], $row['username']);
+		//return the array of all log entries
 		return $allLogs;
 	}
 	
+	//function for searching the log entries of a specific user
 	public function searchSpecificLog($username)
 	{
 		$specificLogs = array();
@@ -651,12 +681,14 @@ class databaseManager
 		$stmt="SELECT * FROM log WHERE username='$username';";
 		$result=pg_query($stmt);
 		
-		//insert into the array every payment record entry
+		//create an instance for every log entry of the dormer and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$specificLogs[] = new Log($row['log_id'], $row['log_date'], $row['log_time'], $row['type'], $row['whereabouts'], $row['username']);
+		//return the array of log entries
 		return $specificLogs;
 	}
 	
+	//function for printing all log entries
 	public function printAllLogs($logs)
 	{
 		echo "<table border='1'>
