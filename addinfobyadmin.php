@@ -5,12 +5,14 @@ $manager=new databaseManager;
 
 session_start();
 
+//if the account type is not admin, return to sign in page
 if($_SESSION['accountType']!='admin')
 {
 	header('Location: signin.php');
 	die;
 }
 
+//set the searchUsername session to none
 $_SESSION['searchUsername']='none';
 ?>
 

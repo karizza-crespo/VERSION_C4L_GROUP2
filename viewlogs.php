@@ -39,15 +39,14 @@
 			</table>
 		</form>
 		<?php
+			echo "LOGS: <br /><br />";
+			echo "<div id='allLogs'>";
 			if(isset($_POST['searchLogByUsername']))
 				$logs=$manager->searchSpecificLog($_POST['logUsername']);
 			else
 				$logs=$manager->viewAllLogs();
 			if($logs!=null)
-			{
-				echo "LOGS: <br /><br />";
 				$manager->printAllLogs($logs);
-			}
 			else
 			{
 				if(isset($_POST['searchLogByUsername']))
@@ -55,6 +54,7 @@
 				else
 					echo "<span style='color:red'>Logs Table is Empty.</span><br /><br />";
 			}
+		echo "</div>";
 		echo "<br /><a href='".$_SESSION['accountType']."_db.php' title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
 		?>
 	</body>

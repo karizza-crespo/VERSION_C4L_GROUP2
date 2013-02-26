@@ -27,6 +27,16 @@ body
 {
 }
 
-#signin
+#allLogs
 {
+	overflow:auto;
+	position:relative;
+	height:65%;
+	width:46%;
+	border: 1px dashed black;
+	border-radius: 5px;
+	padding: 1%;
 }
+
+/*overflow - para sa scrolling*/
+/*yung absolute ay para sa pangbackground?*/

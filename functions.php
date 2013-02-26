@@ -38,12 +38,7 @@ class databaseManager
 			}
 			//return 3 if dormer already paid for that month
 			else
-			{
-				//return 2 if payment number already exists
-				if($anotherCount[0]!=0)
-					return 2;
 				return 3;
-			}
 		}
 	}
 	
