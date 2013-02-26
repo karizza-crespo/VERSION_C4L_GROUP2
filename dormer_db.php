@@ -1,4 +1,5 @@
 <?php
+$remove = "'";
 include("functions.php");
 
 session_start();
@@ -56,7 +57,7 @@ $current_user = $_SESSION['username'];
 		if ($log_type ==2){
 			if($current!="logged out")
 			{
-				$whereabouts = $_POST['whereabouts']; 
+				$whereabouts = str_replace($remove,"",$_POST['whereabouts']); 
 				//insert values into the table named logs
 				$stmt="INSERT INTO log (log_date, log_time, type, whereabouts, username) VALUES (current_date,current_time,'$logout','$whereabouts', '$current_user');";
 				$success=pg_query($stmt);
