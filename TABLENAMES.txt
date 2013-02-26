@@ -63,3 +63,26 @@ Username VARCHAR(20),
 Password VARCHAR(20) NOT NULL,
 Constraint admin_username_pk PRIMARY KEY (Username)
 );
+
+CREATE TABLE CHECKADD(
+Week INTEGER,
+StartDate DATE NOT NULL,
+EndDate DATE NOT NULL,
+Dm1 INTEGER[7],
+Dm2 INTEGER[7],
+Dm3 INTEGER[7],
+Man1 INTEGER[7],
+Man2 INTEGER[7],
+Man3 INTEGER[7],
+Man4 INTEGER[7],
+Man5 INTEGER[7],
+Man6 INTEGER[7],
+Guard1 INTEGER[7],
+Guard2 INTEGER[7],
+Guard3 INTEGER[7],
+Guard4 INTEGER[7],
+Guard5 INTEGER[7],
+Guard6 INTEGER[7],
+Constraint checkadd_week_pk PRIMARY KEY (Week)
+);
+
