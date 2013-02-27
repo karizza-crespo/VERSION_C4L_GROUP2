@@ -22,12 +22,12 @@ $_SESSION['searchUsername']='none';
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 	</head>
 	<body>
-		<form name="searchSpecificDormer" action="addsearchresults.php" method="post">
+		<form name="searchSpecificDormer" action="searchresults.php" method="post">
 			<table>
 				<tr>
 					<td>Search Dormer By Username: </td>
 					<td>
-						<select id="addInfoDormer" name="addInfoDormer"><?php $manager->printUsername();?></select>
+						<select id="viewDormerInfo" name="viewDormerInfo"><?php $manager->printUsername();?></select>
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchDormerByUsername"/>
@@ -35,12 +35,12 @@ $_SESSION['searchUsername']='none';
 				</tr>
 			</table>
 		</form>
-		<form name="searchSpecificStaff" action="addsearchresults.php" method="post">
+		<form name="searchSpecificStaff" action="searchresults.php" method="post">
 			<table>
 				<tr>
 					<td>Search Staff by Staff Number: </td>
 					<td>
-						<select id="addInfoStaff" name="addInfoStaff"><?php $manager->printStaffNumber();?></select>
+						<select id="viewStaffInfo" name="viewStaffInfo"><?php $manager->printStaffNumber();?></select>
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchStaffByNumber"/>
@@ -49,14 +49,14 @@ $_SESSION['searchUsername']='none';
 			</table>
 		</form>
 
-		<form name="retrieveAll" action="addinfobyadminspecific.php" method="post">
+		<form name="retrieveAll" action="editinfobyadmin.php" method="post">
 			<?php
 				$dormers = $manager->retrieveAllDormers();
 
 				if($dormers!=null)
 				{
 					echo "<br />DORMERS: <br /><br />";
-					$manager->printAddInfo($dormers, 'dormer');
+					$manager->printViewInfoByAdmin($dormers, 'dormer');
 				}
 				else
 					echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
@@ -68,7 +68,7 @@ $_SESSION['searchUsername']='none';
 				if($staff!=null)
 				{
 					echo "<br />STAFF: <br /><br />";
-					$manager->printAddInfo($staff, 'staff');
+					$manager->printViewInfoByAdmin($staff, 'staff');
 				}
 				else
 					echo "<span style='color:red'>Staff Table is Empty.</span><br />";

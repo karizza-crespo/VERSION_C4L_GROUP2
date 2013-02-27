@@ -18,17 +18,17 @@ if($_SESSION['accountType']!='admin')
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 	</head>
 	<body>
-		<form name="searchResults" action="addinfobyadminspecific.php" method="post">
+		<form name="searchResults" action="editinfobyadminspecific.php" method="post">
 			<?php
 				if(isset($_POST['searchDormerByUsername']))
 				{
-					$dormer = $manager->searchDormer($_POST['addInfoDormer']);
+					$dormer = $manager->searchDormer($_POST['viewDormerInfo']);
 
 					if($dormer!=null)
 					{
 						$_SESSION['searchUsername'] = $dormer[0]->getUsername();
 						echo "<br />DORMERS: <br /><br />";
-						$manager->printAddInfo($dormer, 'dormer');
+						$manager->printViewInfoByAdmin($dormer, 'dormer');
 					}
 					else
 						echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
@@ -36,13 +36,13 @@ if($_SESSION['accountType']!='admin')
 					echo "<br />";
 				} else if(isset($_POST['searchStaffByNumber']))
 				{
-					$staff = $manager->searchStaff($_POST['addInfoStaff']);
+					$staff = $manager->searchStaff($_POST['viewStaffInfo']);
 				
 					if($staff!=null)
 					{
 						$_SESSION['searchUsername'] = $staff[0]->getStaffUsername();
 						echo "<br />STAFF: <br /><br />";
-						$manager->printAddInfo($staff, 'staff');
+						$manager->printViewInfoByAdmin($staff, 'staff');
 					}
 					else
 						echo "<span style='color:red'>Staff Table is Empty.</span><br />";
@@ -50,6 +50,6 @@ if($_SESSION['accountType']!='admin')
 			?>
 		</form>
 		<br />
-		<a href="addinfobyadmin.php" title="Back to List of Dormers and Staff">Back to List of Dormers and Staff</a>
+		<a href="viewinfobyadmin.php" title="Back to List of Dormers and Staff">Back to List of Dormers and Staff</a>
 	</body>
 </html>

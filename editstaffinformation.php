@@ -19,20 +19,20 @@ if($_SESSION['accountType']!='staff')
 	</head>
 	<body>
 		<?php
-			if(isset($_POST["addstaffinfo"]))
+			if(isset($_POST["editstaffinfo"]))
 			{
-				$success=$manager->addStaffInformation($_SESSION['username'],
+				$success=$manager->editStaffInformation($_SESSION['username'],
 						$_POST["name"], $_POST["address"], $_POST["contactnumber"], $_POST['stafftype']);
 
 				if($success==1)
-					echo "<h2>Information successfully added.</h2><br/>";
+					echo "<h2>Information successfully edited.</h2><br/>";
 				else
-					echo "<span style='color:red'>Failed to add information.</span><br /><br />";
+					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
 			}
 		?>
-		<form name="addStaffInformation" action="addstaffinformation.php" method="post">
+		<form name="editStaffInformation" action="editstaffinformation.php" method="post">
 			<?php
-				$manager->printAddInfoForm('staff');
+				$manager->printEditInfoForm('staff');
 			?>
 		</form>
 		<a href="staff_db.php" title="Back to Staff Home Page">Back to Staff Home Page</a>
