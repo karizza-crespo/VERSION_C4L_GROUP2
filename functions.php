@@ -2,7 +2,7 @@
 include("classes.php");
 
 //connect to the database
-$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
+$db=pg_connect("host=localhost port=5432 dbname=DMS user=postgres password=Pass128");
 
 class databaseManager
 {	
@@ -376,7 +376,7 @@ class databaseManager
 		return $dormers;
 	}
 	
-	//function for searching a specific staff
+	//function for searching a specific staff by staff_number
 	public function searchStaff($number)
 	{
 		$staff = array();
@@ -391,76 +391,23 @@ class databaseManager
 		return $staff;
 	}
 
-	//function for printing all the accounts in a table
-	public function printAddInfo($details, $type)
+	//function for searching a specific staff by username
+	public function searchStaffByUname($username)
 	{
-		echo "<table border='1'>";
-		if($type=='dormer')
-		{
-			echo "<tr>
-				<th>Username</th>
-				<th>Name</th>
-				<th>Student Number</th>
-				<th>Home Address</th>
-				<th>Contact Number</th>
-				<th>Birthdate</th>
-				<th>Age</th>
-				<th>Course</th>
-				<th>Contact Person</th>
-				<th>Contact Person Number</th>
-				<th>Room Number</th>
-				<th></th>
-			</tr>";
-			echo "<input type='hidden' value='0' name='dormer' />";
-			for($ctr=0; $ctr<count($details); $ctr++)
-			{
-				echo "<tr>
-					<td><label for='dormer".$ctr."'>".$details[$ctr]->getUsername()."</label></td>
-					<td>".$details[$ctr]->getName()."</td>
-					<td>".$details[$ctr]->getStudentNumber()."</td>
-					<td>".$details[$ctr]->getHomeAddress()."</td>
-					<td>".$details[$ctr]->getContactNumber()."</td>
-					<td>".$details[$ctr]->getBirthdate()."</td>
-					<td>".$details[$ctr]->getAge()."</td>
-					<td>".$details[$ctr]->getCourse()."</td>
-					<td>".$details[$ctr]->getContactPerson()."</td>
-					<td>".$details[$ctr]->getContactPersonNumber()."</td>
-					<td>".$details[$ctr]->getRoomNumber()."</td>
-					<td><input type='submit' id='adddormerinfobyadmin$ctr' name='adddormerinfobyadmin$ctr' value='Add Information'/></td>
-				</tr>
-				</tr>";
-			}
-		}
-		else if ($type=='staff')
-		{
-			echo "<tr>
-				<th>Staff Number</th>
-				<th>Username</th>
-				<th>Name</th>
-				<th>Address</th>
-				<th>Contact Number</th>
-				<th>Type</th>
-				<th></th>
-			</tr>";
-			echo "<input type='hidden' value='0' name='staff' />";
-			for($ctr=0; $ctr<count($details); $ctr++)
-			{
-				echo "<tr>
-					<td><label for='staff".$ctr."'>".$details[$ctr]->getStaffNumber()."</label></td>
-					<td>".$details[$ctr]->getStaffUsername()."</td>
-					<td>".$details[$ctr]->getStaffName()."</td>
-					<td>".$details[$ctr]->getAddress()."</td>
-					<td>".$details[$ctr]->getContactNum()."</td>
-					<td>".$details[$ctr]->getStaffType()."</td>
-					<td><input type='submit' id='addstaffinfobyadmin$ctr' name='addstaffinfobyadmin$ctr' value='Add Information'/></td>
-				</tr>";
-			}
-		}
-		echo "</table>";
+		$staff = array();
+		
+		$stmt="SELECT * FROM staff WHERE username='$username';";
+		$result=pg_query($stmt);
+		
+		//create an instance for every staff and add it to the array
+		while($row=pg_fetch_assoc($result))
+			$staff[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
+		//return the array of staff
+		return $staff;
 	}
 	
-	//function for printing the add info form
-	public function printAddInfoForm($type)
+	//function for printing the edit info form
+	public function printEditInfoForm($type)
 	{
 		echo "<table border='1'>";
 		if($type=='dormer')
@@ -503,7 +450,7 @@ class databaseManager
 			</tr>
 			</table>
 			<br />
-			<input type='submit' id='adddormerinfo' name='adddormerinfo' value='Add Information'>";
+			<input type='submit' id='editdormerinfo' name='editdormerinfo' value='Submit'>";
 		} else if ($type=='staff')
 		{
 			echo "<tr>
@@ -518,27 +465,146 @@ class databaseManager
 				<td><label for='contactnumber'>Contact Number: </label></td>
 				<td><input type='text' id='contactnumber' name='contactnumber' pattern='[0-9]{11}'></td>
 			</tr>
-			<tr>
-				<td><label for='stafftype'>Type: </label></td>
-				<td>
-					<select id='stafftype' name='stafftype'>
-						<option value='Dorm Manager'>Dorm Manager</option>
-						<option value='Maintenance'>Maintenance</option>
-						<option value='Guard'>Guard</option>
-					</select>
-				</td>
-			</tr>
 			</table>
 			<br />
-			<input type='submit' id='addstaffinfo' name='addstaffinfo' value='Add Information'>";
+			<input type='submit' id='editstaffinfo' name='editstaffinfo' value='Submit'>";
 		}
 	}
 	
-	//function for adding dormer information
-	public function addDormerInformation($username, $name, $studentnumber, $course, $birthdate,	$age, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
+	//function for printing the view info
+	public function printViewInfo($user, $type)
+	{
+		echo "<table border='1'>";
+		if($type=='dormer')
+		{
+			echo "<tr>
+				<td><label for='name'>Name: </label></td>
+				<td>".$user[0]->getName()."</td>
+			</tr>
+			<tr>
+				<td><label for='studentnumber'>Student Number: </label></td>
+				<td>".$user[0]->getStudentNumber()."</td>
+			</tr>
+			<tr>
+				<td><label for='course'>Course: </label></td>
+				<td>".$user[0]->getCourse()."</td>
+			</tr>
+			<tr>
+				<td><label for='birthdate'>Birthdate: </label></td>
+				<td>".$user[0]->getBirthdate()."</td>
+			</tr>
+			<tr>
+				<td><label for='age'>Age: </label></td>
+				<td>".$user[0]->getAge()."</td>
+			</tr>
+			<tr>
+				<td><label for='homeaddress'>Home Address: </label></td>
+				<td>".$user[0]->getHomeAddress()."</td>
+			</tr>
+			<tr>
+				<td><label for='contactnumber'>Contact Number: </label></td>
+				<td>".$user[0]->getContactNumber()."</td>
+			</tr>
+			<tr>
+				<td><label for='contactperson'>Contact Person: </label></td>
+				<td>".$user[0]->getContactPerson()."</td>
+			</tr>
+			<tr>
+				<td><label for='contactpersonnumber'>Contact Person Number: </label></td>
+				<td>".$user[0]->getContactPersonNumber()."</td>
+			</tr>
+			</table>";
+		} else if ($type=='staff')
+		{
+			echo "<tr>
+				<td><label for='name'>Name: </label></td>
+				<td>".$user[0]->getStaffName()."</td>
+			</tr>
+			<tr>
+				<td><label for='homeaddress'>Address: </label></td>
+				<td>".$user[0]->getAddress()."</td>
+			</tr>
+			<tr>
+				<td><label for='contactnumber'>Contact Number: </label></td>
+				<td>".$user[0]->getContactNum()."</td>
+			</tr>
+			</table>";
+		}
+	}
+	
+	//function for printing all the accounts in a table
+	public function printViewInfoByAdmin($details, $type)
+	{
+		echo "<table border='1'>";
+		if($type=='dormer')
+		{
+			echo "<tr>
+				<th>Username</th>
+				<th>Name</th>
+				<th>Student Number</th>
+				<th>Home Address</th>
+				<th>Contact Number</th>
+				<th>Birthdate</th>
+				<th>Age</th>
+				<th>Course</th>
+				<th>Contact Person</th>
+				<th>Contact Person Number</th>
+				<th>Room Number</th>
+				<th></th>
+			</tr>";
+			echo "<input type='hidden' value='0' name='dormer' />";
+			for($ctr=0; $ctr<count($details); $ctr++)
+			{
+				echo "<tr>
+					<td><label for='dormer".$ctr."'>".$details[$ctr]->getUsername()."</label></td>
+					<td>".$details[$ctr]->getName()."</td>
+					<td>".$details[$ctr]->getStudentNumber()."</td>
+					<td>".$details[$ctr]->getHomeAddress()."</td>
+					<td>".$details[$ctr]->getContactNumber()."</td>
+					<td>".$details[$ctr]->getBirthdate()."</td>
+					<td>".$details[$ctr]->getAge()."</td>
+					<td>".$details[$ctr]->getCourse()."</td>
+					<td>".$details[$ctr]->getContactPerson()."</td>
+					<td>".$details[$ctr]->getContactPersonNumber()."</td>
+					<td>".$details[$ctr]->getRoomNumber()."</td>
+					<td><input type='submit' id='editdormerinfobyadmin$ctr' name='editdormerinfobyadmin$ctr' value='Edit'/></td>
+				</tr>
+				</tr>";
+			}
+		}
+		else if ($type=='staff')
+		{
+			echo "<tr>
+				<th>Staff Number</th>
+				<th>Username</th>
+				<th>Name</th>
+				<th>Address</th>
+				<th>Contact Number</th>
+				<th>Type</th>
+				<th></th>
+			</tr>";
+			echo "<input type='hidden' value='0' name='staff' />";
+			for($ctr=0; $ctr<count($details); $ctr++)
+			{
+				echo "<tr>
+					<td><label for='staff".$ctr."'>".$details[$ctr]->getStaffNumber()."</label></td>
+					<td>".$details[$ctr]->getStaffUsername()."</td>
+					<td>".$details[$ctr]->getStaffName()."</td>
+					<td>".$details[$ctr]->getAddress()."</td>
+					<td>".$details[$ctr]->getContactNum()."</td>
+					<td>".$details[$ctr]->getStaffType()."</td>
+					<td><input type='submit' id='editstaffinfobyadmin$ctr' name='editstaffinfobyadmin$ctr' value='Edit'/></td>
+				</tr>";
+			}
+		}
+		echo "</table>";
+	}
+	
+	//function for editing dormer information
+	public function editDormerInformation($username, $name, $studentnumber, $course, $birthdate,	$age, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
 	{
 		//check first the if the student number entered by the user is already in the database
-		$stmt="SELECT count(*) FROM dormer WHERE student_number='$studentnumber';";
+		$stmt="SELECT count(*) FROM dormer WHERE student_number='$studentnumber' AND username!='$username';";
 		$count=pg_fetch_array(pg_query($stmt));
 		
 		if($count[0]==0)
@@ -559,8 +625,8 @@ class databaseManager
 			return 3;
 	}
 	
-	//function for adding staff information
-	public function addStaffInformation($username, $name, $address, $contactnumber, $stafftype)
+	//function for editing staff information
+	public function editStaffInformation($username, $name, $address, $contactnumber, $stafftype)
 	{
 		//add all the information of the staff to the database
 		$stmt="UPDATE STAFF SET name='$name', address='$address', contact_number='$contactnumber', type='$stafftype'";

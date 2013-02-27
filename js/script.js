@@ -94,3 +94,11 @@ function addWhereabouts()
 	}
 	return true;
 }
+
+function showhide(id1, id2)
+{
+	document.getElementById(id1).style.display = 'block';
+	document.getElementById(id1+'label').style.display = 'block';
+	document.getElementById(id2).style.display = 'none';
+	document.getElementById(id2+'label').style.display = 'none';
+}

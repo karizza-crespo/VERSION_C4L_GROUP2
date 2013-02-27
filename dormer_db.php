@@ -81,7 +81,7 @@ $current_user = $_SESSION['username'];
 	<br />
 	<br />
 	
-	<a href="adddormerinformation.php" title="Add Personal Information">Add Personal Information</a><br /><br />
+	<a href="viewdormerinformation.php" title="Personal Information">Personal Information</a><br /><br />
 	<a href="viewlogs.php" title="View Logs">View Logs</a><br /><br />
 	<?php
 		echo "<form name='sched' action='sched.php' method='post'>

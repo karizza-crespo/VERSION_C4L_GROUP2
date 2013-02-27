@@ -21,7 +21,7 @@ $current_user = $_SESSION['username'];
 <body>
 	<h1>Welcome, Staff: <?php echo $current_user ?> 	!!!</h1>
 	
-	<a href="addstaffinformation.php" title="Add Personal Information">Add Personal Information</a>
+	<a href="viewstaffinformation.php" title="Personal Information">Personal Information</a>
 	<br />
 	<br />
 	<?php

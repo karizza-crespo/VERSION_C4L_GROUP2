@@ -14,16 +14,17 @@ if($_SESSION['accountType']!='admin'){
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/script.js"></script>
 	</head>
 
-	<body>
+	<body onload="showhide('roomnumber', 'stafftype')">
 
 	<h1>REGISTRATION FORM</h1>
 	<?php
 	$errors = array(); /*list array of errors*/
 	$default_char = 'none';
 	$default_int = 0;
-	$default_date= '2013-02-07';
+	$default_date= '1950-01-01';
 
 	if(isset($_POST['register'])){ /* get the name of the button that is inside the same php file*/
 		$username = $_POST['username'];
@@ -59,7 +60,8 @@ if($_SESSION['accountType']!='admin'){
 		if(count($errors) == 0){		
 			 if ($type == 1){
 				//insert values into the table named dormer
-				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$default_char','$default_char','$default_char','$default_date','$default_int','$default_char','$default_char','$default_char','$default_int');";
+				$roomnumber = $_POST['roomnumber'];
+				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$default_char','$default_char','$default_char','$default_date','$default_int','$default_char','$default_char','$default_char','$roomnumber');";
 				$success=pg_query($stmt);
 				if($success)
 					echo "Dormer successfully added.<br />";
@@ -70,7 +72,8 @@ if($_SESSION['accountType']!='admin'){
 		
 			if ($type == 2){
 				//insert values into the table named staff
-				$stmt="INSERT INTO staff (name, address, contact_number, type, username, password) VALUES ('$default_char','$default_char','$default_char','$default_char','$username','$password');";
+				$stafftype = $_POST['stafftype'];
+				$stmt="INSERT INTO staff (name, address, contact_number, type, username, password) VALUES ('$default_char','$default_char','$default_char','$stafftype','$username','$password');";
 				$success=pg_query($stmt);
 				if($success)
 					echo "Staff successfully added.<br />";
@@ -91,16 +94,42 @@ if($_SESSION['accountType']!='admin'){
 			
 			} 
 			?>
-			<table><tr>
-			<td>Username</td><td> <input type="text" name="username" size="20" /></td></tr>
-			<tr><td>Password </td><td><input type="password" name="password" size="20" /></td></tr>
-			<tr><td>Confirm Password </td><td><input type="password" name="c_password" size="20" /></td></tr>
-			<tr><td>Type of Account</td><td><select id="type" name="type">
-								<option value="1">Dormer</option>
-								<option value="2">Staff</option>
-					</select></tr></td>
-			
-			<tr><td colspan="2"><center><br/><input type="submit" name="register" class = "register" value="REGISTER" /></td></tr>
+			<table>
+				<tr>
+					<td>Username</td>
+					<td> <input type="text" name="username" size="20" /></td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><input type="password" name="password" size="20" /></td>
+				</tr>
+				<tr>
+					<td>Confirm Password</td>
+					<td><input type="password" name="c_password" size="20" /></td>
+				</tr>
+				<tr>
+					<td>Account Type</td>
+					<td><input type="radio" name="type" id="dormer" value="1" checked="checked" onclick="showhide('roomnumber', 'stafftype')"/><label for="dormer">DORMER</label>
+					<input type="radio" name="type" id="staff" value="2" onclick="showhide('stafftype', 'roomnumber')"/><label for="staff">STAFF</label></td>
+				</tr>
+				<tr>
+					<td>
+						<label id="roomnumberlabel" for='roomnumber'>Room Number: </label>
+						<label id="stafftypelabel" for='stafftype'>Staff Type: </label>
+					</td>
+					<td>
+						
+						<input type="number" id="roomnumber" name="roomnumber" min="1" value='1'/>
+						<select id='stafftype' name='stafftype'>
+							<option value='Dorm Manager'>Dorm Manager</option>
+							<option value='Maintenance'>Maintenance</option>
+							<option value='Guard'>Guard</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit" name="register" class = "register" value="REGISTER" /></td>
+				</tr>
 			</table>
 		</form>
 		<br />
