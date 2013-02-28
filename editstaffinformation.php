@@ -34,7 +34,7 @@ if($_SESSION['accountType']!='staff')
 		<form name="editStaffInformation" onsubmit="return validateEditStaffInformationForm();" action="editstaffinformation.php" method="post">
 			<?php
 				$staff = $manager->searchStaffByUname($_SESSION['username']);
-				$manager->printEditInfoForm('staff', $staff[0]);
+				$manager->printEditInfoForm('staff', $staff[0], -1);
 			?>
 		</form>
 		<a href="viewstaffinformation.php" title="Back to Personal Information">Back to Personal Information</a>
