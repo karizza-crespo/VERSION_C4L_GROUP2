@@ -2,7 +2,7 @@
 include("classes.php");
 
 //connect to the database
-$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
+$db=pg_connect("host=localhost port=5432 dbname=DMS user=postgres password=Pass128");
 
 class databaseManager
 {	
@@ -399,9 +399,9 @@ class databaseManager
 			echo "<tr>
 				<td><label for='name'>Name: </label></td>";
 				if(isset($_POST["viewdormerinfo"]) || ($i!='-1' && isset($_POST["editdormerinfobyadmin$i"])))
-					echo "<td><input type='text' id='name' name='name' pattern='[A-za-z\s.-]{1,80}' value='".$username->getName()."'></td>";
+					echo "<td><input type='text' id='name' name='name' pattern='[A-za-z\s\.\-]{1,80}' value='".$username->getName()."'></td>";
 				else
-					echo "<td><input type='text' id='name' name='name' pattern='[A-za-z\s.-]{1,80}' value='".$_POST['name']."'></td>";
+					echo "<td><input type='text' id='name' name='name' pattern='[A-za-z\s\.\-]{1,80}' value='".$_POST['name']."'></td>";
 			echo" </tr>
 			<tr>
 				<td><label for='course'>Course: </label></td>";
@@ -427,9 +427,9 @@ class databaseManager
 			<tr>
 				<td><label for='homeaddress'>Home Address: </label></td>";
 				if(isset($_POST["viewdormerinfo"]) || ($i!='-1' && isset($_POST["editdormerinfobyadmin$i"])))
-					echo "<td><input type='text' id='homeaddress' name='homeaddress' pattern='[A-za-z0-9\s,.-]{1,150}' value='".$username->getHomeAddress()."'></td>";
+					echo "<td><input type='text' id='homeaddress' name='homeaddress' pattern='[A-za-z0-9\s,\.\-/]{1,150}' value='".$username->getHomeAddress()."'></td>";
 				else
-					echo "<td><input type='text' id='homeaddress' name='homeaddress' pattern='[A-za-z0-9\s,.-]{1,150}' value='".$_POST['homeaddress']."'></td>";
+					echo "<td><input type='text' id='homeaddress' name='homeaddress' pattern='[A-za-z0-9\s,\.\-/]{1,150}' value='".$_POST['homeaddress']."'></td>";
 			echo "</tr>
 			<tr>
 				<td><label for='contactnumber'>Contact Number: </label></td>";
@@ -441,9 +441,9 @@ class databaseManager
 			<tr>
 				<td><label for='contactperson'>Contact Person: </label></td>";
 				if(isset($_POST["viewdormerinfo"]) || ($i!='-1' && isset($_POST["editdormerinfobyadmin$i"])))
-					echo "<td><input type='text' id='contactperson' name='contactperson' pattern='[A-za-z\s.-]{1,80}' value='".$username->getContactPerson()."'></td>";
+					echo "<td><input type='text' id='contactperson' name='contactperson' pattern='[A-za-z\s\.\-]{1,80}' value='".$username->getContactPerson()."'></td>";
 				else
-					echo "<td><input type='text' id='contactperson' name='contactperson' pattern='[A-za-z\s.-]{1,80}' value='".$_POST['contactperson']."'></td>";
+					echo "<td><input type='text' id='contactperson' name='contactperson' pattern='[A-za-z\s\.\-]{1,80}' value='".$_POST['contactperson']."'></td>";
 			echo "</tr>
 			<tr>
 				<td><label for='contactpersonnumber'>Contact Person Number: </label></td>";
@@ -462,16 +462,16 @@ class databaseManager
 			echo "<tr>
 				<td><label for='name'>Name: </label></td>";
 				if(isset($_POST["viewstaffinfo"]) || ($i!='-1' && isset($_POST["editstaffinfobyadmin$i"])))
-					echo "<td><input type='text' id='name' name='name' pattern='[A-za-z\s.-]{1,80}' value='".$username->getStaffName()."'></td>";
+					echo "<td><input type='text' id='name' name='name' pattern='[A-za-z\s\.\-]{1,80}' value='".$username->getStaffName()."'></td>";
 				else
-					echo "<td><input type='text' id='name' name='name' pattern='[A-za-z\s.-]{1,80}' value='".$_POST['name']."'></td>";
+					echo "<td><input type='text' id='name' name='name' pattern='[A-za-z\s\.\-]{1,80}' value='".$_POST['name']."'></td>";
 			echo "</tr>
 			<tr>
 				<td><label for='homeaddress'>Address: </label></td>";
 				if(isset($_POST["viewstaffinfo"]) || ($i!='-1' && isset($_POST["editstaffinfobyadmin$i"])))
-					echo "<td><input type='text' id='address' name='address' pattern='[A-za-z0-9\s,.-]{1,150}' value='".$username->getAddress()."'></td>";
+					echo "<td><input type='text' id='address' name='address' pattern='[A-za-z0-9\s,\.\-/]{1,150}' value='".$username->getAddress()."'></td>";
 				else
-					echo "<td><input type='text' id='address' name='address' pattern='[A-za-z0-9\s,.-]{1,150}' value='".$_POST['address']."'></td>";
+					echo "<td><input type='text' id='address' name='address' pattern='[A-za-z0-9\s,\.\-/]{1,150}' value='".$_POST['address']."'></td>";
 			echo "</tr>
 			<tr>
 				<td><label for='contactnumber'>Contact Number: </label></td>";
