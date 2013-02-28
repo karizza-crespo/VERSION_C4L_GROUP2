@@ -126,7 +126,6 @@ if($_SESSION['accountType']!='admin'){
 						<label id="stafftypelabel" for='stafftype'>Staff Type: </label>
 					</td>
 					<td>
-						
 						<input type="number" id="roomnumber" name="roomnumber" min="1" value='1'/>
 						<select id='stafftype' name='stafftype'>
 							<option value='Dorm Manager'>Dorm Manager</option>
@@ -136,10 +135,7 @@ if($_SESSION['accountType']!='admin'){
 					</td>
 				<tr>
 					<td><label id="studentnumberlabel" for='studentnumber'>Student Number: </label></td>
-					<td><input type='text' id='studentnumber' name='studentnumber' pattern='[0-9]{4}[-][0-9]{5}'></td>
-				</tr>
-					<td></td>
-					<td></td>
+					<td><input type='text' id='studentnumber' name='studentnumber' pattern='[0-9]{4}[-][0-9]{5}'/></td>
 				</tr>
 				<tr>
 					<td colspan="2"><input type="submit" name="register" class = "register" value="REGISTER" /></td>
