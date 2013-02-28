@@ -18,7 +18,7 @@ if($_SESSION['accountType']!='admin')
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 	</head>
 	<body>
-		<form name="searchResults" action="editinfobyadminspecific.php" method="post">
+		<form name="searchResults" action="editinfobyadmin.php" method="post">
 			<?php
 				if(isset($_POST['searchDormerByUsername']))
 				{

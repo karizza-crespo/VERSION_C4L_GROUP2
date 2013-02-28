@@ -16,6 +16,7 @@ if($_SESSION['accountType']!='dormer')
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/script.js"></script>
 	</head>
 	<body>
 		<?php
@@ -34,12 +35,13 @@ if($_SESSION['accountType']!='dormer')
 					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
 			}
 		?>
-		<form name="editDormerInformation" action="editdormerinformation.php" method="post">
+		<form name="editDormerInformation" onsubmit="return validateEditDormerInformationForm();" action="editdormerinformation.php" method="post">
 			<?php
-				$manager->printEditInfoForm('dormer');
+				$dormer = $manager->searchDormer($_SESSION['username']);
+				$manager->printEditInfoForm('dormer', $dormer[0]);
 			?>
 		</form>
 		<br />
-		<a href="dormer_db.php" title="Back to Dormer Home Page">Back to Dormer Home Page</a>
+		<a href="viewdormerinformation.php" title="Back to Personal Information">Back to Personal Information</a>
 	</body>
 </html>

@@ -16,13 +16,14 @@ if($_SESSION['accountType']!='staff')
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/script.js"></script>
 	</head>
 	<body>
 		<?php
 			if(isset($_POST["editstaffinfo"]))
 			{
 				$success=$manager->editStaffInformation($_SESSION['username'],
-						$_POST["name"], $_POST["address"], $_POST["contactnumber"], $_POST['stafftype']);
+						$_POST["name"], $_POST["address"], $_POST["contactnumber"]);
 
 				if($success==1)
 					echo "<h2>Information successfully edited.</h2><br/>";
@@ -30,11 +31,12 @@ if($_SESSION['accountType']!='staff')
 					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
 			}
 		?>
-		<form name="editStaffInformation" action="editstaffinformation.php" method="post">
+		<form name="editStaffInformation" onsubmit="return validateEditStaffInformationForm();" action="editstaffinformation.php" method="post">
 			<?php
-				$manager->printEditInfoForm('staff');
+				$staff = $manager->searchStaffByUname($_SESSION['username']);
+				$manager->printEditInfoForm('staff', $staff[0]);
 			?>
 		</form>
-		<a href="staff_db.php" title="Back to Staff Home Page">Back to Staff Home Page</a>
+		<a href="viewstaffinformation.php" title="Back to Personal Information">Back to Personal Information</a>
 	</body>
 </html>

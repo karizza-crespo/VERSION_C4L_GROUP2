@@ -20,7 +20,7 @@ $current_user = $_SESSION['username'];
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 	</head>
 	<body>
-		<form name="viewStaffInfo" action="viewstaffinformation.php" method="post">
+		<form name="viewStaffInfo" action="editstaffinformation.php" method="post">
 			<?php
 				$staff = $manager->searchStaffByUname($current_user);
 				$manager->printViewInfo($staff, 'staff');

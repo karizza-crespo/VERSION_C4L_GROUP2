@@ -20,7 +20,7 @@ $current_user = $_SESSION['username'];
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 	</head>
 	<body>
-		<form name="viewDormerInfo" action="viewdormerinformation.php" method="post">
+		<form name="viewDormerInfo" action="editdormerinformation.php" method="post">
 			<?php
 				$dormer = $manager->searchDormer($current_user);
 				$manager->printViewInfo($dormer, 'dormer');

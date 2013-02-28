@@ -16,6 +16,7 @@ if($_SESSION['accountType']!='admin')
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/script.js"></script>
 	</head>
 	<body>
 		<?php
@@ -51,7 +52,7 @@ if($_SESSION['accountType']!='admin')
 						if(isset($_POST["editdormerinfobyadmin$i"]))
 						{
 							$_SESSION['searchUsername'] = $dormers[$i]->getUsername();
-							$manager->printEditInfoForm('dormer');
+							$manager->printEditInfoForm('dormer', $dormers[$i]);
 						}
 					}
 						
@@ -61,12 +62,12 @@ if($_SESSION['accountType']!='admin')
 						if(isset($_POST["editstaffinfobyadmin$i"]))
 						{
 							$_SESSION['searchUsername'] = $staff[$i]->getStaffUsername();
-							$manager->printEditInfoForm('staff');
+							$manager->printEditInfoForm('staff', $staff[$i]);
 						}
 					}
 			?>
 		</form>
 		<br />
-		<a href="viewinfobyadmin.php" title="Back to List of Dormers and Staff">Back to List of Dormers and Staff</a>
+		<a href="searchresults.php" title="Back to Search Results">Back to Search Results</a>
 	</body>
 </html>
