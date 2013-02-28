@@ -25,6 +25,12 @@ Constraint log_id_pk PRIMARY KEY (Log_id),
 Constraint log_username_fk FOREIGN KEY (username) REFERENCES DORMER(username)
 );
 
+CREATE TABLE ROOM(
+Room_number INTEGER,
+Slots INTEGER NOT NULL,
+Constraint room_number_pk PRIMARY KEY (Room_number)
+);
+
 CREATE TABLE STAFF(
 Staff_number SERIAL,
 Name VARCHAR(80) NOT NULL,

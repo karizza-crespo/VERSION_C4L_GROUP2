@@ -57,7 +57,9 @@ function validateAddPaymentForm()
 			return false;
 		}
 	}
-	return true;
+	var confirmAdd = confirm("Continue Addition of Payment Entry?");
+	
+	return confirmAdd;
 }
 
 function areYouSureDelete()

@@ -27,7 +27,7 @@ $_SESSION['searchUsername']='none';
 				<tr>
 					<td>Search Dormer By Username: </td>
 					<td>
-						<select id="viewDormerInfo" name="viewDormerInfo"><?php $manager->printUsername();?></select>
+						<input type="text" id="viewDormerInfo" name="viewDormerInfo" />
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchDormerByUsername"/>
@@ -40,7 +40,7 @@ $_SESSION['searchUsername']='none';
 				<tr>
 					<td>Search Staff by Staff Number: </td>
 					<td>
-						<select id="viewStaffInfo" name="viewStaffInfo"><?php $manager->printStaffNumber();?></select>
+						<input type="number" id="viewStaffInfo" name="viewStaffInfo" />
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchStaffByNumber"/>

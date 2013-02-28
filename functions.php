@@ -2,7 +2,7 @@
 include("classes.php");
 
 //connect to the database
-$db=pg_connect("host=localhost port=5432 dbname=DMS user=postgres password=Pass128");
+$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
 
 class databaseManager
 {	
@@ -40,6 +40,8 @@ class databaseManager
 			else
 				return 3;
 		}
+		//if the username does not exist, return 5
+		return 5;
 	}
 	
 	//function for retrieving all entries in the payment_records table
@@ -82,26 +84,6 @@ class databaseManager
 				</tr>";
 			}
 		echo "</table>";
-	}
-	
-	//function for printing username in the select tag
-	public function printUsername()
-	{
-		$stmt="SELECT DISTINCT username FROM dormer ORDER BY username ASC;";
-		$result=pg_query($stmt);
-		
-		while($row=pg_fetch_assoc($result))
-			echo "<option value='".$row['username']."'>".$row['username']."</option>";
-	}
-	
-	//function for printing the staff
-	public function printStaffNumber()
-	{
-		$stmt="SELECT DISTINCT staff_number FROM staff ORDER BY staff_number ASC;";
-		$result=pg_query($stmt);
-		
-		while($row=pg_fetch_assoc($result))
-			echo "<option value='".$row['staff_number']."'>".$row['staff_number']."</option>";
 	}
 	
 	//function for searching the payment_record table
@@ -247,7 +229,8 @@ class databaseManager
 	{
 		$allDormers = array();
 		
-		$stmt="SELECT * FROM dormer ORDER BY username ASC;";
+
+		$stmt="SELECT * FROM dormer ORDER BY username;";
 		$result=pg_query($stmt);
 		
 		//create an instance for every dormer and add it to the array
@@ -262,7 +245,7 @@ class databaseManager
 	{
 		$allStaff = array();
 		
-		$stmt="SELECT * FROM staff ORDER BY staff_number ASC;";
+		$stmt="SELECT * FROM staff ORDER BY staff_number;";
 		$result=pg_query($stmt);
 		
 		//create an instance for every staff and add it to the array
@@ -368,12 +351,13 @@ class databaseManager
 		
 		$stmt="SELECT * FROM dormer WHERE username='$username';";
 		$result=pg_query($stmt);
-		
+			
 		//create an instance for every dormer and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$dormers[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
 		//return the array of dormers
 		return $dormers;
+		
 	}
 	
 	//function for searching a specific staff by staff_number
@@ -383,7 +367,7 @@ class databaseManager
 		
 		$stmt="SELECT * FROM staff WHERE staff_number='$number';";
 		$result=pg_query($stmt);
-		
+			
 		//create and instance for every staff and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$staff[] = new Staff($row['staff_number'], $row['name'], $row['address'], $row['contact_number'], $row['type'], $row['username'], $row['password']);
@@ -819,6 +803,64 @@ class databaseManager
 				<td>".$logs[$i]->getLogTime()."</td>
 				<td>".$logs[$i]->getLogType()."</td>
 				<td>".$logs[$i]->getWhereabouts()."</td>
+			</tr>";
+		}
+		echo "</table>";
+	}
+	
+	public function viewRoomAvailability()
+	{	
+		$room = array();
+		
+		$stmt="SELECT * FROM room ORDER BY room_number";
+		$result=pg_query($stmt);
+		$ctr=0;
+		
+		while($row=pg_fetch_assoc($result))
+		{
+			$room[$ctr][0]=$row['room_number'];
+			$room[$ctr][1]=$row['slots'];
+			$room[$ctr][2]=0;	//number of dormers currently residing in the room number
+			$room[$ctr][3]=0;	
+			$ctr++;
+		}
+		
+		$stmt="SELECT room_number, count(room_number) from dormer GROUP BY room_number;";
+		$result=pg_query($stmt);
+		
+		while($row=pg_fetch_assoc($result))
+		{
+			for($ctr=0; $ctr<count($room); $ctr++)
+			{
+				if($room[$ctr][0]==$row['room_number'])
+					$room[$ctr][2]=$row['count'];
+			}
+		}
+		
+		for($ctr=0; $ctr<count($room); $ctr++)
+		{
+			if($room[$ctr][3]==0)
+				$room[$ctr][3]=$room[$ctr][1]-$room[$ctr][2];
+		}
+		return $room;
+	}
+	
+	public function printRoomAvailability($room)
+	{
+		echo "<table border='1'>
+			<tr>
+				<th>Room Number</th>
+				<th>Capacity</th>
+				<th>Residents</th>
+				<th>Available Slots</th>
+			</tr>";
+		for($ctr=0; $ctr<count($room); $ctr++)
+		{
+			echo "<tr>
+				<td>".$room[$ctr][0]."</td>
+				<td>".$room[$ctr][1]."</td>
+				<td>".$room[$ctr][2]."</td>
+				<td>".$room[$ctr][3]."</td>
 			</tr>";
 		}
 		echo "</table>";

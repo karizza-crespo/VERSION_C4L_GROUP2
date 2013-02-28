@@ -34,7 +34,7 @@ $_SESSION['searchUsername']='none';
 				<tr>
 					<td>Search By Username: </td>
 					<td>
-						<select id="recordUsername" name="recordUsername"><?php $manager->printUsername();?></select>
+						<input type="text" id="recordUsername" name="recordUsername" />
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchByUsername"/>

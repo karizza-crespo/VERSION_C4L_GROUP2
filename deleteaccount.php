@@ -24,7 +24,7 @@ if($_SESSION['accountType']!='admin')
 				<tr>
 					<td>Search Dormer By Username: </td>
 					<td>
-						<select id="deleteDormer" name="deleteDormer"><?php $manager->printUsername();?></select>
+						<input type="text" id="deleteDormer" name="deleteDormer" />
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchDormerByUsername"/>
@@ -37,7 +37,7 @@ if($_SESSION['accountType']!='admin')
 				<tr>
 					<td>Search Staff by Staff Number: </td>
 					<td>
-						<select id="deleteStaff" name="deleteStaff"><?php $manager->printStaffNumber();?></select>
+						<input type="number" id="deleteStaff" name="deleteStaff" />
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchStaffByNumber"/>

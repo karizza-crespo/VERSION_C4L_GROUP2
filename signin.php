@@ -88,10 +88,22 @@ if(isset($_POST['login'])){
 
 <div id="login">
 	<form method="post" action="">
-			<table><tr> <td>Username: </td><td> <input type="text" name="username" size="15" /></td></tr>
-			<tr><td>Password:</td><td> <input type="password" name="password" size="15" /></td><tr></table><br/>		
-			<input type="submit" value="SIGN IN" class="login" name="login" /></center>
-		</form>
+			<table>
+				<tr>
+					<td><label for="username">Username: </label></td>
+					<td> <input type="text" name="username" id="username" size="15" /></td>
+				</tr>
+			<tr>
+				<td><label for="password">Password: </label></td>
+				<td> <input type="password" name="password" id="password" size="15" /></td>
+			<tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" value="SIGN IN" class="login" name="login" /></td>
+			</tr>
+		</table>
+	</form>
+	<br/>
 </div>
 
 
