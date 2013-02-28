@@ -136,6 +136,12 @@ if($_SESSION['accountType']!='admin'){
 				<tr>
 					<td><label id="studentnumberlabel" for='studentnumber'>Student Number: </label></td>
 					<td><input type='text' id='studentnumber' name='studentnumber' pattern='[0-9]{4}[-][0-9]{5}'/></td>
+<<<<<<< HEAD
+=======
+				</tr>
+					<td></td>
+					<td></td>
+>>>>>>> origin/master
 				</tr>
 				<tr>
 					<td colspan="2"><input type="submit" name="register" class = "register" value="REGISTER" /></td>
