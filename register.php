@@ -122,20 +122,21 @@ if($_SESSION['accountType']!='admin'){
 				</tr>
 				<tr>
 					<td>
-						<label id="roomnumberlabel" for='roomnumber'>Room Number: </label>
+						<label id="studentnumberlabel" for='studentnumber'>Student Number: </label>
 						<label id="stafftypelabel" for='stafftype'>Staff Type: </label>
 					</td>
 					<td>
-						<input type="number" id="roomnumber" name="roomnumber" min="1" value='1'/>
+						<input type='text' id='studentnumber' name='studentnumber' pattern='[0-9]{4}[-][0-9]{5}'/>
 						<select id='stafftype' name='stafftype'>
 							<option value='Dorm Manager'>Dorm Manager</option>
 							<option value='Maintenance'>Maintenance</option>
 							<option value='Guard'>Guard</option>
 						</select>
 					</td>
+				</tr>
 				<tr>
-					<td><label id="studentnumberlabel" for='studentnumber'>Student Number: </label></td>
-					<td><input type='text' id='studentnumber' name='studentnumber' pattern='[0-9]{4}[-][0-9]{5}'/></td>
+					<td><label id="roomnumberlabel" for='roomnumber'>Room Number: </label></td>
+					<td><input type="number" id="roomnumber" name="roomnumber" min="1" value='1'/></td>
 				</tr>
 				<tr>
 					<td colspan="2"><input type="submit" name="register" class = "register" value="REGISTER" /></td>
