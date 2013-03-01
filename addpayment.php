@@ -38,11 +38,14 @@ else if($_SESSION['accountType']!='admin')
 					echo "<span style='color:red'>Month already paid.</span><br />";
 				else if ($payment==4)
 					echo "<span style='color:red'>Amount is invalid.</span><br />";
+				else if ($payment==5)
+					echo "<span style='color:red'>Username does not exist.</span><br />";
 				else
 					echo "<span style='color:red'>Failed to add payment entry.</span><br />";
+				echo "<br />";
 			}
 		?>
-		<form name="addPayment" onsubmit="return validateAddPaymentForm();" action="addpayment.php" method="post">
+		<form name="addPayment" onsubmit="return validateAddPaymentForm()" action="addpayment.php" method="post">
 			<table>
 				<tr>
 					<td><label for="dateofpayment">Date: </label></td>
@@ -51,7 +54,7 @@ else if($_SESSION['accountType']!='admin')
 				<tr>
 					<td><label for="username">Username:</label></td>
 					<td>
-						<select id="username" name="username"><?php $manager->printUsername();?></select>
+						<input type="text" id="username" name="username" />
 					</td>
 				</tr>
 				<tr>

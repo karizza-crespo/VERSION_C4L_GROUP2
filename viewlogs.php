@@ -30,7 +30,7 @@
 				<tr>
 					<td>Search By Username: </td>
 					<td>
-						<select id="logUsername" name="logUsername"><?php $manager->printUsername();?></select>
+						<input type="text" id="logUsername" name="logUsername" />
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchLogByUsername"/>

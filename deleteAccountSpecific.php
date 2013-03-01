@@ -33,8 +33,10 @@ if($_SESSION['accountType']!='admin')
 						echo "<br />DORMERS: <br /><br />";
 						$manager->printDelete($dormers, 'dormer');
 					}
+					else if (count($dormers)==0)
+						echo "<br /><span style='color:red'>".$_POST['deleteDormer']." is not in the Database.</span><br />";
 					else
-						echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
+						echo "<br /><span style='color:red'>Dormer Table is Empty.</span><br />";
 						
 					echo "<br />";
 				}
@@ -47,6 +49,8 @@ if($_SESSION['accountType']!='admin')
 						echo "<br />STAFF: <br /><br />";
 						$manager->printDelete($staff, 'staff');
 					}
+					else if (count($staff)==0)
+						echo "<br /><span style='color:red'>".$_POST['deleteStaff']." is not in the Database.</span><br />";
 					else
 						echo "<span style='color:red'>Staff Table is Empty.</span><br />";
 				}

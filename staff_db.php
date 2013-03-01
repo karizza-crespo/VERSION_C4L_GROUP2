@@ -33,6 +33,7 @@ $current_user = $_SESSION['username'];
 			echo "<a href='addpayment.php' title='Add Payment Records'>Add Payment Records</a><br /><br />";
 			echo "<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />";
 			echo "<a href='viewlogs.php' title='View Logs'>View Logs</a><br /><br />";
+			echo "<a href='roomavailability.php' title='View Room Availability'>View Room Availability</a><br /><br />";
 		}
 	?>
 	<form name='sched' action='sched.php' method='post'>
