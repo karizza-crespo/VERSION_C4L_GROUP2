@@ -50,6 +50,27 @@ if($_SESSION['accountType']!='admin'){
 			$errors[] = 'username already exists';
 		}	
 		
+		//check if the room number entered is in the database
+		$room_number = $_POST['roomnumber'];
+		$stmt="SELECT count(*) FROM room WHERE room_number='$room_number';";
+		$count=pg_fetch_array(pg_query($stmt));
+		
+		if($count[0]==0)
+			$errors[] = 'Room Number does not exist';
+		else
+		{
+			//check if the room is still available or not
+			$stmt="SELECT count(*) FROM dormer WHERE room_number='$room_number';";
+			$count=pg_fetch_array(pg_query($stmt));
+			$stmt="SELECT slots FROM room WHERE room_number='$room_number';";
+			$slots=pg_fetch_array(pg_query($stmt));
+			
+			$available = $slots[0]-$count[0];
+			if($available==0)
+				$errors[] = 'Room '.$room_number.' is already full';
+		}
+		
+		//checks if the student number is already in the database
 		$studentnumber = $_POST['studentnumber'];
 		$stmt="SELECT count(*) FROM dormer WHERE student_number='$studentnumber';";
 		$count=pg_fetch_array(pg_query($stmt));
@@ -58,9 +79,11 @@ if($_SESSION['accountType']!='admin'){
 			$errors[] = 'student number already exists';
 		}
 		
+		//checks if the password fields are black
 		if($password == '' || $c_password == ''){
 			$errors[] = 'Passwords are blank';
 		}
+		//checks if the passwords match or don't
 		if($password != $c_password){
 			$errors[] = 'Passwords do not match';
 		}
@@ -94,11 +117,11 @@ if($_SESSION['accountType']!='admin'){
 		<form method="post" action="">
 			<?php
 			if(count($errors) > 0){ //print list of errors
-				echo '<ul>';
+				echo "<span style='color:red'><ul>";
 				foreach($errors as $e){
 					echo '<li>' . $e . '</li>';
 				}
-				echo '</ul>';
+				echo '</ul></span>';
 			
 			} 
 			?>
