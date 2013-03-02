@@ -753,6 +753,13 @@ public function printSchedule($day)
 
 		return $a[0];
 	}
+	public function countSchedEntryForDay($day){
+		$stmt = "SELECT count(*) from schedule where date = current_date + $day;";
+		$result= pg_query($stmt);
+		$a = pg_fetch_array($result);
+
+		return $a[0];
+	}
 	
 	public function lastSchedEntry(){
 		$stmt = "SELECT max(schedule_id) from schedule;";
@@ -905,9 +912,7 @@ public function printSchedule($day)
 			current_date + integer '$day' <= endDate);";
 		$result2= pg_query($stmt2);
 		
-		if($result2)
-			return 1;
-		else return 0;
+		return 1;
 		
 	}
 	//------------------------------------------------------------------------------------------------------
