@@ -5,7 +5,15 @@ $manager=new databaseManager;
 
 session_start();
 
-if($_SESSION['accountType']!='admin')
+if($_SESSION['accountType']=='staff')
+{
+	$stmt="SELECT type from staff WHERE username='".$_SESSION['username']."';";
+	$result=pg_fetch_array(pg_query($stmt));
+	
+	if($result[0]!='Dorm Manager')
+		header('Location: signin.php');
+}
+else if($_SESSION['accountType']!='admin')
 {
 	header('Location: signin.php');
 	die;

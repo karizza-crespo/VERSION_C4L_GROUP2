@@ -30,10 +30,11 @@ $current_user = $_SESSION['username'];
 	
 		if($result[0]=='Dorm Manager')
 		{
-			echo "<a href='addpayment.php' title='Add Payment Records'>Add Payment Records</a><br /><br />";
+			echo "<a href='viewinfobyadmin.php'>Personal Information of Dormers &amp; Staff</a><br /><br />";
+			echo "<a href='addpayment.php' title='Add Entry to Payment Records'>Add Entry to Payment Records</a><br /><br />";
 			echo "<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />";
 			echo "<a href='viewlogs.php' title='View Logs'>View Logs</a><br /><br />";
-			echo "<a href='roomavailability.php' title='View Room Availability'>View Room Availability</a><br /><br />";
+			echo "<a href='roomavailability.php' title='Room Availability'>Room Availability</a><br /><br />";
 		}
 	?>
 	<form name='sched' action='sched.php' method='post'>

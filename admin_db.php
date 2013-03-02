@@ -26,7 +26,7 @@ if($_SESSION['accountType']!='admin'){
 		<a href='addpayment.php' title='Add Payment Records'>Add Payment Records</a><br /><br />
 		<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />
 		<a href='viewlogs.php' title='View Logs'>View Logs</a><br /><br />
-		<a href='roomavailability.php' title='View Room Availability'>View Room Availability</a><br /><br />
+		<a href='roomavailability.php' title='Room Availability'>Room Availability</a><br /><br />
 		<?php
 		echo "<form name='sched' action='sched.php' method='post'>
 				<input type='submit' value='Staff Schedule' name='viewSched' />

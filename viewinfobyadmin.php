@@ -5,8 +5,15 @@ $manager=new databaseManager;
 
 session_start();
 
-//if the account type is not admin, return to sign in page
-if($_SESSION['accountType']!='admin')
+if($_SESSION['accountType']=='staff')
+{
+	$stmt="SELECT type from staff WHERE username='".$_SESSION['username']."';";
+	$result=pg_fetch_array(pg_query($stmt));
+	
+	if($result[0]!='Dorm Manager')
+		header('Location: signin.php');
+}
+else if($_SESSION['accountType']!='admin')
 {
 	header('Location: signin.php');
 	die;
@@ -75,6 +82,6 @@ $_SESSION['searchUsername']='none';
 			?>
 		</form>
 		<br />
-		<a href="admin_db.php" title="Back to Admin Home Page">Back to Admin Home Page</a>
+		<?php echo "<a href='".$_SESSION['accountType']."_db.php' title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>"; ?>
 	</body>
 </html>

@@ -2,7 +2,7 @@
 include("classes.php");
 
 //connect to the database
-$db=pg_connect("host=localhost port=5432 dbname=DMS user=postgres password=Pass128");
+$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
 
 class databaseManager
 {	
