@@ -21,7 +21,7 @@ $current_user = $_SESSION['username'];
 <body>
 	<h1>Welcome, Staff: <?php echo $current_user ?> 	!!!</h1>
 	
-	<a href="viewstaffinformation.php" title="Personal Information">Personal Information</a>
+	<input type="button" onclick="location.href='viewstaffinformation.php'" title="Personal Information" value="Personal Information"/>
 	<br />
 	<br />
 	<?php
@@ -30,18 +30,20 @@ $current_user = $_SESSION['username'];
 	
 		if($result[0]=='Dorm Manager')
 		{
-			echo "<a href='viewinfobyadmin.php'>Personal Information of Dormers &amp; Staff</a><br /><br />";
-			echo "<a href='addpayment.php' title='Add Entry to Payment Records'>Add Entry to Payment Records</a><br /><br />";
-			echo "<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />";
-			echo "<a href='viewlogs.php' title='View Logs'>View Logs</a><br /><br />";
-			echo "<a href='roomavailability.php' title='Room Availability'>Room Availability</a><br /><br />";
+	?>
+			<input type="button" onclick="location.href='viewinfobyadmin.php'" title="Personal Information" value="Personal Information of Dormers &amp; Staff" /><br /><br />
+		<input type="button" onclick="location.href='addpayment.php'" title='Add Payment Records' value="Add Payment Records" /><br /><br />
+		<input type="button" onclick="location.href='updatepayment.php'" title='Update Payment Records' value="Update Payment Records" /><br /><br />
+		<input type="button" onclick="location.href='viewlogs.php'" title='View Logs' value="View Logs" /><br /><br />
+		<input type="button" onclick="location.href='roomavailability.php'" title='Room Availability' value="Room Availability" /><br /><br />
+	<?php
 		}
 	?>
 	<form name='sched' action='sched.php' method='post'>
 		<input type='submit' value='Staff Schedule' name='viewSched' />
 	</form>
 	<br />
-	<a href="signout.php">Sign Out </a></br>
+	<input type="button" onclick="location.href='signout.php'" title="Sign Out" value="Sign Out" /></br>
 
 
 </body>

@@ -20,19 +20,19 @@ if($_SESSION['accountType']!='admin'){
 
 		<h1>Welcome, Administrator!</h1>
 
-		<a href="register.php">Register </a><br /><br />
-		<a href="deleteaccount.php">Delete Accounts</a><br /><br />
-		<a href="viewinfobyadmin.php">Personal Information of Dormers &amp; Staff</a><br /><br />
-		<a href='addpayment.php' title='Add Payment Records'>Add Payment Records</a><br /><br />
-		<a href='updatepayment.php' title='Update Payment Records'>Update Payment Records</a><br /><br />
-		<a href='viewlogs.php' title='View Logs'>View Logs</a><br /><br />
-		<a href='roomavailability.php' title='Room Availability'>Room Availability</a><br /><br />
+		<input type="button" onclick="location.href='register.php'" title="Register" value="Register" /><br /><br />
+		<input type="button" onclick="location.href='deleteaccount.php'" title="Delete Accounts" value="Delete Accounts" /><br /><br />
+		<input type="button" onclick="location.href='viewinfobyadmin.php'" title="Personal Information" value="Personal Information of Dormers &amp; Staff" /><br /><br />
+		<input type="button" onclick="location.href='addpayment.php'" title='Add Payment Records' value="Add Payment Records" /><br /><br />
+		<input type="button" onclick="location.href='updatepayment.php'" title='Update Payment Records' value="Update Payment Records" /><br /><br />
+		<input type="button" onclick="location.href='viewlogs.php'" title='View Logs' value="View Logs" /><br /><br />
+		<input type="button" onclick="location.href='roomavailability.php'" title='Room Availability' value="Room Availability" /><br /><br />
 		<?php
 		echo "<form name='sched' action='sched.php' method='post'>
 				<input type='submit' value='Staff Schedule' name='viewSched' />
 		</form>";
 		?>
 		<br />
-		<a href="signout.php">Sign Out </a></br>
+		<input type="button" onclick="location.href='signout.php'" title="Sign Out" value="Sign Out" /></br>
 	</body>
 </html>

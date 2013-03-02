@@ -81,15 +81,15 @@ $current_user = $_SESSION['username'];
 	<br />
 	<br />
 	
-	<a href="viewdormerinformation.php" title="Personal Information">Personal Information</a><br /><br />
-	<a href="viewlogs.php" title="View Logs">View Logs</a><br /><br />
+	<input type="button" onclick="location.href='viewdormerinformation.php'" title="Personal Information" value="Personal Information" /><br /><br />
+	<input type="button" onclick="location.href='viewlogs.php'" title="View Logs" value="View Logs"/><br /><br />
 	<?php
 		echo "<form name='sched' action='sched.php' method='post'>
 				<input type='submit' value='Staff Schedule' name='viewSched' />
 			</form>";
 	?>
 	<br />
-	 <a href="signout.php">Sign Out </a></br>
+	 <input type="button" onclick="location.href='signout.php'" title="Sign Out" value="Sign Out" /></br>
 
 
 </body>
