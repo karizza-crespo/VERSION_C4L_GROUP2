@@ -50,33 +50,36 @@ if($_SESSION['accountType']!='admin'){
 			$errors[] = 'username already exists';
 		}	
 		
-		//check if the room number entered is in the database
-		$room_number = $_POST['roomnumber'];
-		$stmt="SELECT count(*) FROM room WHERE room_number='$room_number';";
-		$count=pg_fetch_array(pg_query($stmt));
-		
-		if($count[0]==0)
-			$errors[] = 'Room Number does not exist';
-		else
+		if($type==1)
 		{
-			//check if the room is still available or not
-			$stmt="SELECT count(*) FROM dormer WHERE room_number='$room_number';";
+			//check if the room number entered is in the database
+			$room_number = $_POST['roomnumber'];
+			$stmt="SELECT count(*) FROM room WHERE room_number='$room_number';";
 			$count=pg_fetch_array(pg_query($stmt));
-			$stmt="SELECT slots FROM room WHERE room_number='$room_number';";
-			$slots=pg_fetch_array(pg_query($stmt));
 			
-			$available = $slots[0]-$count[0];
-			if($available==0)
-				$errors[] = 'Room '.$room_number.' is already full';
-		}
-		
-		//checks if the student number is already in the database
-		$studentnumber = $_POST['studentnumber'];
-		$stmt="SELECT count(*) FROM dormer WHERE student_number='$studentnumber';";
-		$count=pg_fetch_array(pg_query($stmt));
-		
-		if($count[0]!=0){
-			$errors[] = 'student number already exists';
+			if($count[0]==0)
+				$errors[] = 'Room Number does not exist';
+			else
+			{
+				//check if the room is still available or not
+				$stmt="SELECT count(*) FROM dormer WHERE room_number='$room_number';";
+				$count=pg_fetch_array(pg_query($stmt));
+				$stmt="SELECT slots FROM room WHERE room_number='$room_number';";
+				$slots=pg_fetch_array(pg_query($stmt));
+				
+				$available = $slots[0]-$count[0];
+				if($available==0)
+					$errors[] = 'Room '.$room_number.' is already full';
+			}
+			
+			//checks if the student number is already in the database
+			$studentnumber = $_POST['studentnumber'];
+			$stmt="SELECT count(*) FROM dormer WHERE student_number='$studentnumber';";
+			$count=pg_fetch_array(pg_query($stmt));
+			
+			if($count[0]!=0){
+				$errors[] = 'student number already exists';
+			}
 		}
 		
 		//checks if the password fields are black
@@ -95,9 +98,9 @@ if($_SESSION['accountType']!='admin'){
 				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$studentnumber','$default_char','$default_char','$default_date','$default_int','$default_char','$default_char','$default_char','$roomnumber');";
 				$success=pg_query($stmt);
 				if($success)
-					echo "Dormer successfully added.<br />";
+					echo "<span style='color:blue'>Dormer successfully added.</span><br /><br />";
 				else
-					echo "Failed to add Dormer.<br />";
+					echo "<span style='color:red'>Failed to add Dormer.</span><br />";
 			}
 		
 		
@@ -107,9 +110,9 @@ if($_SESSION['accountType']!='admin'){
 				$stmt="INSERT INTO staff (name, address, contact_number, type, username, password) VALUES ('$default_char','$default_char','$default_char','$stafftype','$username','$password');";
 				$success=pg_query($stmt);
 				if($success)
-					echo "Staff successfully added.<br />";
+					echo "<span style='color:blue'>Staff successfully added.</span><br /><br />";
 				else
-					echo "Failed to add Staff.<br />";
+					echo "<span style='color:red'>Failed to add Staff.</span><br />";
 			}
 		}
 	}
