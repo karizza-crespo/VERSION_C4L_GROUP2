@@ -23,9 +23,8 @@ if($_SESSION['accountType']!='dormer')
 			if(isset($_POST["editdormerinfo"]))
 			{
 				$success=$manager->editDormerInformation($_SESSION['username'], $_POST["name"],
-						$_POST["studentnumber"], $_POST["course"], $_POST["birthdate"], $_POST["age"],
-						$_POST["homeaddress"], $_POST["contactnumber"], $_POST["contactperson"],
-						$_POST["contactpersonnumber"]);
+						$_POST["course"], $_POST["birthdate"], $_POST["age"], $_POST["homeaddress"],
+						$_POST["contactnumber"], $_POST["contactperson"], $_POST["contactpersonnumber"]);
 
 				if($success==1)
 					echo "<h2>Information successfully edited.</h2><br/>";
@@ -38,7 +37,7 @@ if($_SESSION['accountType']!='dormer')
 		<form name="editDormerInformation" onsubmit="return validateEditDormerInformationForm();" action="editdormerinformation.php" method="post">
 			<?php
 				$dormer = $manager->searchDormer($_SESSION['username']);
-				$manager->printEditInfoForm('dormer', $dormer[0]);
+				$manager->printEditInfoForm('dormer', $dormer[0], -1);
 			?>
 		</form>
 		<br />

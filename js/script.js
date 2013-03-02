@@ -97,12 +97,26 @@ function addWhereabouts()
 	return true;
 }
 
-function showhide(id1, id2)
+function showhide()
 {
-	document.getElementById(id1).style.display = 'block';
-	document.getElementById(id1+'label').style.display = 'block';
-	document.getElementById(id2).style.display = 'none';
-	document.getElementById(id2+'label').style.display = 'none';
+	dormer=document.getElementById('dormer');
+	if(dormer.checked)
+	{
+		document.getElementById('studentnumber').style.display = 'block';
+		document.getElementById('studentnumberlabel').style.display = 'block';
+		document.getElementById('roomnumber').style.display = 'block';
+		document.getElementById('roomnumberlabel').style.display = 'block';
+		document.getElementById('stafftype').style.display = 'none';
+		document.getElementById('stafftypelabel').style.display = 'none';
+	} else
+	{
+		document.getElementById('studentnumber').style.display = 'none';
+		document.getElementById('studentnumberlabel').style.display = 'none';
+		document.getElementById('roomnumber').style.display = 'none';
+		document.getElementById('roomnumberlabel').style.display = 'none';
+		document.getElementById('stafftype').style.display = 'block';
+		document.getElementById('stafftypelabel').style.display = 'block';
+	}
 }
 
 function validateEditDormerInformationForm()

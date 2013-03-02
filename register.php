@@ -17,7 +17,7 @@ if($_SESSION['accountType']!='admin'){
 		<script src="js/script.js"></script>
 	</head>
 
-	<body onload="showhide('roomnumber', 'stafftype')">
+	<body onload="showhide()">
 
 	<h1>REGISTRATION FORM</h1>
 	<?php
@@ -50,6 +50,14 @@ if($_SESSION['accountType']!='admin'){
 			$errors[] = 'username already exists';
 		}	
 		
+		$studentnumber = $_POST['studentnumber'];
+		$stmt="SELECT count(*) FROM dormer WHERE student_number='$studentnumber';";
+		$count=pg_fetch_array(pg_query($stmt));
+		
+		if($count[0]!=0){
+			$errors[] = 'student number already exists';
+		}
+		
 		if($password == '' || $c_password == ''){
 			$errors[] = 'Passwords are blank';
 		}
@@ -61,7 +69,7 @@ if($_SESSION['accountType']!='admin'){
 			 if ($type == 1){
 				//insert values into the table named dormer
 				$roomnumber = $_POST['roomnumber'];
-				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$default_char','$default_char','$default_char','$default_date','$default_int','$default_char','$default_char','$default_char','$roomnumber');";
+				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$studentnumber','$default_char','$default_char','$default_date','$default_int','$default_char','$default_char','$default_char','$roomnumber');";
 				$success=pg_query($stmt);
 				if($success)
 					echo "Dormer successfully added.<br />";
@@ -109,23 +117,26 @@ if($_SESSION['accountType']!='admin'){
 				</tr>
 				<tr>
 					<td>Account Type</td>
-					<td><input type="radio" name="type" id="dormer" value="1" checked="checked" onclick="showhide('roomnumber', 'stafftype')"/><label for="dormer">DORMER</label>
-					<input type="radio" name="type" id="staff" value="2" onclick="showhide('stafftype', 'roomnumber')"/><label for="staff">STAFF</label></td>
+					<td><input type="radio" name="type" id="dormer" value="1" checked="checked" onclick="showhide()"/><label for="dormer">DORMER</label>
+					<input type="radio" name="type" id="staff" value="2" onclick="showhide()"/><label for="staff">STAFF</label></td>
 				</tr>
 				<tr>
 					<td>
-						<label id="roomnumberlabel" for='roomnumber'>Room Number: </label>
+						<label id="studentnumberlabel" for='studentnumber'>Student Number: </label>
 						<label id="stafftypelabel" for='stafftype'>Staff Type: </label>
 					</td>
 					<td>
-						
-						<input type="number" id="roomnumber" name="roomnumber" min="1" value='1'/>
+						<input type='text' id='studentnumber' name='studentnumber' pattern='[0-9]{4}[-][0-9]{5}'/>
 						<select id='stafftype' name='stafftype'>
 							<option value='Dorm Manager'>Dorm Manager</option>
 							<option value='Maintenance'>Maintenance</option>
 							<option value='Guard'>Guard</option>
 						</select>
 					</td>
+				</tr>
+				<tr>
+					<td><label id="roomnumberlabel" for='roomnumber'>Room Number: </label></td>
+					<td><input type="number" id="roomnumber" name="roomnumber" min="1" value='1'/></td>
 				</tr>
 				<tr>
 					<td colspan="2"><input type="submit" name="register" class = "register" value="REGISTER" /></td>

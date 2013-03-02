@@ -23,9 +23,8 @@ if($_SESSION['accountType']!='admin')
 			if(isset($_POST["editdormerinfo"]))
 			{
 				$success=$manager->editDormerInformation($_SESSION['searchUsername'], $_POST["name"],
-						$_POST["studentnumber"], $_POST["course"], $_POST["birthdate"], $_POST["age"],
-						$_POST["homeaddress"], $_POST["contactnumber"], $_POST["contactperson"],
-						$_POST["contactpersonnumber"]);
+						$_POST["course"], $_POST["birthdate"], $_POST["age"],	$_POST["homeaddress"],
+						$_POST["contactnumber"], $_POST["contactperson"], $_POST["contactpersonnumber"]);
 
 				if($success==1)
 					echo "<h2>Information successfully edited.</h2><br/>";
@@ -36,7 +35,7 @@ if($_SESSION['accountType']!='admin')
 			} else if(isset($_POST["editstaffinfo"]))
 			{
 				$success=$manager->editStaffInformation($_SESSION['searchUsername'],
-						$_POST["name"], $_POST["address"], $_POST["contactnumber"], $_POST['stafftype']);
+						$_POST["name"], $_POST["address"], $_POST["contactnumber"]);
 
 				if($success==1)
 					echo "<h2>Information successfully edited.</h2><br/>";
@@ -52,7 +51,7 @@ if($_SESSION['accountType']!='admin')
 						if(isset($_POST["editdormerinfobyadmin$i"]))
 						{
 							$_SESSION['searchUsername'] = $dormers[$i]->getUsername();
-							$manager->printEditInfoForm('dormer', $dormers[$i]);
+							$manager->printEditInfoForm('dormer', $dormers[$i], $i);
 						}
 					}
 						
@@ -62,12 +61,12 @@ if($_SESSION['accountType']!='admin')
 						if(isset($_POST["editstaffinfobyadmin$i"]))
 						{
 							$_SESSION['searchUsername'] = $staff[$i]->getStaffUsername();
-							$manager->printEditInfoForm('staff', $staff[$i]);
+							$manager->printEditInfoForm('staff', $staff[$i], $i);
 						}
 					}
 			?>
 		</form>
 		<br />
-		<a href="searchresults.php" title="Back to Search Results">Back to Search Results</a>
+		<a href="viewinfobyadmin.php" title="Back to List of Dormers and Staff">Back to List of Dormers and Staff</a>
 	</body>
 </html>
