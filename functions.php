@@ -673,7 +673,7 @@ class databaseManager
 	}
 	//Ian's functions
 	//-----------------------------------------------------------------------------------------------------
-	public function printSchedule($day)
+public function printSchedule($day)
 	{
 		
 		echo "<tr>";
@@ -693,6 +693,7 @@ class databaseManager
 		echo "</tr>";
 			
 	}
+	
 	
 	public function retrieveStaff($staffType)
 	{
@@ -721,6 +722,8 @@ class databaseManager
 		return $staff;
 	}
 	
+	
+	
 	public function addScheduleEntry($schedid,$day,$time,$location,$staffno)
 	{
 	
@@ -734,7 +737,7 @@ class databaseManager
 	
 	public function isThereisStaff($location,$day,$time){
 		$stmt = "SELECT staff_number from schedule where 
-			day = (select current_date + $day) and
+			date = (select current_date + $day) and
 			location like '$location' and 
 			time = '$time';";
 		$result= pg_query($stmt);
@@ -749,6 +752,163 @@ class databaseManager
 		$a = pg_fetch_array($result);
 
 		return $a[0];
+	}
+	
+	public function lastSchedEntry(){
+		$stmt = "SELECT max(schedule_id) from schedule;";
+		$result= pg_query($stmt);
+		$a = pg_fetch_array($result);
+
+		return $a[0];
+	}
+	public function countWeek(){
+		$stmt = "SELECT count(*) from checkadd;";
+		$result= pg_query($stmt);
+		$a = pg_fetch_array($result);
+
+		return $a[0];
+	}
+	public function addWeek($week){
+		$stmt = "INSERT into checkadd values(
+				$week,
+				current_date,
+				current_date+6,
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}',
+				'{0,0,0,0,0,0,0}'
+				);";
+		$result= pg_query($stmt);
+		if($result)
+			return 1;
+		else return 0;
+	}
+	
+	public function checkAddWeek($week,$day){
+		$stmt = "SELECT endDate from checkadd where week = $week;";
+		$result= pg_query($stmt);
+		$a = pg_fetch_array($result);
+		
+		$stmt2 = "SELECT current_date + integer '$day';";
+		$result2= pg_query($stmt2);
+		$b = pg_fetch_array($result2);
+		
+		if($b[0]>$a[0]){
+		
+			$stmt = "INSERT into checkadd values(
+					$week+1,
+					current_date+$day,
+					current_date+$day+6,
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}',
+					'{0,0,0,0,0,0,0}'
+					);";
+			$result= pg_query($stmt);
+			if($result)
+				return 1;
+			else return 0;
+		}
+	}
+	public function whichWeek($day){
+		
+		$stmt = "SELECT week from checkadd where current_date + integer '$day'>=startDate and current_date + integer '$day' <= endDate;";
+		$result= pg_query($stmt); 
+		$a = pg_fetch_array($result);
+		
+		return $a[0];
+	}
+	public function whichIndex($day,$week){
+		
+		$stmt = "SELECT (((current_date + $day - startDate)%7)+1) from checkadd where week = $week;";
+		$result= pg_query($stmt);
+		$a = pg_fetch_array($result);
+		
+		return $a[0];
+	}
+	public function checkIfThereIs($entity,$i,$week){
+		
+		$ent = $entity."[".$i."]";
+		$stmt = "SELECT $ent from checkadd where week=$week;";
+		$result= pg_query($stmt);
+		$a = pg_fetch_array($result);
+
+		return $a[0];
+	}
+	public function updateCheck($entity,$i,$week){
+		
+		$ent = $entity."[".$i."]";
+		$stmt = "UPDATE checkadd SET $ent = 1 where week=$week;";
+		$result= pg_query($stmt);
+		if($result)
+			return 1;
+		else return 0;
+	}
+	
+	public function updateStaffSchedule($staffno,$location,$day,$time){
+		$stmt = "UPDATE schedule SET staff_number=$staffno where 
+			date = (select current_date + $day) and
+			location like '$location' and 
+			time = '$time';";
+		$result= pg_query($stmt);
+		
+		if($result)
+			return 1;
+		else return 0;
+	}
+	
+	public function deleteSchedule($day,$i){
+		$stmt = "DELETE  from schedule where date = current_date+$day;";
+		$result= pg_query($stmt);
+		
+		$stmt2 = "UPDATE  checkadd set
+			dm1[$i] = 0,
+			dm2[$i] = 0,
+			dm3[$i] = 0,
+			man1[$i] = 0,
+			man2[$i] = 0,
+			man3[$i] = 0,
+			man4[$i] = 0,
+			man5[$i] = 0,
+			man6[$i] = 0,
+			guard1[$i] = 0,
+			guard2[$i] = 0,
+			guard3[$i] = 0,
+			guard4[$i] = 0,
+			guard5[$i] = 0,
+			guard6[$i] = 0
+			where week = 
+			(SELECT week from checkadd where
+			current_date + integer '$day' >= startDate and
+			current_date + integer '$day' <= endDate);";
+		$result2= pg_query($stmt2);
+		
+		if($result2)
+			return 1;
+		else return 0;
+		
 	}
 	//------------------------------------------------------------------------------------------------------
 	
