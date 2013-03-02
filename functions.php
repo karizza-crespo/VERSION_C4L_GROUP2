@@ -49,7 +49,7 @@ class databaseManager
 	{
 		$allRecords = array();
 		
-		$stmt="SELECT * FROM payment_record;";
+		$stmt="SELECT * FROM payment_record ORDER BY payment_number;";
 		$result=pg_query($stmt);
 		
 		//create an instance of each payment record and add it to the array
