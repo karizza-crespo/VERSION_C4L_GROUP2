@@ -92,7 +92,7 @@ class databaseManager
 		$records = array();
 		
 		//select all the entries of the user
-		$stmt="SELECT * FROM payment_record WHERE username='$username';";
+		$stmt="SELECT * FROM payment_record WHERE username='$username' ORDER BY payment_number;";
 		$result=pg_query($stmt);
 		
 		//create an instance of the payment record entries and add it to the array
@@ -207,8 +207,11 @@ class databaseManager
 				if($amount==0)
 					return 4;
 
+				$stmt="SELECT name from dormer WHERE username='$username';";
+				$name=pg_fetch_array(pg_query($stmt));
+				
 				//update entry in the database
-				$stmt="UPDATE payment_record set date_of_payment='$dateofpayment', username='$username', month='$month', amount='$amount' WHERE payment_number='$paymentnumber';";
+				$stmt="UPDATE payment_record set date_of_payment='$dateofpayment', name='$name[0]', username='$username', month='$month', amount='$amount' WHERE payment_number='$paymentnumber';";
 				$success=pg_query($stmt);
 				
 				if($success)
@@ -922,7 +925,7 @@ public function printSchedule($day)
 	{
 		$allLogs = array();
 		
-		$stmt="SELECT * FROM log;";
+		$stmt="SELECT * FROM log ORDER BY log_id;";
 		$result=pg_query($stmt);
 		
 		//create an instance for every log entry and add it to the array
@@ -937,7 +940,7 @@ public function printSchedule($day)
 	{
 		$specificLogs = array();
 		
-		$stmt="SELECT * FROM log WHERE username='$username';";
+		$stmt="SELECT * FROM log WHERE username='$username' ORDER BY log_id;";
 		$result=pg_query($stmt);
 		
 		//create an instance for every log entry of the dormer and add it to the array

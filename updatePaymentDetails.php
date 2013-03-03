@@ -46,7 +46,7 @@ else if($_SESSION['accountType']!='admin')
 						else if ($entry==2)
 							echo "<span style='color:red'><br /><center>Month already paid.</center></span><br />";
 						else if ($entry==3)
-							echo "<span style='color:red'><br /><center>Username is not in the Payment Records Table.</center></span><br />";
+							echo "<span style='color:red'><br /><center>".$_POST['username']." is not in the Dormers Table.</center></span><br />";
 						else if ($entry==4)
 							echo "<span style='color:red'><br /><center>Amount is invalid.</center></span><br />";
 						else

@@ -39,7 +39,7 @@ else if($_SESSION['accountType']!='admin')
 				else if ($payment==4)
 					echo "<span style='color:red'>Amount is invalid.</span><br />";
 				else if ($payment==5)
-					echo "<span style='color:red'>Username does not exist.</span><br />";
+					echo "<span style='color:red'>".$_POST['username']." is not in the Dormers Table.</span><br />";
 				else
 					echo "<span style='color:red'>Failed to add payment entry.</span><br />";
 				echo "<br />";
