@@ -31,7 +31,7 @@ else if($_SESSION['accountType']!='admin')
 			{
 				$payment=$manager->addPaymentEntry($_POST["dateofpayment"], $_POST["username"], $_POST["month"], $_POST["amount"]);
 				if($payment==1)
-					echo "Payment Entry Added.<br />";
+					echo "<span style='color:blue'>Payment Entry Added.</span><br />";
 				else if ($payment==2)
 					echo "<span style='color:red'>Payment Number already in the record.</span><br />";
 				else if ($payment==3)

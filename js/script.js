@@ -160,14 +160,35 @@ function validateRegister()
 	var box, i;
 	var form = document.registerForm;
 	
-	for(i=0; i<8; i++)
+	if(form.elements[4].checked)
 	{
-		box=form.elements[i];
-		if(!box.value)
+		for(i=0; i<8; i++)
 		{
-			alert('You haven\'t filled in the '+box.name+'.');
-			box.focus();
-			return false;
+			box=form.elements[i];
+			if(i==5 || i==6)
+				continue;
+			else
+			{
+				if(!box.value)
+				{
+					alert('You haven\'t filled in the '+box.name+'.');
+					box.focus();
+					return false;
+				}
+			}
+		}
+	}
+	else
+	{
+		for(i=0; i<8; i++)
+		{
+			box=form.elements[i];
+			if(!box.value)
+			{
+				alert('You haven\'t filled in the '+box.name+'.');
+				box.focus();
+				return false;
+			}
 		}
 	}
 	return true;
@@ -179,15 +200,6 @@ function validateEditInfoByAdmin()
 	
 	var form = document.editInfo;
 	
-	for(i=0; i<8; i++)
-	{
-		box=form.elements[i];
-		if(!box.value)
-		{
-			alert('You haven\'t filled in the '+box.name+'.');
-			box.focus();
-			return false;
-		}
-	}
+	
 	return true;
 }
