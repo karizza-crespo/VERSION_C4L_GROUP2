@@ -117,7 +117,7 @@ if($_SESSION['accountType']!='admin'){
 		}
 	}
 	?>
-		<form method="post" action="">
+		<form name="registerForm" onsubmit="return validateRegister()" method="post" action="">
 			<?php
 			if(count($errors) > 0){ //print list of errors
 				echo "<span style='color:red'><ul>";

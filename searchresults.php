@@ -30,6 +30,7 @@ else if($_SESSION['accountType']!='admin')
 			<?php
 				if(isset($_POST['searchDormerByUsername']))
 				{
+					$_SESSION['searchUsername']=$_POST['viewDormerInfo'];
 					$dormer = $manager->searchDormer($_POST['viewDormerInfo']);
 
 					if($dormer!=null)
@@ -39,13 +40,14 @@ else if($_SESSION['accountType']!='admin')
 						$manager->printViewInfoByAdmin($dormer, 'dormer');
 					}
 					else if(count($dormer)==0)
-						echo "<span style='color:red'>Username is not in the database.</span><br />";
+						echo "<span style='color:red'>".$_SESSION['searchUsername']." is not in the database.</span><br />";
 					else
 						echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
 						
 					echo "<br />";
 				} else if(isset($_POST['searchStaffByNumber']))
 				{
+					$_SESSION['searchUsername']=$_POST['viewStaffInfo'];
 					$staff = $manager->searchStaff($_POST['viewStaffInfo']);
 				
 					if($staff!=null)
@@ -55,7 +57,7 @@ else if($_SESSION['accountType']!='admin')
 						$manager->printViewInfoByAdmin($staff, 'staff');
 					}
 					else if (count($staff)==0)
-						echo "<span style='color:red'>Staff Number is not in the database.</span><br />";
+						echo "<span style='color:red'>".$_SESSION['searchUsername']." is not in the database.</span><br />";
 					else
 						echo "<span style='color:red'>Staff Table is Empty.</span><br />";
 				}

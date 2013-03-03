@@ -154,3 +154,40 @@ function validateEditStaffInformationForm()
 	}
 	return true;
 }
+
+function validateRegister()
+{
+	var box, i;
+	var form = document.registerForm;
+	
+	for(i=0; i<8; i++)
+	{
+		box=form.elements[i];
+		if(!box.value)
+		{
+			alert('You haven\'t filled in the '+box.name+'.');
+			box.focus();
+			return false;
+		}
+	}
+	return true;
+}
+
+function validateEditInfoByAdmin()
+{
+	var box, i;
+	
+	var form = document.editInfo;
+	
+	for(i=0; i<8; i++)
+	{
+		box=form.elements[i];
+		if(!box.value)
+		{
+			alert('You haven\'t filled in the '+box.name+'.');
+			box.focus();
+			return false;
+		}
+	}
+	return true;
+}

@@ -51,7 +51,7 @@ else if($_SESSION['accountType']!='admin')
 					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
 			}
 		?>
-		<form name="editInfo" action="editinfobyadmin.php" method="post">
+		<form name="editInfo" onsubmit="return validateEditInfoByAdmin()" action="editinfobyadmin.php" method="post">
 			<?php
 					$dormers=$manager->retrieveAllDormers();
 					for($i=0; $i<count($dormers); $i++)

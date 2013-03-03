@@ -55,7 +55,7 @@ $_SESSION['searchUsername']='none';
 					$manager->printEdit($record);
 				}
 				else
-					echo "<span style='color:red'>Username is not in the Payment Records Table.</span><br />";
+					echo "<span style='color:red'>".$_SESSION['searchUsername']." is not in the Payment Records Table.</span><br />";
 				echo "</form>";
 			}
 			else
