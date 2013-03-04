@@ -18,9 +18,23 @@
 	src:url('QuickSand.otf');
 }
 
+@font-face{
+	font-family:Enchanted;
+	src:url('EnchantedPrairieDog.ttf');
+}
+
+@font-face{
+	font-family:Princess;
+	src:url('JellykaWesternPrincess.ttf');
+}
+
 body
 {
+	margin:0;
+	padding:0;
 	font-family:QuickSand;
+	overflow:hidden;
+	background-image:url('pics/pic2.jpg');
 }
 
 input
@@ -28,20 +42,77 @@ input
 	font-family:QuickSand;
 }
 
-#header
+img
 {
+	height:100%;
+	width:100%;
 }
 
-#allLogs
+#largeContainer
 {
-	overflow:auto;
+	height:100%;
+	width:100%;
 	position:relative;
-	height:65%;
-	width:46%;
-	border: 1px dashed black;
-	border-radius: 5px;
-	padding: 1%;
+	float:left;
 }
 
-/*overflow - para sa scrolling*/
-/*yung absolute ay para sa pangbackground?*/
+#footer
+{
+	font-size:0.9em;
+	position:absolute;
+	float:left;
+	color:white;
+	left:1%;
+	top:97%;
+}
+
+#systemName
+{
+	float:left;
+	padding-top:2%;
+	text-align:center;
+	color:white;
+	height:100%;
+	width:20%;
+	background-color:black;
+	opacity:0.7;
+	position:absolute;
+	left:75%;
+}
+
+#signIn
+{
+	background-color:black;
+	border:1px dotted gray;
+	margin:10%;
+	padding:2%;
+}
+
+.welcome
+{
+	font-size:2em;
+}
+.inputSignIn
+{
+	font-size:0.5em;
+}
+
+.signInTable
+{
+	margin:auto;
+	font-size:1.5em;
+}
+
+.DMS
+{
+	font-family:Princess;
+	font-size:3em;
+	color:white;
+	text-decoration:none;
+}
+
+hr
+{
+	width:80%;
+	border-color:gray;
+}
