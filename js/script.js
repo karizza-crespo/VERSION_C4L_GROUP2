@@ -124,7 +124,7 @@ function validateEditDormerInformationForm()
 	var box, i;
 	var form = document.editDormerInformation;
 	
-	for(i=0; i<9; i++)
+	for(i=0; i<7; i++)
 	{
 		box=form.elements[i];
 		if(!box.value)
@@ -162,10 +162,10 @@ function validateRegister()
 	
 	if(form.elements[4].checked)
 	{
-		for(i=0; i<8; i++)
+		for(i=0; i<7; i++)
 		{
 			box=form.elements[i];
-			if(i==5 || i==6)
+			if(i==3 || i==4 || i==5)
 				continue;
 			else
 			{
@@ -183,6 +183,33 @@ function validateRegister()
 		for(i=0; i<8; i++)
 		{
 			box=form.elements[i];
+			if(i==3 || i==4 || i==6)
+				continue;
+			else
+			{
+				if(!box.value)
+				{
+					alert('You haven\'t filled in the '+box.name+'.');
+					box.focus();
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+function validateEditInfoByAdmin(type)
+{
+	var box, i;
+	var form = document.editInfo;
+	
+	//dormer
+	if(type=='dormer')
+	{
+		for(i=0; i<7; i++)
+		{
+			box=form.elements[i];
 			if(!box.value)
 			{
 				alert('You haven\'t filled in the '+box.name+'.');
@@ -191,15 +218,19 @@ function validateRegister()
 			}
 		}
 	}
-	return true;
-}
-
-function validateEditInfoByAdmin()
-{
-	var box, i;
-	
-	var form = document.editInfo;
-	
-	
+	//staff
+	else if(type=='staff')
+	{
+		for(i=0; i<3; i++)
+		{
+			box=form.elements[i];
+			if(!box.value)
+			{
+				alert('You haven\'t filled in the '+box.name+'.');
+				box.focus();
+				return false;
+			}
+		}
+	}
 	return true;
 }

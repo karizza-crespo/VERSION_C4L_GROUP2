@@ -17,6 +17,7 @@ else if($_SESSION['accountType']!='admin')
 {
 	header('Location: signin.php');
 	die;
+$_SESSION['searchType']='';
 }
 ?>
 
@@ -31,13 +32,11 @@ else if($_SESSION['accountType']!='admin')
 			if(isset($_POST["editdormerinfo"]))
 			{
 				$success=$manager->editDormerInformation($_SESSION['searchUsername'], $_POST["name"],
-						$_POST["course"], $_POST["birthdate"], $_POST["age"],	$_POST["homeaddress"],
-						$_POST["contactnumber"], $_POST["contactperson"], $_POST["contactpersonnumber"]);
+						$_POST["course"], $_POST["birthdate"],	$_POST["homeaddress"], $_POST["contactnumber"],
+						$_POST["contactperson"], $_POST["contactpersonnumber"]);
 
 				if($success==1)
 					echo "<h2>Information successfully edited.</h2><br/>";
-				else if ($success==3)
-					echo "<span style='color:red'>Student Number already in the Database.</span><br /><br />";
 				else
 					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
 			} else if(isset($_POST["editstaffinfo"]))
@@ -51,13 +50,14 @@ else if($_SESSION['accountType']!='admin')
 					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
 			}
 		?>
-		<form name="editInfo" onsubmit="return validateEditInfoByAdmin()" action="editinfobyadmin.php" method="post">
+		<form name="editInfo" onsubmit="return validateEditInfoByAdmin('<?php echo $_SESSION['searchType']; ?>')" action="editinfobyadmin.php" method="post">
 			<?php
 					$dormers=$manager->retrieveAllDormers();
 					for($i=0; $i<count($dormers); $i++)
 					{
 						if(isset($_POST["editdormerinfobyadmin$i"]))
 						{
+							$_SESSION['searchType'] = 'dormer';
 							$_SESSION['searchUsername'] = $dormers[$i]->getUsername();
 							$manager->printEditInfoForm('dormer', $dormers[$i], $i);
 						}
@@ -68,6 +68,7 @@ else if($_SESSION['accountType']!='admin')
 					{
 						if(isset($_POST["editstaffinfobyadmin$i"]))
 						{
+							$_SESSION['searchType'] = 'staff';
 							$_SESSION['searchUsername'] = $staff[$i]->getStaffUsername();
 							$manager->printEditInfoForm('staff', $staff[$i], $i);
 						}

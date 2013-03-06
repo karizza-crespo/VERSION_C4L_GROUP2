@@ -2,7 +2,7 @@
 include("classes.php");
 
 //connect to the database
-$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
+$db=pg_connect("host=localhost port=5432 dbname=DMS user=postgres password=Pass128");
 
 class databaseManager
 {	
@@ -233,9 +233,8 @@ class databaseManager
 		$allDormers = array();
 		
 
-		$stmt="SELECT * FROM dormer ORDER BY username;";
+		$stmt="SELECT DATE_PART('year', AGE(birthdate)) AS age, * FROM dormer;";
 		$result=pg_query($stmt);
-		
 		//create an instance for every dormer and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$allDormers[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
@@ -352,9 +351,8 @@ class databaseManager
 	{
 		$dormers = array();
 		
-		$stmt="SELECT * FROM dormer WHERE username='$username';";
+		$stmt="SELECT DATE_PART('year', AGE(birthdate)) AS age, * FROM dormer;";
 		$result=pg_query($stmt);
-			
 		//create an instance for every dormer and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$dormers[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
@@ -421,13 +419,6 @@ class databaseManager
 					echo "<td><input type='date' id='birthdate' name='birthdate' value='".$_POST['birthdate']."'></td>";
 			echo "</tr>
 			<tr>
-				<td><label for='age'>Age: </label></td>";
-				if(isset($_POST["viewdormerinfo"]) || ($i!='-1' && isset($_POST["editdormerinfobyadmin$i"])))
-					echo "<td><input type='text' id='age' name='age' pattern='[0-9]{1,3}' value='".$username->getAge()."'></td>";
-				else
-					echo "<td><input type='text' id='age' name='age' pattern='[0-9]{1,3}' value='".$_POST['age']."'></td>";
-			echo "</tr>
-			<tr>
 				<td><label for='homeaddress'>Home Address: </label></td>";
 				if(isset($_POST["viewdormerinfo"]) || ($i!='-1' && isset($_POST["editdormerinfobyadmin$i"])))
 					echo "<td><input type='text' id='homeaddress' name='homeaddress' pattern='[A-za-z0-9\s,\.\-/]{1,150}' value='".$username->getHomeAddress()."'></td>";
@@ -492,7 +483,7 @@ class databaseManager
 	}
 	
 	//function for printing the view info
-   public function printViewInfo($user, $type)
+	public function printViewInfo($user, $type)
 	{
 		echo "<table>";
 		if($type=='dormer')
@@ -648,10 +639,10 @@ class databaseManager
 	}
 	
 	//function for editing dormer information
-	public function editDormerInformation($username, $name, $course, $birthdate,	$age, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
+	public function editDormerInformation($username, $name, $course, $birthdate, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
 	{
 		$stmt="UPDATE DORMER SET name='$name', course='$course',";
-		$stmt.=" birthdate='$birthdate', age='$age', home_address='$homeaddress',";
+		$stmt.=" birthdate='$birthdate', home_address='$homeaddress',";
 		$stmt.=" contact_number='$contactnumber', contact_person='$contactperson',";
 		$stmt.=" contact_person_number='$contactpersonnumber' WHERE username='$username';";
 		$success=pg_query($stmt);		
