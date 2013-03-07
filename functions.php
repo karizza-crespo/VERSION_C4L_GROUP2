@@ -351,7 +351,7 @@ class databaseManager
 	{
 		$dormers = array();
 		
-		$stmt="SELECT * FROM dormer ORDER BY username;";
+		$stmt="SELECT * FROM dormer WHERE username='$username';";
 		$result=pg_query($stmt);
 		//create an instance for every dormer and add it to the array
 		while($row=pg_fetch_assoc($result))

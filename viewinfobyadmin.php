@@ -47,7 +47,7 @@ $_SESSION['searchUsername']='none';
 				<tr>
 					<td>Search Staff by Staff Number: </td>
 					<td>
-						<input type="number" id="viewStaffInfo" name="viewStaffInfo" min='1'/>
+						<input type="number" id="viewStaffInfo" name="viewStaffInfo" min='1' value='1'/>
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchStaffByNumber"/>
