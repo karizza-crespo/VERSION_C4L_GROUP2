@@ -23,13 +23,11 @@ if($_SESSION['accountType']!='dormer')
 			if(isset($_POST["editdormerinfo"]))
 			{
 				$success=$manager->editDormerInformation($_SESSION['username'], $_POST["name"],
-						$_POST["course"], $_POST["birthdate"], $_POST["age"], $_POST["homeaddress"],
-						$_POST["contactnumber"], $_POST["contactperson"], $_POST["contactpersonnumber"]);
+						$_POST["course"], $_POST["birthdate"], $_POST["homeaddress"], $_POST["contactnumber"],
+						$_POST["contactperson"], $_POST["contactpersonnumber"]);
 
 				if($success==1)
 					echo "<h2>Information successfully edited.</h2><br/>";
-				else if ($success==3)
-					echo "<span style='color:red'>Student Number already in the Database.</span><br /><br />";
 				else
 					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
 			}
