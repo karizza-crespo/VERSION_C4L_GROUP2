@@ -95,7 +95,7 @@ if($_SESSION['accountType']!='admin'){
 			 if ($type == 1){
 				//insert values into the table named dormer
 				$roomnumber = $_POST['roomnumber'];
-				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$studentnumber','$default_char','$default_char','$default_date','$default_int','$default_char','$default_char','$default_char','$roomnumber');";
+				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$studentnumber','$default_char','$default_char','$default_date','$default_char','$default_char','$default_char','$roomnumber');";
 				$success=pg_query($stmt);
 				if($success)
 					echo "<span style='color:blue'>Dormer successfully added.</span><br /><br />";

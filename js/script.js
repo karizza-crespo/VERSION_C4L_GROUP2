@@ -207,6 +207,8 @@ function validateEditInfoByAdmin()
 	for(i=0; i<7; i++)
 	{
 		box=form.elements[i];
+		if(box==null)
+			break;
 		if(!box.value)
 		{
 			alert('You haven\'t filled in the '+box.name+'.');
