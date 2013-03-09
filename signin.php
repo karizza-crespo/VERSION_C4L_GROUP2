@@ -15,18 +15,15 @@ session_start();
 				background-image:url('pics/pic2.jpg');
 			}
 		</style>
-		<script src="js/script.js"></script>
+		<link rel="stylesheet" type="text/css" href="js/toast/resources/css/jquery.toastmessage.css" />
 		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
+		<script src="js/script.js"></script>
 	</head>
 	<body>
 		<div id="largeContainer">
 			<img src="css/pics/dorm.jpg" />
 		</div>
-		<!--<div id="tagline">
-			Manages<br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your<br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stay
-		</div>-->
 		<div id="systemName">
 			<a class="DMS" href="signin.php">Dormitory Management System</a>
 			<br/>

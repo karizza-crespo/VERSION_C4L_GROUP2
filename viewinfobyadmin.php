@@ -29,7 +29,10 @@ $_SESSION['infoSearchFlagStaff']=0;
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="js/toast/resources/css/jquery.toastmessage.css" />
 		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
+		<script src="js/script.js"></script>
 		<script>
 			$().ready(function(){
 				$("div.listOfDormers").hide();
@@ -77,7 +80,7 @@ $_SESSION['infoSearchFlagStaff']=0;
 				$dormers = $manager->retrieveAllDormers();
 				if($dormers!=null)
 				{
-					echo "<br /><center><div class='dormerList'><h2>LIST OF DORMERS</h2></div></center>";
+					echo "<br /><center><div class='dormerList' title='List of Dormers'><h2>LIST OF DORMERS</h2></div></center>";
 					echo "<div class='listOfDormers'>";
 					$manager->printViewInfoByAdmin($dormers, 'dormer');
 					echo "</div>";
@@ -88,7 +91,7 @@ $_SESSION['infoSearchFlagStaff']=0;
 				$staff = $manager->retrieveAllStaff();
 				if($staff!=null)
 				{
-					echo "<center><div class='staffList'><h2>LIST OF STAFF</h2></div></center>";
+					echo "<center><div class='staffList' title='List of Staff'><h2>LIST OF STAFF</h2></div></center>";
 					echo "<div class='listOfStaff'>";
 					$manager->printViewInfoByAdmin($staff, 'staff');
 					echo "</div>";
@@ -97,6 +100,7 @@ $_SESSION['infoSearchFlagStaff']=0;
 					echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>Staff Table is Empty.</center></span><br /><br />";
 			?>
 		</form>
+		<br />
 		<br />
 	</body>
 </html>

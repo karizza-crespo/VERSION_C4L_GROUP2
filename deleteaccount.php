@@ -16,8 +16,10 @@ if($_SESSION['accountType']!='admin')
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
-		<script src="js/script.js"></script>
+		<link rel="stylesheet" type="text/css" href="js/toast/resources/css/jquery.toastmessage.css" />
 		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
+		<script src="js/script.js"></script>
 		<script>
 			$().ready(function(){
 				$("div.listOfDormers").hide();
@@ -90,7 +92,7 @@ if($_SESSION['accountType']!='admin')
 					
 				if($dormers!=null)
 				{
-					echo "<br /><center><div class='dormerList'><h2>LIST OF DORMERS</h2></span></center>";
+					echo "<br /><center><div class='dormerList' title='List of Dormers'><h2>LIST OF DORMERS</h2></span></center>";
 					echo "<div class='listOfDormers'>";
 					$manager->printDelete($dormers, 'dormer');
 					echo "</div>";
@@ -102,7 +104,7 @@ if($_SESSION['accountType']!='admin')
 				
 				if($staff!=null)
 				{
-					echo "<center><div class='staffList'><h2>LIST OF STAFF</h2></span></center>";
+					echo "<center><div class='staffList' title='List of Staff'><h2>LIST OF STAFF</h2></span></center>";
 					echo "<div class='listOfStaff'>";
 					$manager->printDelete($staff, 'staff');
 					echo "</div>";
@@ -119,5 +121,7 @@ if($_SESSION['accountType']!='admin')
 				}
 			?>
 		</form>
+		<br />
+		<br />
 	</body>
 </html>

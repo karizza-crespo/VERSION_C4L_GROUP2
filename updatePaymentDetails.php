@@ -23,6 +23,9 @@ else if($_SESSION['accountType']!='admin')
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="js/toast/resources/css/jquery.toastmessage.css" />
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
 		<script src="js/script.js"></script>
 	</head>
 	<body>
@@ -40,7 +43,7 @@ else if($_SESSION['accountType']!='admin')
 				}
 				if(isset($_POST['editentry']))
 				{
-					$entry = $manager->updatePaymentRecords($_POST['dateofpayment'], $_POST['paymentnumber'], $_POST['username'], $_POST['month'], $_POST['amount']);
+					$entry = $manager->updatePaymentRecords($_POST['dateofpayment'], $_POST['paymentnumber'], $_POST['username'], $_POST['oldUsername'], $_POST['month'], $_POST['oldMonth'], $_POST['amount']);
 					if($entry==1)
 						header('Location: updatepayment.php');
 					else if ($entry==2)
@@ -57,6 +60,6 @@ else if($_SESSION['accountType']!='admin')
 			?>
 		</form>
 		<br />
-		<a class="back" href="updatepayment.php" title="back to list of payment records">Back to List of Payment Records</a>
+		<center><a class="back" href="updatepayment.php" title="Back to List of Payment Records">Back to List of Payment Records</a></center>
 	</body>
 </html>

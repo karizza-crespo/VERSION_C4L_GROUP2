@@ -16,6 +16,9 @@ if($_SESSION['accountType']!='dormer')
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="js/toast/resources/css/jquery.toastmessage.css" />
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
 		<script src="js/script.js"></script>
 	</head>
 	<body>
@@ -42,6 +45,6 @@ if($_SESSION['accountType']!='dormer')
 			?>
 		</form>
 		<br />
-		<a class="back" href="viewdormerinformation.php" title="Back to Personal Information">Back to Personal Information</a><br /><br />
+		<center><a class="back" href="viewdormerinformation.php" title="Back to Personal Information">Back to Personal Information</a></center><br /><br />
 	</body>
 </html>

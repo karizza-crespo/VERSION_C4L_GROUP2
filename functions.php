@@ -129,6 +129,7 @@ class databaseManager
 				<tr>
 					<td><label for='username'>Username:</label></td>
 					<td><input type='text' id='username' name='username' value='".$recordDetails->getDormerUsername()."'/></td>
+					<td><input type='hidden' id='oldUsername' name='oldUsername' value='".$recordDetails->getDormerUsername()."'/></td>
 				</tr>
 				<tr>
 					<td><label for='month'>Month:</label></td>
@@ -184,6 +185,7 @@ class databaseManager
 								echo "<option value='December'>December</option>";
 						echo "</select>
 					</td>
+					<td><input type='hidden' name='oldMonth' value='".$recordDetails->getMonth()."' /></td>
 				</tr>
 				<tr>
 					<td><label for='amount'>Amount:</label></td>
@@ -198,7 +200,7 @@ class databaseManager
 	}
 	
 	//function for updating the entry in the payment records table
-	public function updatePaymentRecords($dateofpayment, $paymentnumber, $username, $month, $amount)
+	public function updatePaymentRecords($dateofpayment, $paymentnumber, $username, $oldUsername, $month, $oldMonth, $amount)
 	{
 		//check first if the username is in the dormer table
 		$stmt="SELECT count(*) FROM dormer WHERE username='$username';";
@@ -214,15 +216,32 @@ class databaseManager
 			if($dateofpayment>$date[0])
 				return 5;
 			
-			//get all the months that the dormer paid for
-			$stmt="SELECT month FROM payment_record WHERE username='$username';";
-			$result=pg_query($stmt);
-			while($row=pg_fetch_assoc($result))
+			//check if the user changed the username
+			if($oldUsername!=$username)
 			{
-				//check if the dormer already paid for that month, if yes, return 2
-				if($row['month']==$month)
+				//get all the months that the dormer paid for
+				$stmt="SELECT month FROM payment_record WHERE username='$username';";
+				$result=pg_query($stmt);
+				while($row=pg_fetch_assoc($result))
+				{
+					//check if the dormer already paid for that month, if yes, return 2
+					if($row['month']==$month)
+						return 2;
+				}
+			}
+			
+			//check if the user changed the month
+			if($oldMonth!=$month)
+			{
+				//if yes, check if the username already paid for the month specified
+				$stmt="SELECT count(*) FROM payment_record WHERE username='$username' AND month='$month';";
+				$count=pg_fetch_array(pg_query($stmt));
+				
+				//if yes, return 2
+				if($count[0]!=0)
 					return 2;
 			}
+			
 			//if amount is equal to 0 return 4
 			if($amount==0)
 				return 4;

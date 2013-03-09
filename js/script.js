@@ -36,7 +36,8 @@ function validateUpdatePaymentForm()
 			//if it encountered a box without a value, an alert box would appear informing the user
 			if(!box.value)
 			{
-				alert('You haven\'t filled in the '+box.name+'.');
+				$().toastmessage({position:'middle-center', stayTime:2000});
+				$().toastmessage('showErrorToast', "You haven't filled in the "+box.name+".");
 				box.focus();
 				return false;
 			}
@@ -58,7 +59,8 @@ function validateAddPaymentForm()
 		//if it encountered a box without a value, an alert box would appear informing the user
 		if(!box.value)
 		{
-			alert('You haven\'t filled in the '+box.name+'.');
+			$().toastmessage({position:'middle-center', stayTime:2000});
+			$().toastmessage('showErrorToast', "You haven't filled in the "+box.name+".");
 			box.focus();
 			return false;
 		}
@@ -101,8 +103,8 @@ function addWhereabouts()
 		//return false if there is no value in the whereabouts text field
 		if(!box.value)
 		{
-			$().toastmessage({position:'middle-center'});
-			$().toastmessage('showErrorToast', "You haven't filled in the whereabouts.");
+			$().toastmessage({position:'middle-center', stayTime:2000});
+			$().toastmessage('showErrorToast', "You haven't filled in the "+box.name+".");
 			box.focus();
 			return false;
 		}
@@ -148,7 +150,8 @@ function validateEditDormerInformationForm()
 		//if it encountered a box without a value, an alert box would appear informing the user
 		if(!box.value)
 		{
-			alert('You haven\'t filled in the '+box.name+'.');
+			$().toastmessage({position:'middle-center', stayTime:2000});
+			$().toastmessage('showErrorToast', "You haven't filled in the "+box.name+".");
 			box.focus();
 			return false;
 		}
@@ -169,7 +172,8 @@ function validateEditStaffInformationForm()
 		//if it encountered a box without a value, an alert box would appear informing the user
 		if(!box.value)
 		{
-			alert('You haven\'t filled in the '+box.name+'.');
+			$().toastmessage({position:'middle-center', stayTime:2000});
+			$().toastmessage('showErrorToast', "You haven't filled in the "+box.name+".");
 			box.focus();
 			return false;
 		}
@@ -197,7 +201,8 @@ function validateRegister()
 				//if it encountered a box without a value, an alert box would appear informing the user
 				if(!box.value)
 				{
-					alert('You haven\'t filled in the '+box.name+'.');
+					$().toastmessage({position:'middle-center', stayTime:2000});
+					$().toastmessage('showErrorToast', "You haven't filled in the "+box.name+".");
 					box.focus();
 					return false;
 				}
@@ -213,7 +218,8 @@ function validateRegister()
 			//if it encountered a box without a value, an alert box would appear informing the user
 			if(!box.value)
 			{
-				alert('You haven\'t filled in the '+box.name+'.');
+				$().toastmessage({position:'middle-center', stayTime:2000});
+				$().toastmessage('showErrorToast', "You haven't filled in the "+box.name+".");
 				box.focus();
 				return false;
 			}
@@ -235,7 +241,8 @@ function validateEditInfoByAdminDormer()
 		//if it encountered a box without a value, an alert box would appear informing the user
 		if(!box.value)
 		{
-			alert('You haven\'t filled in the '+box.name+'.');
+			$().toastmessage({position:'middle-center', stayTime:2000});
+			$().toastmessage('showErrorToast', "You haven't filled in the "+box.name+".");
 			box.focus();
 			return false;
 		}
@@ -256,7 +263,8 @@ function validateEditInfoByAdminStaff()
 		//if it encountered a box without a value, an alert box would appear informing the user
 		if(!box.value)
 		{
-			alert('You haven\'t filled in the '+box.name+'.');
+			$().toastmessage({position:'middle-center', stayTime:2000});
+			$().toastmessage('showErrorToast', "You haven't filled in the "+box.name+".");
 			box.focus();
 			return false;
 		}

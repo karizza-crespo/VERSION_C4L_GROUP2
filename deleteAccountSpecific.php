@@ -15,8 +15,10 @@ if($_SESSION['accountType']!='admin')
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
-		<script src="js/script.js"></script>
+		<link rel="stylesheet" type="text/css" href="js/toast/resources/css/jquery.toastmessage.css" />
 		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
+		<script src="js/script.js"></script>
 		<script>
 			$().ready(function(){
 				$("div.listOfDormers").hide();
@@ -97,6 +99,6 @@ if($_SESSION['accountType']!='admin')
 				}
 			?>
 		</form>
-		<a class="back" href="deleteaccount.php" title="back to list of accounts">Back to List of Accounts</a>
+		<center><a class="back" href="deleteaccount.php" title="Back to List of Accounts">Back to List of Accounts</a></center>
 	</body>
 </html>
