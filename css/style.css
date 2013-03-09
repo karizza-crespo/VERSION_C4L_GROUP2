@@ -24,6 +24,11 @@ body
 	background-color:black;
 }
 
+.downDormer, .downStaff, .upDormer, .upStaff
+{
+	color:blue;
+}
+
 /*the font family of all the input tags will be Quicksand*/
 input
 {

@@ -37,11 +37,17 @@ $_SESSION['infoSearchFlagStaff']=0;
 			$().ready(function(){
 				$("div.listOfDormers").hide();
 				$("div.listOfStaff").hide();
+				$(".upDormer").hide();
+				$(".upStaff").hide();
 				$(".dormerList").click(function(){
 					$("div.listOfDormers").slideToggle();
+					$(".upDormer").toggle();
+					$(".downDormer").toggle();
 				});
 				$(".staffList").click(function(){
 					$("div.listOfStaff").slideToggle();
+					$(".upStaff").toggle();
+					$(".downStaff").toggle();
 				});
 			});
 		</script>
@@ -80,7 +86,7 @@ $_SESSION['infoSearchFlagStaff']=0;
 				$dormers = $manager->retrieveAllDormers();
 				if($dormers!=null)
 				{
-					echo "<br /><center><div class='dormerList' title='List of Dormers'><h2>LIST OF DORMERS</h2></div></center>";
+					echo "<br /><center><div class='dormerList' title='List of Dormers'><h2><a class='downDormer'>&darr;</a><a class='upDormer'>&uarr;</a> LIST OF DORMERS <a class='upDormer'>&uarr;</a><a class='downDormer'>&darr;</a></h2></div></center>";
 					echo "<div class='listOfDormers'>";
 					$manager->printViewInfoByAdmin($dormers, 'dormer');
 					echo "</div>";
@@ -91,7 +97,7 @@ $_SESSION['infoSearchFlagStaff']=0;
 				$staff = $manager->retrieveAllStaff();
 				if($staff!=null)
 				{
-					echo "<center><div class='staffList' title='List of Staff'><h2>LIST OF STAFF</h2></div></center>";
+					echo "<center><div class='staffList' title='List of Staff'><h2><a class='downStaff'>&darr;</a><a class='upStaff'>&uarr;</a> LIST OF STAFF <a class='upStaff'>&uarr;</a><a class='downStaff'>&darr;</a></h2></div></center>";
 					echo "<div class='listOfStaff'>";
 					$manager->printViewInfoByAdmin($staff, 'staff');
 					echo "</div>";

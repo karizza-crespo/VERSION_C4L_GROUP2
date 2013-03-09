@@ -24,11 +24,17 @@ if($_SESSION['accountType']!='admin')
 			$().ready(function(){
 				$("div.listOfDormers").hide();
 				$("div.listOfStaff").hide();
+				$(".upDormer").hide();
+				$(".upStaff").hide();
 				$(".dormerList").click(function(){
 					$("div.listOfDormers").slideToggle();
+					$(".upDormer").toggle();
+					$(".downDormer").toggle();
 				});
 				$(".staffList").click(function(){
 					$("div.listOfStaff").slideToggle();
+					$(".upStaff").toggle();
+					$(".downStaff").toggle();
 				});
 				$(".isSelected").change(function() {
 				    if($(this).is(':checked')) 
@@ -92,7 +98,7 @@ if($_SESSION['accountType']!='admin')
 					
 				if($dormers!=null)
 				{
-					echo "<br /><center><div class='dormerList' title='List of Dormers'><h2>LIST OF DORMERS</h2></span></center>";
+					echo "<br /><center><div class='dormerList' title='List of Dormers'><h2><a class='downDormer'>&darr;</a><a class='upDormer'>&uarr;</a> LIST OF DORMERS <a class='upDormer'>&uarr;</a><a class='downDormer'>&darr;</a></h2></span></center>";
 					echo "<div class='listOfDormers'>";
 					$manager->printDelete($dormers, 'dormer');
 					echo "</div>";
@@ -104,7 +110,7 @@ if($_SESSION['accountType']!='admin')
 				
 				if($staff!=null)
 				{
-					echo "<center><div class='staffList' title='List of Staff'><h2>LIST OF STAFF</h2></span></center>";
+					echo "<center><div class='staffList' title='List of Staff'><h2><a class='downStaff'>&darr;</a><a class='upStaff'>&uarr;</a> LIST OF STAFF <a class='upStaff'>&uarr;</a><a class='downStaff'>&darr;</a></h2></span></center>";
 					echo "<div class='listOfStaff'>";
 					$manager->printDelete($staff, 'staff');
 					echo "</div>";
