@@ -17,12 +17,44 @@ if($_SESSION['accountType']!='admin')
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<script src="js/script.js"></script>
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script>
+			$().ready(function(){
+				$("div.listOfDormers").hide();
+				$("div.listOfStaff").hide();
+				$(".dormerList").click(function(){
+					$("div.listOfDormers").slideToggle();
+				});
+				$(".staffList").click(function(){
+					$("div.listOfStaff").slideToggle();
+				});
+				$(".isSelected").change(function() {
+				    if($(this).is(':checked')) 
+				        $(this).parent().parent().addClass('toBeDeleted');
+					else 
+				      $(this).parent().parent().removeClass('toBeDeleted');
+				});
+				$('.checkAllUsers').click(function(){
+					$(".deleteUsers tr").each(function(i){
+						if($(this).hasClass('listOfUsers'))
+							$(this).addClass('toBeDeleted');
+					});
+				});
+				$('.uncheckAllUsers').click(function(){
+					$(".deleteUsers tr").each(function(i){
+						if($(this).hasClass('listOfUsers'))
+							$(this).removeClass('toBeDeleted');
+					});
+				});
+			});
+		</script>
 	</head>
 	<body>
+		<br />
 		<form name="searchSpecificDormer" action="deleteAccountSpecific.php" method="post">
-			<table>
+			<table class='search'>
 				<tr>
-					<td>Search Dormer By Username: </td>
+					<td><label for="deleteDormer">Search Dormer By Username: </label></td>
 					<td>
 						<input type="text" id="deleteDormer" name="deleteDormer" />
 					</td>
@@ -33,9 +65,9 @@ if($_SESSION['accountType']!='admin')
 			</table>
 		</form>
 		<form name="searchSpecificStaff" action="deleteAccountSpecific.php" method="post">
-			<table>
+			<table class='search'>
 				<tr>
-					<td>Search Staff by Staff Number: </td>
+					<td><label for="deleteStaff">Search Staff by Staff Number: </label></td>
 					<td>
 						<input type="number" id="deleteStaff" name="deleteStaff" />
 					</td>
@@ -45,34 +77,38 @@ if($_SESSION['accountType']!='admin')
 				</tr>
 			</table>
 		</form>
-
+		<br />
 		<form name="retrieveAll" onsubmit="return areYouSureDelete()" action="deleteaccount.php" method="post">
-			<input type="button" value="Check All" name="check" onclick="checkall();"/>
-			<input type="button" value="Uncheck All" name="uncheck" onclick="uncheckall();"/>
-			<input type="submit" value="Delete" name="delete" />
+			<center>
+				<input class='checkAllUsers' type="button" value="Check All" name="check" onclick="checkall();"/>
+				<input class='uncheckAllUsers' type="button" value="Uncheck All" name="uncheck" onclick="uncheckall();"/>
+				<input class='deleteButtons' type="submit" value="Delete" name="delete" />
+			</center>
 			<br />
 			<?php
 				$dormers = $manager->retrieveAllDormers();
 					
 				if($dormers!=null)
 				{
-					echo "<br />DORMERS: <br /><br />";
+					echo "<br /><center><div class='dormerList'><h2>LIST OF DORMERS</h2></span></center>";
+					echo "<div class='listOfDormers'>";
 					$manager->printDelete($dormers, 'dormer');
+					echo "</div>";
 				}
 				else
-					echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
+					echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>Dormer Table is Empty.</center></span><br /><br />";
 					
-				echo "<br />";
-				
 				$staff = $manager->retrieveAllStaff();
 				
 				if($staff!=null)
 				{
-					echo "<br />STAFF: <br /><br />";
+					echo "<center><div class='staffList'><h2>LIST OF STAFF</h2></span></center>";
+					echo "<div class='listOfStaff'>";
 					$manager->printDelete($staff, 'staff');
+					echo "</div>";
 				}
 				else
-					echo "<span style='color:red'>Staff Table is Empty.</span><br />";
+					echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>Staff Table is Empty.</center></span><br /><br />";
 				
 				if(isset($_POST['delete']))
 				{
@@ -83,6 +119,5 @@ if($_SESSION['accountType']!='admin')
 				}
 			?>
 		</form>
-		<a href='admin_db.php' title='Back to Admin Home Page'>Back to Admin Home Page</a>
 	</body>
 </html>

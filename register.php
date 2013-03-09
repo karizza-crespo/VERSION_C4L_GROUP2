@@ -19,7 +19,7 @@ if($_SESSION['accountType']!='admin'){
 
 	<body onload="showhide()">
 
-	<h1>REGISTRATION FORM</h1>
+	<center><h1>REGISTRATION FORM</h1></center>
 	<?php
 	$errors = array(); /*list array of errors*/
 	$default_char = 'none';
@@ -41,13 +41,13 @@ if($_SESSION['accountType']!='admin'){
 		$count=pg_fetch_array(pg_query($stmt));
 		
 		if($count[0]!=0){
-			$errors[] = 'username already exists';
+			$errors[] = 'Username already exists';
 		}else{	
 			$stmt="SELECT count(*) FROM staff WHERE username='$username';";
 			$count=pg_fetch_array(pg_query($stmt));
 			
 			if($count[0]!=0)
-			$errors[] = 'username already exists';
+			$errors[] = 'Username already exists';
 		}	
 		
 		if($type==1)
@@ -78,7 +78,7 @@ if($_SESSION['accountType']!='admin'){
 			$count=pg_fetch_array(pg_query($stmt));
 			
 			if($count[0]!=0){
-				$errors[] = 'student number already exists';
+				$errors[] = 'Student number already exists';
 			}
 		}
 		
@@ -95,12 +95,12 @@ if($_SESSION['accountType']!='admin'){
 			 if ($type == 1){
 				//insert values into the table named dormer
 				$roomnumber = $_POST['roomnumber'];
-				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$studentnumber','$default_char','$default_char','$default_date', '$default_int','$default_char','$default_char','$default_char','$roomnumber');";
+				$stmt="INSERT INTO dormer VALUES ('$username', '$password','$default_char','$studentnumber','$default_char','$default_char','$default_date','$default_int','$default_char','$default_char','$default_char','$roomnumber');";
 				$success=pg_query($stmt);
 				if($success)
-					echo "<span style='color:blue'>Dormer successfully added.</span><br /><br />";
+					echo "<span style='color:cyan; font-size:1.35em; font-weight:bold'><center>Dormer successfully added.</center></span><br /><br />";
 				else
-					echo "<span style='color:red'>Failed to add Dormer.</span><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold'><center>Failed to add Dormer.</center></span><br />";
 			}
 		
 		
@@ -110,9 +110,9 @@ if($_SESSION['accountType']!='admin'){
 				$stmt="INSERT INTO staff (name, address, contact_number, type, username, password) VALUES ('$default_char','$default_char','$default_char','$stafftype','$username','$password');";
 				$success=pg_query($stmt);
 				if($success)
-					echo "<span style='color:blue'>Staff successfully added.</span><br /><br />";
+					echo "<span style='color:cyan; font-size:1.35em; font-weight:bold'><center>Staff successfully added.</center></span><br /><br />";
 				else
-					echo "<span style='color:red'>Failed to add Staff.</span><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold'><center>Failed to add Staff.</center></span><br />";
 			}
 		}
 	}
@@ -120,7 +120,7 @@ if($_SESSION['accountType']!='admin'){
 		<form name="registerForm" onsubmit="return validateRegister()" method="post" action="">
 			<?php
 			if(count($errors) > 0){ //print list of errors
-				echo "<span style='color:red'><ul>";
+				echo "<span style='color:red; font-size:1.25em; font-weight:bold;'><ul class='listErrors'>";
 				foreach($errors as $e){
 					echo '<li>' . $e . '</li>';
 				}
@@ -128,27 +128,27 @@ if($_SESSION['accountType']!='admin'){
 			
 			} 
 			?>
-			<table>
+			<table class='registerForm'>
 				<tr>
-					<td>Username</td>
-					<td> <input type="text" name="username" size="20" /></td>
+					<td><label for="username">Username:</label></td>
+					<td> <input type="text" name="username" id="username" size="20" /></td>
 				</tr>
 				<tr>
-					<td>Password</td>
-					<td><input type="password" name="password" size="20" /></td>
+					<td><label for="password">Password:</label></td>
+					<td><input type="password" name="password" id="password" size="20" /></td>
 				</tr>
 				<tr>
-					<td>Confirm Password</td>
-					<td><input type="password" name="c_password" size="20" /></td>
+					<td><label for="c_password">Confirm Password:</label></td>
+					<td><input type="password" id="c_password" name="c_password" size="20" /></td>
 				</tr>
 				<tr>
-					<td>Account Type</td>
+					<td><label for="type">Account Type:</label></td>
 					<td><input type="radio" name="type" id="dormer" value="1" checked="checked" onclick="showhide()"/><label for="dormer">DORMER</label>
 					<input type="radio" name="type" id="staff" value="2" onclick="showhide()"/><label for="staff">STAFF</label></td>
 				</tr>
 				<tr>
 					<td>
-						<label id="studentnumberlabel" for='studentnumber'>Student Number: </label>
+						<label id="studentnumberlabel" for='studentnumber'>Student Number:</label>
 						<label id="stafftypelabel" for='stafftype'>Staff Type: </label>
 					</td>
 					<td>
@@ -162,14 +162,14 @@ if($_SESSION['accountType']!='admin'){
 				</tr>
 				<tr>
 					<td><label id="roomnumberlabel" for='roomnumber'>Room Number: </label></td>
-					<td><input type="number" id="roomnumber" name="roomnumber" min="1" value='1'/></td>
+					<td><input type="number" id="roomnumber" name="roomnumber" min="1"/></td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="submit" name="register" class = "register" value="REGISTER" /></td>
+					<td></td>
+					<td><input type="submit" name="register" class = "register" value="REGISTER" /></td>
 				</tr>
 			</table>
 		</form>
 		<br />
-		<a href="admin_db.php" title="Back to Admin Home Page">Back to Admin Home Page </a></br>
 	</body>
 </html>

@@ -2,7 +2,7 @@
 include("classes.php");
 
 //connect to the database
-$db=pg_connect("host=localhost port=5432 dbname=DMS user=postgres password=Pass128");
+$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
 
 class databaseManager
 {	
@@ -15,9 +15,17 @@ class databaseManager
 		
 		if($count[0]!=0)
 		{
-			//if the amount entered by the dorm manager is 0, return 4
+			//if the amount entered is 0, return 4
 			if($amount==0)
 				return 4;
+			
+			//get the current date
+			$stmt="SELECT current_date;";
+			$date = pg_fetch_array(pg_query($stmt));
+			
+			//check if the date entered is greater than the current date, if yes, return 6
+			if($dop>$date[0])
+				return 6;
 				
 			//check if the dormer already paid for that month
 			$stmt="SELECT count(*) FROM payment_record WHERE username='$username' AND month='$month';";
@@ -25,12 +33,14 @@ class databaseManager
 			
 			if($count[0]==0)
 			{
+				//get the name of the dormer from the dormer table
 				$stmt="SELECT name FROM dormer WHERE username='$username';";
 				$name=pg_fetch_array(pg_query($stmt));
 				
 				//insert values into the table named payment_record
 				$stmt="INSERT INTO payment_record (name, month, username, amount, date_of_payment) VALUES ('$name[0]', '$month', '$username', '$amount', '$dop');";
 				$success=pg_query($stmt);
+				
 				//return 1 if entry is successfully inserted, 0 if not
 				if($success)
 					return 1;
@@ -62,7 +72,7 @@ class databaseManager
 	//function for printing the list of all records in a table form
 	public function printEdit($recordDetails)
 	{
-		echo "<table border='1'>";
+		echo "<table border='1' class='paymentEdit'>";
 			echo "<tr>
 				<th>Payment Number</th>
 				<th>Username</th>
@@ -70,6 +80,7 @@ class databaseManager
 				<th>Date of Payment</th>
 				<th>Month</th>
 				<th>Amount</th>
+				<th></th>
 			</tr>";
 			for($ctr=0; $ctr<count($recordDetails); $ctr++)
 			{
@@ -105,7 +116,7 @@ class databaseManager
 	//function for printing the edit form
 	public function printEditForm($recordDetails)
 	{
-		echo "<table>
+		echo "<br /><table class='updatePaymentForm'>
 				<tr>
 					<td><label for='paymentnumber'>Payment Number:</label></td>
 					<td><input type='number' id='paymentnumber' name='paymentnumber' disabled='disabled' value='".$recordDetails->getPaymentNumber()."'/></td>
@@ -173,7 +184,6 @@ class databaseManager
 								echo "<option value='December'>December</option>";
 						echo "</select>
 					</td>
-					<td><input type='hidden' name='oldmonth' value='".$recordDetails->getMonth()."'/></td>
 				</tr>
 				<tr>
 					<td><label for='amount'>Amount:</label></td>
@@ -188,7 +198,7 @@ class databaseManager
 	}
 	
 	//function for updating the entry in the payment records table
-	public function updatePaymentRecords($dateofpayment, $paymentnumber, $username, $month, $amount, $oldmonth)
+	public function updatePaymentRecords($dateofpayment, $paymentnumber, $username, $month, $amount)
 	{
 		//check first if the username is in the dormer table
 		$stmt="SELECT count(*) FROM dormer WHERE username='$username';";
@@ -196,32 +206,40 @@ class databaseManager
 		
 		if($count[0]!=0)
 		{
-			//check if there is an entry in the payment record table that has the username and month specified 
-			$stmt="SELECT count(*) FROM payment_record WHERE username='$username' AND month='$month';";
-			$count=pg_fetch_array(pg_query($stmt));
+			//get the current date
+			$stmt="SELECT current_date;";
+			$date = pg_fetch_array(pg_query($stmt));
 			
-			//if there is none, or the old month is equal to the new month
-			if($count[0]==0 || $oldmonth==$month)
+			//if the date entered is greater than the current date, return 5
+			if($dateofpayment>$date[0])
+				return 5;
+			
+			//get all the months that the dormer paid for
+			$stmt="SELECT month FROM payment_record WHERE username='$username';";
+			$result=pg_query($stmt);
+			while($row=pg_fetch_assoc($result))
 			{
-				//if amount is equal to 0 return 4
-				if($amount==0)
-					return 4;
-
-				$stmt="SELECT name from dormer WHERE username='$username';";
-				$name=pg_fetch_array(pg_query($stmt));
-				
-				//update entry in the database
-				$stmt="UPDATE payment_record set date_of_payment='$dateofpayment', name='$name[0]', username='$username', month='$month', amount='$amount' WHERE payment_number='$paymentnumber';";
-				$success=pg_query($stmt);
-				
-				if($success)
-					return 1;
-				else
-					return 0;	
+				//check if the dormer already paid for that month, if yes, return 2
+				if($row['month']==$month)
+					return 2;
 			}
-			//if there is already the same month and username in the database, return 2
+			//if amount is equal to 0 return 4
+			if($amount==0)
+				return 4;
+
+			//get the name of the dormer from the database
+			$stmt="SELECT name from dormer WHERE username='$username';";
+			$name=pg_fetch_array(pg_query($stmt));
+			
+			//update entry in the database
+			$stmt="UPDATE payment_record set date_of_payment='$dateofpayment', name='$name[0]', username='$username', month='$month', amount='$amount' WHERE payment_number='$paymentnumber';";
+			$success=pg_query($stmt);
+			
+			//if the update is successful, return 1, if not, return 0
+			if($success)
+				return 1;
 			else
-				return 2;
+				return 0;	
 		}
 		//if not, return 3
 		return 3;
@@ -232,9 +250,9 @@ class databaseManager
 	{
 		$allDormers = array();
 		
-
 		$stmt="SELECT * FROM dormer ORDER BY username;";
 		$result=pg_query($stmt);
+		
 		//create an instance for every dormer and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$allDormers[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
@@ -257,9 +275,10 @@ class databaseManager
 		return $allStaff;
 	}
 	
+	//function for printing a list of all the dormers and all the staff
 	public function printDelete($details, $type)
 	{
-		echo "<table border='1'>";
+		echo "<table border='1' class='deleteUsers'>";
 		if($type=='dormer')
 		{
 			echo "<tr>
@@ -279,8 +298,8 @@ class databaseManager
 			echo "<input type='hidden' value='0' name='dormer' />";
 			for($ctr=0; $ctr<count($details); $ctr++)
 			{
-				echo "<tr>
-					<td><input type='checkbox' value='".$details[$ctr]->getUsername()."' name='dormer[]' id='dormer".$ctr."' /></td>
+				echo "<tr class='listOfUsers'>
+					<td><input type='checkbox' class='isSelected' value='".$details[$ctr]->getUsername()."' name='dormer[]' id='dormer".$ctr."' /></td>
 					<td><label for='dormer".$ctr."'>".$details[$ctr]->getUsername()."</label></td>
 					<td>".$details[$ctr]->getName()."</td>
 					<td>".$details[$ctr]->getStudentNumber()."</td>
@@ -309,8 +328,8 @@ class databaseManager
 			echo "<input type='hidden' value='0' name='staff' />";
 			for($ctr=0; $ctr<count($details); $ctr++)
 			{
-				echo "<tr>
-					<td><input type='checkbox' value='".$details[$ctr]->getStaffNumber()."' name='staff[]' id='staff".$ctr."'/></td>
+				echo "<tr class='listOfUsers'>
+					<td><input type='checkbox' class='isSelected' value='".$details[$ctr]->getStaffNumber()."' name='staff[]' id='staff".$ctr."'/></td>
 					<td><label for='staff".$ctr."'>".$details[$ctr]->getStaffNumber()."</label></td>
 					<td>".$details[$ctr]->getStaffUsername()."</td>
 					<td>".$details[$ctr]->getStaffName()."</td>
@@ -339,7 +358,7 @@ class databaseManager
 		for($ctr=0; $ctr<count($deleteStaff); $ctr++)
 		{
 			//before you delete the staff, delete first all the entries of the staff in the staff_schedule
-			$stmt="DELETE FROM staff_schedule WHERE staff_number='$deleteStaff[$ctr]';";
+			$stmt="DELETE FROM schedule WHERE staff_number='$deleteStaff[$ctr]';";
 			pg_query($stmt);
 			$stmt="DELETE FROM staff WHERE staff_number='$deleteStaff[$ctr]';";
 			pg_query($stmt);
@@ -353,6 +372,7 @@ class databaseManager
 		
 		$stmt="SELECT * FROM dormer WHERE username='$username';";
 		$result=pg_query($stmt);
+			
 		//create an instance for every dormer and add it to the array
 		while($row=pg_fetch_assoc($result))
 			$dormers[] = new Dormer($row['username'], $row['password'], $row['name'], $row['student_number'], $row['home_address'], $row['contact_number'], $row['birthdate'], $row['age'], $row['course'], $row['contact_person'], $row['contact_person_number'], $row['room_number']);
@@ -365,6 +385,9 @@ class databaseManager
 	public function searchStaff($number)
 	{
 		$staff = array();
+		
+		if($number=="")
+			return $staff;
 		
 		$stmt="SELECT * FROM staff WHERE staff_number='$number';";
 		$result=pg_query($stmt);
@@ -394,7 +417,7 @@ class databaseManager
 	//function for printing the edit info form
 	public function printEditInfoForm($type, $username, $i)
 	{
-		echo "<table>";
+		echo "<br /><table class='editDormerInfoForm'>";
 		if($type=='dormer')
 		{
 			echo "<tr>
@@ -485,7 +508,7 @@ class databaseManager
 	//function for printing the view info
 	public function printViewInfo($user, $type)
 	{
-		echo "<table>";
+		echo "<br /><table class='viewInfo'>";
 		if($type=='dormer')
 		{
 			echo "<tr>
@@ -574,7 +597,7 @@ class databaseManager
 	//function for printing all the accounts in a table
 	public function printViewInfoByAdmin($details, $type)
 	{
-		echo "<table border='1'>";
+		echo "<table border='1' class='viewInfoByAdmin'>";
 		if($type=='dormer')
 		{
 			echo "<tr>
@@ -641,18 +664,23 @@ class databaseManager
 	//function for editing dormer information
 	public function editDormerInformation($username, $name, $course, $birthdate, $homeaddress, $contactnumber,	$contactperson, $contactpersonnumber)
 	{
-		//compute for age based on birthdate
-		$stmt="SELECT DATE_PART('year', AGE(timestamp '$birthdate')) AS age;";
-		$result=pg_query($stmt);
-		while($row=pg_fetch_assoc($result))
-			$age[] = $row['age'];
-
-		//update dormer information in database
+		$stmt="SELECT current_date;";
+		$date=pg_fetch_array(pg_query($stmt));
+		
+		if($birthdate>$date[0])
+			return 3;
+		
 		$stmt="UPDATE DORMER SET name='$name', course='$course',";
-		$stmt.=" birthdate='$birthdate', age='$age[0]', home_address='$homeaddress',";
+		$stmt.=" birthdate='$birthdate', home_address='$homeaddress',";
 		$stmt.=" contact_number='$contactnumber', contact_person='$contactperson',";
 		$stmt.=" contact_person_number='$contactpersonnumber' WHERE username='$username';";
-		$success=pg_query($stmt);		
+		$success=pg_query($stmt);	
+		$stmt="SELECT (current_date-birthdate)/365 FROM dormer WHERE username='$username'";
+		$age = pg_fetch_array(pg_query($stmt));
+		
+		$stmt="UPDATE dormer SET age='$age[0]' WHERE username='$username'";
+		$success = pg_query($stmt);
+		
 		if($success)
 			return 1;
 		else
@@ -662,19 +690,19 @@ class databaseManager
 	//function for editing staff information
 	public function editStaffInformation($username, $name, $address, $contactnumber)
 	{
-		//add all the information of the staff to the database
+		//update all the information of the staff to the database
 		$stmt="UPDATE STAFF SET name='$name', address='$address', contact_number='$contactnumber'";
 		$stmt.=" WHERE username='$username';";
 		$success=pg_query($stmt);
 	
+		//if the update is successful, return 1, if not, return 0
 		if($success)
 			return 1;
 		else
 			return 0;
 	}
-	//Ian's functions
-	//-----------------------------------------------------------------------------------------------------
-public function printSchedule($day)
+	
+	public function printSchedule($day)
 	{
 		
 		echo "<tr>";
@@ -694,7 +722,6 @@ public function printSchedule($day)
 		echo "</tr>";
 			
 	}
-	
 	
 	public function retrieveStaff($staffType)
 	{
@@ -722,8 +749,6 @@ public function printSchedule($day)
 		$staff=$a[0];
 		return $staff;
 	}
-	
-	
 	
 	public function addScheduleEntry($schedid,$day,$time,$location,$staffno)
 	{
@@ -916,7 +941,6 @@ public function printSchedule($day)
 		return 1;
 		
 	}
-	//------------------------------------------------------------------------------------------------------
 	
 	//function for viewing all log entries
 	public function viewAllLogs()
@@ -951,7 +975,7 @@ public function printSchedule($day)
 	//function for printing all log entries
 	public function printAllLogs($logs)
 	{
-		echo "<table border='1'>
+		echo "<table border='1' class='logs'>
 			<tr>
 				<th>Log ID</th>
 				<th>Username</th>
@@ -974,46 +998,58 @@ public function printSchedule($day)
 		echo "</table>";
 	}
 	
+	//function for viewing room availability
 	public function viewRoomAvailability()
 	{	
 		$room = array();
 		
+		//select everthing from the table room
 		$stmt="SELECT * FROM room ORDER BY room_number";
 		$result=pg_query($stmt);
 		$ctr=0;
 		
+		//for every row, add the room number and the total slots to the array
 		while($row=pg_fetch_assoc($result))
 		{
 			$room[$ctr][0]=$row['room_number'];
 			$room[$ctr][1]=$row['slots'];
-			$room[$ctr][2]=0;	//number of dormers currently residing in the room number
-			$room[$ctr][3]=0;	
+			//initialize first the number of dormers currently residing in the room number to 0
+			$room[$ctr][2]=0;
+			//initialize first the number of available slots to 0
+			$room[$ctr][3]=0;
 			$ctr++;
 		}
 		
+		//from the database, count all the dormers with the same room number
 		$stmt="SELECT room_number, count(room_number) from dormer GROUP BY room_number;";
 		$result=pg_query($stmt);
 		
 		while($row=pg_fetch_assoc($result))
 		{
+			//loop through the array $room
 			for($ctr=0; $ctr<count($room); $ctr++)
 			{
+				//if the room number in the array is equal to the room number from the database
 				if($room[$ctr][0]==$row['room_number'])
+					 //change the value of the number of dormers currently residing in the room to the value of count
 					$room[$ctr][2]=$row['count'];
 			}
 		}
 		
+		//loop through the array to change the value of available slots by subtracting the number of dormers currently residing in the room from the total capacity of the room
 		for($ctr=0; $ctr<count($room); $ctr++)
 		{
 			if($room[$ctr][3]==0)
 				$room[$ctr][3]=$room[$ctr][1]-$room[$ctr][2];
 		}
+		//return the array with all the values
 		return $room;
 	}
 	
+	//function for printing the room availability table
 	public function printRoomAvailability($room)
 	{
-		echo "<table border='1'>
+		echo "<table border='1' class='roomAvailabilityList'>
 			<tr>
 				<th>Room Number</th>
 				<th>Capacity</th>

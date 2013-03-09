@@ -26,9 +26,9 @@
 	<body>
 		<br />
 		<form name="searchSpecificLog" action="viewlogs.php" method="post">
-			<table>
+			<table class='search'>
 				<tr>
-					<td>Search By Username: </td>
+					<td><label for='logUsername'>Search By Username: </label></td>
 					<td>
 						<input type="text" id="logUsername" name="logUsername" />
 					</td>
@@ -39,7 +39,6 @@
 			</table>
 		</form>
 		<?php
-			echo "LOGS: <br /><br />";
 			echo "<div id='allLogs'>";
 			if(isset($_POST['searchLogByUsername']))
 				$logs=$manager->searchSpecificLog($_POST['logUsername']);
@@ -50,12 +49,12 @@
 			else
 			{
 				if(isset($_POST['searchLogByUsername']))
-					echo "<span style='color:red'>".$_POST['logUsername']." is not in the Logs Table.</span><br /><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>".$_POST['logUsername']." is not in the Logs Table.</center></span><br /><br />";
 				else
-					echo "<span style='color:red'>Logs Table is Empty.</span><br /><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Logs Table is Empty.</center></span><br /><br />";
 			}
 		echo "</div>";
-		echo "<br /><a href='".$_SESSION['accountType']."_db.php' title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
 		?>
+		<br />
 	</body>
 </html>

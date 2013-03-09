@@ -28,6 +28,5 @@ $current_user = $_SESSION['username'];
 			?>
 		</form>
 		<br />
-		<a href="staff_db.php" title="Back to Staff Home Page">Back to Staff Home Page</a>
 	</body>
 </html>

@@ -26,27 +26,31 @@ else if($_SESSION['accountType']!='admin')
 		<script src="js/script.js"></script>
 	</head>
 	<body>
+		<br />
+		<br />
 		<?php
 			if(isset($_POST["addentry"]))
 			{
 				$payment=$manager->addPaymentEntry($_POST["dateofpayment"], $_POST["username"], $_POST["month"], $_POST["amount"]);
 				if($payment==1)
-					echo "<span style='color:blue'>Payment Entry Added.</span><br />";
+					echo "<span style='color:cyan; font-size:1.35em; font-weight:bold;'><center>Payment Entry Added.</center></span><br />";
 				else if ($payment==2)
-					echo "<span style='color:red'>Payment Number already in the record.</span><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Payment Number already in the record.</center></span><br />";
 				else if ($payment==3)
-					echo "<span style='color:red'>Month already paid.</span><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Month already paid.</center></span><br />";
 				else if ($payment==4)
-					echo "<span style='color:red'>Amount is invalid.</span><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Amount is invalid.</center></span><br />";
 				else if ($payment==5)
-					echo "<span style='color:red'>".$_POST['username']." is not in the Dormers Table.</span><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>".$_POST['username']." is not in the Dormers Table.</center></span><br />";
+				else if ($payment==6)
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Date is invalid.</center></span><br />";
 				else
-					echo "<span style='color:red'>Failed to add payment entry.</span><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Failed to add payment entry.</center></span><br />";
 				echo "<br />";
 			}
 		?>
 		<form name="addPayment" onsubmit="return validateAddPaymentForm()" action="addpayment.php" method="post">
-			<table>
+			<table class='addPaymentForm'>
 				<tr>
 					<td><label for="dateofpayment">Date: </label></td>
 					<td><input type="date" id="dateofpayment" name="dateofpayment"/></td>
@@ -86,10 +90,5 @@ else if($_SESSION['accountType']!='admin')
 				</tr>
 			</table>
 		</form>
-		
-		<?php
-		//link lang to pabalik sa dormer_db, staff_db or admin_db
-		echo "<a href='".$_SESSION['accountType']."_db.php' Title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
-		?>
 	</body>
 </html>

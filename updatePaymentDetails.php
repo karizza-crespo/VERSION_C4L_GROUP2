@@ -26,36 +26,37 @@ else if($_SESSION['accountType']!='admin')
 		<script src="js/script.js"></script>
 	</head>
 	<body>
-		<table>
-			<form name="update" onsubmit="return validateUpdatePaymentForm();" action="updatePaymentDetails.php" method="post">
-				<?php
-					if ($_SESSION['searchFlag']==1)
-						$records = $manager->searchRecords($_SESSION['searchUsername']);
+		<br />
+		<form name="update" onsubmit="return validateUpdatePaymentForm();" action="updatePaymentDetails.php" method="post">
+			<?php
+				if ($_SESSION['searchFlag']==1)
+					$records = $manager->searchRecords($_SESSION['searchUsername']);
+				else
+					$records=$manager->retrieveAllRecords();
+				for($i=0; $i<count($records); $i++)
+				{
+					if(isset($_POST["record$i"]))
+						$manager->printEditForm($records[$i]);
+				}
+				if(isset($_POST['editentry']))
+				{
+					$entry = $manager->updatePaymentRecords($_POST['dateofpayment'], $_POST['paymentnumber'], $_POST['username'], $_POST['month'], $_POST['amount']);
+					if($entry==1)
+						header('Location: updatepayment.php');
+					else if ($entry==2)
+						echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Month already paid.</center></span><br />";
+					else if ($entry==3)
+						echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>".$_POST['username']." is not in the Dormers Table.</center></span><br />";
+					else if ($entry==4)
+						echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Amount is invalid.</center></span><br />";
+					else if ($entry==5)
+						echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Date is invalid.</center></span><br />";
 					else
-						$records=$manager->retrieveAllRecords();
-					for($i=0; $i<count($records); $i++)
-					{
-						if(isset($_POST["record$i"]))
-							$manager->printEditForm($records[$i]);
-					}
-					if(isset($_POST['editentry']))
-					{
-						$entry = $manager->updatePaymentRecords($_POST['dateofpayment'], $_POST['paymentnumber'], $_POST['username'], $_POST['month'], $_POST['amount'], $_POST['oldmonth']);
-						if($entry==1)
-							header('Location: updatepayment.php');
-						else if ($entry==2)
-							echo "<span style='color:red'><br /><center>Month already paid.</center></span><br />";
-						else if ($entry==3)
-							echo "<span style='color:red'><br /><center>".$_POST['username']." is not in the Dormers Table.</center></span><br />";
-						else if ($entry==4)
-							echo "<span style='color:red'><br /><center>Amount is invalid.</center></span><br />";
-						else
-							echo "<span style='color:red'><br /><center>Failed to update Payment Record.</center></span><br />";
-					}
-				?>
-			</form>
-			<br />
-			<a href="updatepayment.php" title="back to list of payment records">Back to List of Payment Records</a>
-		</table>
+						echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Failed to update Payment Record.</center></span><br />";
+			}
+			?>
+		</form>
+		<br />
+		<a class="back" href="updatepayment.php" title="back to list of payment records">Back to List of Payment Records</a>
 	</body>
 </html>

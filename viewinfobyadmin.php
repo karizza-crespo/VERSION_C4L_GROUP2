@@ -21,18 +21,34 @@ else if($_SESSION['accountType']!='admin')
 
 //set the searchUsername session to none
 $_SESSION['searchUsername']='none';
+$_SESSION['infoSearchFlagDormer']=0;
+$_SESSION['infoSearchFlagStaff']=0;
 ?>
 
 <html>
 	<head>
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script>
+			$().ready(function(){
+				$("div.listOfDormers").hide();
+				$("div.listOfStaff").hide();
+				$(".dormerList").click(function(){
+					$("div.listOfDormers").slideToggle();
+				});
+				$(".staffList").click(function(){
+					$("div.listOfStaff").slideToggle();
+				});
+			});
+		</script>
 	</head>
 	<body>
+		<br />
 		<form name="searchSpecificDormer" action="searchresults.php" method="post">
-			<table>
+			<table class='search'>
 				<tr>
-					<td>Search Dormer By Username: </td>
+					<td><label for='viewDormerInfo'>Search Dormer By Username: </label></td>
 					<td>
 						<input type="text" id="viewDormerInfo" name="viewDormerInfo" />
 					</td>
@@ -43,11 +59,11 @@ $_SESSION['searchUsername']='none';
 			</table>
 		</form>
 		<form name="searchSpecificStaff" action="searchresults.php" method="post">
-			<table>
+			<table class='search'>
 				<tr>
-					<td>Search Staff by Staff Number: </td>
+					<td><label for='viewStaffInfo'>Search Staff by Staff Number:</label></td>
 					<td>
-						<input type="number" id="viewStaffInfo" name="viewStaffInfo" min='1' value='1'/>
+						<input type="number" id="viewStaffInfo" name="viewStaffInfo" min='1'/>
 					</td>
 					<td>
 						<input type="submit" value="Search" name="searchStaffByNumber"/>
@@ -59,29 +75,28 @@ $_SESSION['searchUsername']='none';
 		<form name="retrieveAll" action="editinfobyadmin.php" method="post">
 			<?php
 				$dormers = $manager->retrieveAllDormers();
-
 				if($dormers!=null)
 				{
-					echo "<br />DORMERS: <br /><br />";
+					echo "<br /><center><div class='dormerList'><h2>LIST OF DORMERS</h2></div></center>";
+					echo "<div class='listOfDormers'>";
 					$manager->printViewInfoByAdmin($dormers, 'dormer');
+					echo "</div>";
 				}
 				else
-					echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
-
-				echo "<br />";
+					echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>Dormer Table is Empty.</center></span><br /><br />";
 
 				$staff = $manager->retrieveAllStaff();
-
 				if($staff!=null)
 				{
-					echo "<br />STAFF: <br /><br />";
+					echo "<center><div class='staffList'><h2>LIST OF STAFF</h2></div></center>";
+					echo "<div class='listOfStaff'>";
 					$manager->printViewInfoByAdmin($staff, 'staff');
+					echo "</div>";
 				}
 				else
-					echo "<span style='color:red'>Staff Table is Empty.</span><br />";
+					echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>Staff Table is Empty.</center></span><br /><br />";
 			?>
 		</form>
 		<br />
-		<?php echo "<a href='".$_SESSION['accountType']."_db.php' title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>"; ?>
 	</body>
 </html>

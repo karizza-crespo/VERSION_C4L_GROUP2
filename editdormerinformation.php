@@ -19,17 +19,20 @@ if($_SESSION['accountType']!='dormer')
 		<script src="js/script.js"></script>
 	</head>
 	<body>
+		<br />
 		<?php
 			if(isset($_POST["editdormerinfo"]))
 			{
 				$success=$manager->editDormerInformation($_SESSION['username'], $_POST["name"],
-						$_POST["course"], $_POST["birthdate"], $_POST["homeaddress"], $_POST["contactnumber"],
-						$_POST["contactperson"], $_POST["contactpersonnumber"]);
+						$_POST["course"], $_POST["birthdate"], $_POST["homeaddress"],
+						$_POST["contactnumber"], $_POST["contactperson"], $_POST["contactpersonnumber"]);
 
 				if($success==1)
-					echo "<h2>Information successfully edited.</h2><br/>";
+					echo "<center><h2>Information successfully edited.</h2></center><br/>";
+				else if ($success==3)
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Birthdate is Invalid.</center></span><br /><br />";
 				else
-					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Failed to edit information.</center></span><br /><br />";
 			}
 		?>
 		<form name="editDormerInformation" onsubmit="return validateEditDormerInformationForm();" action="editdormerinformation.php" method="post">
@@ -39,6 +42,6 @@ if($_SESSION['accountType']!='dormer')
 			?>
 		</form>
 		<br />
-		<a href="viewdormerinformation.php" title="Back to Personal Information">Back to Personal Information</a>
+		<a class="back" href="viewdormerinformation.php" title="Back to Personal Information">Back to Personal Information</a><br /><br />
 	</body>
 </html>

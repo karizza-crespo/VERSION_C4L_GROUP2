@@ -26,12 +26,11 @@
 		<script src="js/script.js"></script>
 	</head>
 	<body>
-		ROOM AVAILABILITY:<br /><br /><br />
+		<br />
 		<?php
 			$roomTable = $manager->viewRoomAvailability();
 			$manager->printRoomAvailability($roomTable);
 			echo "<br /><br />";
-			echo "<a href='".$_SESSION['accountType']."_db.php' Title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
 		?>
 	</body>
 </html>

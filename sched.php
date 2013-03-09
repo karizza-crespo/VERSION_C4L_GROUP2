@@ -473,7 +473,8 @@
 	</head>
 	<body>
 		<div id="container">
-			SCHEDULE
+			<br />
+			<br />
 			<div id="body">
 				<?php
 					if($_SESSION["view"]==1)
@@ -495,13 +496,13 @@
 					
 					<tr>
 						<!--time slot-->
-						<th></th>
-						<th>10pm - 6am</th>
-						<th>6am - 2pm</th>
-						<th>2pm - 10pm</th>
+						<th class="schedTable"></th>
+						<th class="schedTable">10pm - 6am</th>
+						<th class="schedTable">6am - 2pm</th>
+						<th class="schedTable">2pm - 10pm</th>
 					</tr>
 					<tr>
-						<th align="left">Dorm Manager</th>
+						<th class="schedTable" align="left">Dorm Manager</th>
 						<?php
 							$listOfDormMan = $dormManager->retrieveStaff('Dorm Manager');
 							
@@ -626,11 +627,11 @@
 					</tr>
 					
 					<tr>
-						<th></th>
-						<th colspan=4>Maintenance</th>
+						<th class="schedTable"></th>
+						 <th class="schedTable" colspan=4>Maintenance</th>
 					</tr>
 					<tr>
-						<th align="left">Unit1</th>
+						<th class="schedTable" align="left">Unit1</th>
 						<?php
 							$listOfMan = $dormManager->retrieveStaff('Maintenance');
 							echo '<td align="center">';
@@ -753,7 +754,7 @@
 						?>
 					</tr>
 					<tr>
-						<th align="left">Unit2</th>
+						<th class="schedTable" align="left">Unit2</th>
 						<?php
 							$listOfMan = $dormManager->retrieveStaff('Maintenance');
 							echo '<td align="center">';
@@ -876,11 +877,11 @@
 						?>
 					</tr>
 					<tr>
-						<th></th>
-						<th colspan=4>Guard</th>
+						<th class="schedTable"></th>
+						 <th class="schedTable" colspan=4>Guard</th>
 					</tr>
 					<tr>
-						<th align="left">East Gate</th>
+						<th class="schedTable" align="left">East Gate</th>
 						<?php
 							$listOfGuard = $dormManager->retrieveStaff('Guard');
 							echo '<td align="center">';
@@ -1001,7 +1002,7 @@
 						?>
 					</tr>
 					<tr>
-						<th align="left">West Gate</th>
+						<th class="schedTable" align="left">West Gate</th>
 						<?php
 							$listOfGuard = $dormManager->retrieveStaff('Guard');
 							echo '<td align="center">';
@@ -1161,21 +1162,23 @@
 						<form name="chooseFrom" action="sched.php" method="post">
 							<?php
 								//yung $disable po na variable, pang disable ng button, kapag dormer and staff yung nakalog in, $disable = "disabled=true" kapag admin tsaka dorm manager $disable = null
+								echo "<br /><center>";
 								if($_SESSION["add"]==0){
 									if($disable=="null")
-										echo "<input type='submit' name='addSched' value='Add Sched' />";
+										echo "<input type='submit' class='schedButtons' name='addSched' value='Add Sched' />";
 								}
 								if($_SESSION["edit"]==0){
 									if($disable=="null")
-										echo "<input type='submit' name='editSched' value='Edit Sched'/>";
+										echo "<input type='submit' class='schedButtons' name='editSched' value='Edit Sched'/>";
 								}
 								if($_SESSION["view"]==0){
 									if($disable=="null")
-										echo "<input type='submit' name='viewSched' value='View Sched'/>";
+										echo "<input type='submit' class='schedButtons' name='viewSched' value='View Sched'/>";
 								}
 								if($_SESSION["delete"]==0){
 									if($disable=="null")
-										echo "<input type='submit' name='deleteSched' value='Delete Sched'/>";
+										echo "<input type='submit' class='schedButtons' name='deleteSched' value='Delete Sched'/>";
+								echo "</center>";
 								}
 							?>
 	
@@ -1184,8 +1187,5 @@
 				</div>
 			</div>
 		</div>
-		<?php
-		echo "<a href='".$_SESSION['accountType']."_db.php' Title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
-		?>
 	</body>
 </html>

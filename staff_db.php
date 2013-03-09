@@ -17,34 +17,50 @@ $current_user = $_SESSION['username'];
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<style>
+			body
+			{
+				overflow:hidden;
+				background-image:url('pics/pic2.jpg');
+			}
+		</style>
+		<script src="js/script.js"></script>
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/staff.jquery.js"></script>
 	</head>
-<body>
-	<h1>Welcome, Staff: <?php echo $current_user ?> 	!!!</h1>
-	
-	<input type="button" onclick="location.href='viewstaffinformation.php'" title="Personal Information" value="Personal Information"/>
-	<br />
-	<br />
-	<?php
-		$stmt="SELECT type from staff WHERE username='$current_user';";
-		$result=pg_fetch_array(pg_query($stmt));
-	
-		if($result[0]=='Dorm Manager')
-		{
-	?>
-			<input type="button" onclick="location.href='viewinfobyadmin.php'" title="Personal Information" value="Personal Information of Dormers &amp; Staff" /><br /><br />
-		<input type="button" onclick="location.href='addpayment.php'" title='Add Payment Records' value="Add Payment Records" /><br /><br />
-		<input type="button" onclick="location.href='updatepayment.php'" title='Update Payment Records' value="Update Payment Records" /><br /><br />
-		<input type="button" onclick="location.href='viewlogs.php'" title='View Logs' value="View Logs" /><br /><br />
-		<input type="button" onclick="location.href='roomavailability.php'" title='Room Availability' value="Room Availability" /><br /><br />
-	<?php
-		}
-	?>
-	<form name='sched' action='sched.php' method='post'>
-		<input type='submit' value='Staff Schedule' name='viewSched' />
-	</form>
-	<br />
-	<input type="button" onclick="location.href='signout.php'" title="Sign Out" value="Sign Out" /></br>
-
-
-</body>
+	<body>
+		<div id="largeContainer">
+			<img src="css/pics/dorm(1).jpg" />
+		</div>
+		<div id='welcomeUser'>
+			<a class='welcomeHeader'><span class="refreshpage" title="Home Page">Welcome</span>, Staff: <span class="displaypersonalinfo" title="Personal Information"><?php echo $current_user ?></span>!</a>
+			<input type="button" onclick="location.href='signout.php'" title="Sign Out" value="Sign Out" /></br>
+		</div>
+		<div id="staffListContainer">
+			<ul class='listLinks'>
+				<li><input type="button" class="personalinfo" title="Personal Information" value="Personal Information"/></li>
+		<?php
+			$stmt="SELECT type from staff WHERE username='$current_user';";
+			$result=pg_fetch_array(pg_query($stmt));
+		
+			if($result[0]=='Dorm Manager')
+			{
+		?>
+				<li><input type="button" class="personalinfolist" title="Personal Information" value="Personal Information of Dormers &amp; Staff" /></li>
+				<li><input type="button" class="addpayment" title='Add Payment Records' value="Add Payment Records" /></li>
+				<li><input type="button" class="updatepayment" title='Update Payment Records' value="Update Payment Records" /></li>
+				<li><input type="button" class="viewlogs" title='View Logs' value="View Logs" /></li>
+				<li><input type="button" class="roomavailability" title='Room Availability' value="Room Availability" /></li>
+		<?php
+			}
+		?>
+			<li><input type="button" class="staffschedule" title="Staff Schedule" name='viewSched' value="Staff Schedule"/></li>
+		</ul>
+		</div>
+		<div id='staffBodyContainer'>	
+		</div>
+		<div id='longFooter'>
+			Copyright &copy;2013. CMSC 128 C-4L Group 2. All rights reserved.
+		</div>
+	</body>
 </html>

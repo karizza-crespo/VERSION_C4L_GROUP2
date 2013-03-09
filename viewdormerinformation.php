@@ -24,10 +24,8 @@ $current_user = $_SESSION['username'];
 			<?php
 				$dormer = $manager->searchDormer($current_user);
 				$manager->printViewInfo($dormer, 'dormer');
-				echo "<br />";
 			?>
 		</form>
 		<br />
-		<a href="dormer_db.php" title="Back to Dormer Home Page">Back to Dormer Home Page</a>
 	</body>
 </html>

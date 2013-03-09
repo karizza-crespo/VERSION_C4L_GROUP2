@@ -28,30 +28,34 @@ else if($_SESSION['accountType']!='admin')
 	</head>
 	<body>
 		<?php
+			echo "<br />";
 			if(isset($_POST["editdormerinfo"]))
 			{
 				$success=$manager->editDormerInformation($_SESSION['searchUsername'], $_POST["name"],
-						$_POST["course"], $_POST["birthdate"],	$_POST["homeaddress"], $_POST["contactnumber"],
-						$_POST["contactperson"], $_POST["contactpersonnumber"]);
+						$_POST["course"], $_POST["birthdate"], $_POST["homeaddress"],
+						$_POST["contactnumber"], $_POST["contactperson"], $_POST["contactpersonnumber"]);
 
 				if($success==1)
-					echo "<h2>Information successfully edited.</h2><br/>";
+					echo "<center><h2>Information successfully edited.</h2></center><br/>";
+				else if ($success==3)
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Birthdate is Invalid.</center></span><br /><br />";
 				else
-					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
+					echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Failed to edit information.</center></span><br /><br />";
 			} else if(isset($_POST["editstaffinfo"]))
 			{
 				$success=$manager->editStaffInformation($_SESSION['searchUsername'],
 						$_POST["name"], $_POST["address"], $_POST["contactnumber"]);
 
 				if($success==1)
-					echo "<h2>Information successfully edited.</h2><br/>";
+					echo "<center><h2>Information successfully edited.</h2></center><br/>";
 				else
-					echo "<span style='color:red'>Failed to edit information.</span><br /><br />";
+					echo "<span style='color:red; font-size:1.35em;'><center>Failed to edit information.</center></span><br /><br />";
 			}
-		?>
-		<form name="editInfoByAdmin" onsubmit="return validateEditInfoByAdmin();" action="editinfobyadmin.php" method="post">
-			<?php
-					$dormers=$manager->retrieveAllDormers();
+			echo "<form name='editInfoDormer' onsubmit='return validateEditInfoByAdminDormer();' action='editinfobyadmin.php' method='post'>";
+					if($_SESSION['infoSearchFlagDormer']==1)
+						$dormers = $manager->searchDormer($_SESSION['searchUsername']);
+					else
+						$dormers=$manager->retrieveAllDormers();
 					for($i=0; $i<count($dormers); $i++)
 					{
 						if(isset($_POST["editdormerinfobyadmin$i"]))
@@ -60,8 +64,12 @@ else if($_SESSION['accountType']!='admin')
 							$manager->printEditInfoForm('dormer', $dormers[$i], $i);
 						}
 					}
-
-					$staff=$manager->retrieveAllStaff();
+			echo "</form>";
+			echo "<form name='editInfoStaff' onsubmit='return validateEditInfoByAdminStaff();' action='editinfobyadmin.php' method='post'>";
+					if($_SESSION['infoSearchFlagStaff']==1)
+						$staff = $manager->searchStaff($_SESSION['searchUsername']);
+					else
+						$staff=$manager->retrieveAllStaff();
 					for($i=0; $i<count($staff); $i++)
 					{
 						if(isset($_POST["editstaffinfobyadmin$i"]))
@@ -70,9 +78,9 @@ else if($_SESSION['accountType']!='admin')
 							$manager->printEditInfoForm('staff', $staff[$i], $i);
 						}
 					}
+			echo "</form>";
 			?>
-		</form>
 		<br />
-		<a href="viewinfobyadmin.php" title="Back to List of Dormers and Staff">Back to List of Dormers and Staff</a>
+		<a class="back" href="viewinfobyadmin.php" title="Back to List of Dormers and Staff">Back to List of Dormers and Staff</a>
 	</body>
 </html>

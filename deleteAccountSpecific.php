@@ -16,12 +16,46 @@ if($_SESSION['accountType']!='admin')
 		<title>.::Dormitory Management System::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<script src="js/script.js"></script>
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script>
+			$().ready(function(){
+				$("div.listOfDormers").hide();
+				$("div.listOfStaff").hide();
+				$(".dormerList").click(function(){
+					$("div.listOfDormers").slideToggle();
+				});
+				$(".staffList").click(function(){
+					$("div.listOfStaff").slideToggle();
+				});
+				$(".isSelected").change(function() {
+				    if($(this).is(':checked')) 
+				        $(this).parent().parent().addClass('toBeDeleted');
+					else 
+				      $(this).parent().parent().removeClass('toBeDeleted');
+				});
+				$('.checkAllUsers').click(function(){
+					$(".deleteUsers tr").each(function(i){
+						if($(this).hasClass('listOfUsers'))
+							$(this).addClass('toBeDeleted');
+					});
+				});
+				$('.uncheckAllUsers').click(function(){
+					$(".deleteUsers tr").each(function(i){
+						if($(this).hasClass('listOfUsers'))
+							$(this).removeClass('toBeDeleted');
+					});
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<form name="retrieveAll" onsubmit="return areYouSureDelete()" action="deleteaccount.php" method="post">
-			<input type="button" value="Check All" name="check" onclick="checkall();"/>
-			<input type="button" value="Uncheck All" name="uncheck" onclick="uncheckall();"/>
-			<input type="submit" value="Delete" name="delete" />
+			<br />
+			<center>
+				<input class='checkAllUsers' type="button" value="Check All" name="check" onclick="checkall();"/>
+				<input class='uncheckAllUsers' type="button" value="Uncheck All" name="uncheck" onclick="uncheckall();"/>
+				<input class='deleteButtons' type="submit" value="Delete" name="delete" />
+			</center>
 			<br />
 			<?php
 				if(isset($_POST['searchDormerByUsername']))
@@ -30,13 +64,13 @@ if($_SESSION['accountType']!='admin')
 					
 					if($dormers!=null)
 					{
-						echo "<br />DORMERS: <br /><br />";
+						echo "<br /><center><h2>DORMER:</h2></center>";
 						$manager->printDelete($dormers, 'dormer');
 					}
 					else if (count($dormers)==0)
-						echo "<br /><span style='color:red'>".$_POST['deleteDormer']." is not in the Database.</span><br />";
+						echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>".$_POST['deleteDormer']." is not in the Database.</center></span><br />";
 					else
-						echo "<br /><span style='color:red'>Dormer Table is Empty.</span><br />";
+						echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>Dormer Table is Empty.</center></span><br />";
 						
 					echo "<br />";
 				}
@@ -46,13 +80,13 @@ if($_SESSION['accountType']!='admin')
 				
 					if($staff!=null)
 					{
-						echo "<br />STAFF: <br /><br />";
+						echo "<br /><center><h2>STAFF:</h2></center>";
 						$manager->printDelete($staff, 'staff');
 					}
 					else if (count($staff)==0)
-						echo "<br /><span style='color:red'>".$_POST['deleteStaff']." is not in the Database.</span><br />";
+						echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>".$_POST['deleteStaff']." is not in the Database.</center></span><br />";
 					else
-						echo "<span style='color:red'>Staff Table is Empty.</span><br />";
+						echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>Staff Table is Empty.</center></span><br />";
 				}
 				if(isset($_POST['delete']))
 				{
@@ -63,6 +97,6 @@ if($_SESSION['accountType']!='admin')
 				}
 			?>
 		</form>
-		<a href="deleteaccount.php" title="back to list of accounts">Back to List of Accounts</a>
+		<a class="back" href="deleteaccount.php" title="back to list of accounts">Back to List of Accounts</a>
 	</body>
 </html>

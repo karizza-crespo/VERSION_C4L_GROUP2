@@ -1,6 +1,5 @@
 <?php
-/*etong mga classes ginawa ko para pag nagretrieve tayo sa table, itetreat natin yun as object*/
-/*constructor, setters and getters*/
+/*constructors, setters and getters*/
 
 class Dormer
 {

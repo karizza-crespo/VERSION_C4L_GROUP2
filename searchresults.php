@@ -28,42 +28,45 @@ else if($_SESSION['accountType']!='admin')
 	<body>
 		<form name="searchResults" action="editinfobyadmin.php" method="post">
 			<?php
+				echo "<br />";
 				if(isset($_POST['searchDormerByUsername']))
 				{
+					$_SESSION['infoSearchFlagDormer']=1;
 					$_SESSION['searchUsername']=$_POST['viewDormerInfo'];
 					$dormer = $manager->searchDormer($_POST['viewDormerInfo']);
 
 					if($dormer!=null)
 					{
 						$_SESSION['searchUsername'] = $dormer[0]->getUsername();
-						echo "<br />DORMERS: <br /><br />";
+						echo "<br /><center><h2>DORMER:</h2></center>";
 						$manager->printViewInfoByAdmin($dormer, 'dormer');
 					}
 					else if(count($dormer)==0)
-						echo "<span style='color:red'>".$_SESSION['searchUsername']." is not in the database.</span><br />";
+						echo "<span style='color:red;font-size:1.35em; font-weight:bold;'><center>".$_SESSION['searchUsername']." is not in the database.</center></span><br />";
 					else
-						echo "<span style='color:red'>Dormer Table is Empty.</span><br />";
+						echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Dormer Table is Empty.</center></span><br /><br />";
 						
 					echo "<br />";
 				} else if(isset($_POST['searchStaffByNumber']))
 				{
+					$_SESSION['infoSearchFlagStaff']=1;
 					$_SESSION['searchUsername']=$_POST['viewStaffInfo'];
 					$staff = $manager->searchStaff($_POST['viewStaffInfo']);
 				
 					if($staff!=null)
 					{
-						$_SESSION['searchUsername'] = $staff[0]->getStaffUsername();
-						echo "<br />STAFF: <br /><br />";
+						$_SESSION['searchUsername'] = $staff[0]->getStaffNumber();
+						echo "<br /><center><h2>STAFF:</h2></center>";
 						$manager->printViewInfoByAdmin($staff, 'staff');
 					}
 					else if (count($staff)==0)
-						echo "<span style='color:red'>".$_SESSION['searchUsername']." is not in the database.</span><br />";
+						echo "<span style='color:red;font-size:1.35em; font-weight:bold;'><center>".$_SESSION['searchUsername']." is not in the database.</center></span><br />";
 					else
-						echo "<span style='color:red'>Staff Table is Empty.</span><br />";
+						echo "<span style='color:red; font-size:1.35em; font-weight:bold;'><center>Staff Table is Empty.</center></span><br /><br />";
 				}
 			?>
 		</form>
 		<br />
-		<a href="viewinfobyadmin.php" title="Back to List of Dormers and Staff">Back to List of Dormers and Staff</a>
+		<a class="back" href="viewinfobyadmin.php" title="Back to List of Dormers and Staff">Back to List of Dormers and Staff</a>
 	</body>
 </html>

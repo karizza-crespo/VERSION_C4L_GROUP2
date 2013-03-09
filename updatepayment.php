@@ -30,9 +30,9 @@ $_SESSION['searchUsername']='none';
 	<body>
 		<br />
 		<form name="searchSpecific" action="updatepayment.php" method="post">
-			<table>
+			<table class='search'>
 				<tr>
-					<td>Search By Username: </td>
+					<td><label for="recordUsername">Search By Username:</label></td>
 					<td>
 						<input type="text" id="recordUsername" name="recordUsername" />
 					</td>
@@ -50,12 +50,9 @@ $_SESSION['searchUsername']='none';
 				echo "<form name='updateDetails' action='updatePaymentDetails.php' method='post'>";
 				$record = $manager->searchRecords($_POST['recordUsername']);
 				if($record!=null)
-				{
-					echo "<br />PAYMENT RECORDS: <br /><br />";
 					$manager->printEdit($record);
-				}
 				else
-					echo "<span style='color:red'>".$_SESSION['searchUsername']." is not in the Payment Records Table.</span><br />";
+					echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>".$_SESSION['searchUsername']." is not in the Payment Records Table.</center></span><br />";
 				echo "</form>";
 			}
 			else
@@ -64,17 +61,11 @@ $_SESSION['searchUsername']='none';
 				echo "<form name='updateDetails' action='updatePaymentDetails.php' method='post'>";
 				$record = $manager->retrieveAllRecords();
 				if($record!=null)
-				{
-					echo "<br />PAYMENT RECORDS: <br /><br />";
 					$manager->printEdit($record);
-				}
 				else
-					echo "<span style='color:red'>Payment Records Table is Empty.</span><br />";
+					echo "<br /><span style='color:red; font-size:1.35em; font-weight:bold;'><center>Payment Records Table is Empty.</center></span><br />";
 				echo "</form>";
 			}
-			
-		//link lang to pabalik sa dormer_db, staff_db or admin_db
-			echo "<a href='".$_SESSION['accountType']."_db.php' Title='Back to ".$_SESSION['accountType']." Home Page'>Back to ".$_SESSION['accountType']." Home Page</a>";
 		?>
 	</body>
 </html>
