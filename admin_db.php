@@ -27,6 +27,16 @@ $current_user = $_SESSION['username'];
 		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
 		<script src="js/script.js"></script>
 		<script src="js/admin.jquery.js"></script>
+		<script>
+			$().ready(function(){
+				$('#welcomeUser').hide();
+				$('#adminListContainer').hide();
+				$('#adminBodyContainer').hide();
+				$('#welcomeUser').fadeIn(2000);
+				$('#adminListContainer').fadeIn(3000);
+				$('#adminBodyContainer').fadeIn(4500);
+			});
+		</script>
 	</head>
 	<body>
 		<div id="largeContainer">

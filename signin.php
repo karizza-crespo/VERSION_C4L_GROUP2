@@ -19,6 +19,12 @@ session_start();
 		<script src="js/jquery-1.7.2.min.js"></script>
 		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
 		<script src="js/script.js"></script>
+		<script>
+			$().ready(function(){
+				$("#systemName").hide();
+				$("#systemName").fadeIn(3500);
+			});
+		</script>
 	</head>
 	<body>
 		<div id="largeContainer">
