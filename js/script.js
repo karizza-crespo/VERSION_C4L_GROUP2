@@ -101,7 +101,8 @@ function addWhereabouts()
 		//return false if there is no value in the whereabouts text field
 		if(!box.value)
 		{
-			alert('You haven\'t filled in the '+box.name+'.');
+			$().toastmessage({position:'middle-center'});
+			$().toastmessage('showErrorToast', "You haven't filled in the whereabouts.");
 			box.focus();
 			return false;
 		}

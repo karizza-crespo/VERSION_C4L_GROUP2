@@ -18,6 +18,9 @@ $current_user = $_SESSION['username'];
 		<title>.::Dormitory Management System::.</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="js/toast/resources/css/jquery.toastmessage.css" />
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
 		<script src="js/script.js"></script>
 	</head>
 	<body>
@@ -70,9 +73,6 @@ $current_user = $_SESSION['username'];
 		?>	
 		<form name="myform" onsubmit="return addWhereabouts();" method="post" action="filllogs.php">
 			<table class='fillUpLogs'>
-				<tr>
-					<a class="noWhereabouts"></a>
-				</tr>
 				<tr>
 					<td><input type="radio" name="button" id="in" value="1" onclick = option1() checked="checked"><label for="in">LOG IN</label></td>
 					<td><input type="radio" name="button" id="out" value="2" onclick = option2()><label for="out">LOG OUT</label></td>
