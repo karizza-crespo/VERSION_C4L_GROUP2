@@ -1,7 +1,9 @@
 <?php
 include("functions.php");
+
 session_start();
-if($_SESSION['accountType']!='admin'){
+
+if($_SESSION['accountType']!='staff'){
 	header('Location: signin.php');
 	die;
 }
@@ -26,15 +28,15 @@ $current_user = $_SESSION['username'];
 		<script src="js/jquery-1.7.2.min.js"></script>
 		<script src="js/toast/javascript/jquery.toastmessage.js"></script>
 		<script src="js/script.js"></script>
-		<script src="js/admin.jquery.js"></script>
+		<script src="js/staff.jquery.js"></script>
 		<script>
 			$().ready(function(){
 				$('#welcomeUser').hide();
-				$('#adminListContainer').hide();
-				$('#adminBodyContainer').hide();
+				$('#staffListContainer').hide();
+				$('#staffBodyContainer').hide();
 				$('#welcomeUser').fadeIn(2000);
-				$('#adminListContainer').fadeIn(3000);
-				$('#adminBodyContainer').fadeIn(4500);
+				$('#staffListContainer').fadeIn(3000);
+				$('#staffBodyContainer').fadeIn(4500);
 			});
 		</script>
 	</head>
@@ -43,22 +45,31 @@ $current_user = $_SESSION['username'];
 			<img src="css/pics/7.jpg" />
 		</div>
 		<div id='welcomeUser'>
-			<a class='welcomeHeader'><span class="refreshpage" title="Home Page">Welcome</span>, Administrator: <?php echo $current_user ?>!</a>
+			<a class='welcomeHeader'><span class="refreshpage" title="Home Page">Welcome</span>, Staff: <span class="displaypersonalinfo" title="Personal Information"><?php echo $current_user ?></span>!</a>
 			<input type="button" onclick="location.href='signout.php'" title="Sign Out" value="Sign Out" /></br>
 		</div>
-		<div id="adminListContainer">
+		<div id="staffListContainer">
 			<ul class='listLinks'>
-				<li><input type="button" class="registeruser" title="Register" value="Register" /></li>
-				<li><input type="button" class="deleteaccount" title="Delete Accounts" value="Delete Accounts" /></li>
+				<li><input type="button" class="personalinfo" title="Personal Information" value="Personal Information"/></li>
+		<?php
+			$stmt="SELECT type from staff WHERE username='$current_user';";
+			$result=pg_fetch_array(pg_query($stmt));
+		
+			if($result[0]=='Dorm Manager')
+			{
+		?>
 				<li><input type="button" class="personalinfolist" title="Personal Information" value="Personal Information of Dormers &amp; Staff" /></li>
 				<li><input type="button" class="addpayment" title='Add Payment Records' value="Add Payment Records" /></li>
 				<li><input type="button" class="updatepayment" title='Update Payment Records' value="Update Payment Records" /></li>
 				<li><input type="button" class="viewlogs" title='View Logs' value="View Logs" /></li>
 				<li><input type="button" class="roomavailability" title='Room Availability' value="Room Availability" /></li>
-				<li><input type="button" class="staffschedule" title="Staff Schedule" name='viewSched' value="Staff Schedule"/></li>
-			</ul>
+		<?php
+			}
+		?>
+			<li><input type="button" class="staffschedule" title="Staff Schedule" name='viewSched' value="Staff Schedule"/></li>
+		</ul>
 		</div>
-		<div id="adminBodyContainer">
+		<div id='staffBodyContainer'>	
 		</div>
 		<div id='longFooter'>
 			Copyright &copy;2013. CMSC 128 C-4L Group 2. All rights reserved.
