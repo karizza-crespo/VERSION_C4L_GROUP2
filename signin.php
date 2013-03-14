@@ -12,7 +12,7 @@ session_start();
 			body
 			{
 				overflow:hidden;
-				background-image:url('pics/pic2.jpg');
+				background-image:url('pics/1.jpg');
 			}
 		</style>
 		<link rel="stylesheet" type="text/css" href="js/toast/resources/css/jquery.toastmessage.css" />
@@ -28,17 +28,18 @@ session_start();
 	</head>
 	<body>
 		<div id="largeContainer">
-			<img src="css/pics/dorm.jpg" />
+			<img src="css/pics/1.jpg" />
 		</div>
 		<div id="systemName">
-			<a class="DMS" href="signin.php">Dormitory Management System</a>
+			<div id="titleDorm">
+				<br/>
+				<a class="DMS" href="signin.php">Dormitory Management System</a>
+			</div>
+			
 			<br/>
-			<br/>
+			<br/><br/>
 			<hr />
-			<br/>
-			<br/>
-			<a class='welcome'>WELCOME!</a>
-			<br/>
+			
 			<div id="signIn">
 				<?php
 				//check if the session accountType already has an initial value
@@ -126,13 +127,12 @@ session_start();
 					</table>
 				</form>
 			</div>
-			<br />
 			<hr />
-			<br/>
-			<br/>
+			<br/><br/><br/><br/>
+			<div id='footer'>
+				Copyright &copy;2013. CMSC 128 C-4L Group 2. All rights reserved.
+			</div>
 		</div>
-		<div id='footer'>
-			Copyright &copy;2013. CMSC 128 C-4L Group 2. All rights reserved.
-		</div>
+		
 	</body>
 </html>
