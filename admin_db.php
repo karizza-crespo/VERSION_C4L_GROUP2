@@ -40,7 +40,7 @@ $current_user = $_SESSION['username'];
 	</head>
 	<body>
 		<div id="largeContainer">
-			<img src="css/pics/dorm(1).jpg" />
+			<img src="css/pics/7.jpg" />
 		</div>
 		<div id='welcomeUser'>
 			<a class='welcomeHeader'><span class="refreshpage" title="Home Page">Welcome</span>, Administrator: <?php echo $current_user ?>!</a>
