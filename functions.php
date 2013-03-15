@@ -2,7 +2,7 @@
 include("classes.php");
 
 //connect to the database
-$db=pg_connect("host=localhost port=5432 dbname=cmsc128project user=postgres password=cmsc127");
+$db=pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=000000");
 
 class databaseManager
 {	
@@ -361,6 +361,7 @@ class databaseManager
 		echo "</table>";
 	}
 	
+	
 	//function for deleting accounts from the database
 	public function deleteAccounts($deleteDormers, $deleteStaff)
 	{
@@ -379,8 +380,56 @@ class databaseManager
 			//before you delete the staff, delete first all the entries of the staff in the staff_schedule
 			$stmt="DELETE FROM schedule WHERE staff_number='$deleteStaff[$ctr]';";
 			pg_query($stmt);
+			
+			//and in the table of checking
+			for($i=1; $i<4 ; $i++){
+				for($j=1 ; $j<8 ; $j++){
+					$ent = "dm".$i."[".$j."]";
+					$stmt = "SELECT $ent from checkadd";
+					$result= pg_query($stmt);
+					$a = pg_fetch_array($result);
+					for($k=0 ; $k<count($a)-1;$k++){
+						if($a[$k]==$deleteStaff[$ctr]){
+							$stmt2 = "UPDATE checkadd SET $ent = 0";
+							$result2= pg_query($stmt2);
+						}
+					}
+				}
+			}
+			
+			for($i=1; $i<7 ; $i++){
+				for($j=1 ; $j<8 ; $j++){
+					$ent = "man".$i."[".$j."]";
+					$stmt = "SELECT $ent from checkadd";
+					$result= pg_query($stmt);
+					$a = pg_fetch_array($result);
+					for($k=0 ; $k<count($a)-1 ; $k++){
+						if($a[$k]==$deleteStaff[$ctr]){
+							$stmt2 = "UPDATE checkadd SET $ent = 0";
+							$result2= pg_query($stmt2);
+						}
+					}
+				}
+			}
+			for($i=1; $i<7 ; $i++){
+				for($j=1 ; $j<8 ; $j++){
+					$ent = "guard".$i."[".$j."]";
+					$stmt = "SELECT $ent from checkadd";
+					$result= pg_query($stmt);
+					$a = pg_fetch_array($result);
+					for($k=0 ; $k<count($a)-1 ; $k++){
+						if($a[$k]==$deleteStaff[$ctr]){
+							$stmt2 = "UPDATE checkadd SET $ent = 0";
+							$result2= pg_query($stmt2);
+						}
+					}
+				}
+			}
+			
+			//then delete
 			$stmt="DELETE FROM staff WHERE staff_number='$deleteStaff[$ctr]';";
 			pg_query($stmt);
+			
 		}
 	}
 	
@@ -766,6 +815,7 @@ class databaseManager
 		$result= pg_query($stmt);
 		$a = pg_fetch_array($result);
 		$staff=$a[0];
+		
 		return $staff;
 	}
 	
@@ -909,23 +959,28 @@ class databaseManager
 
 		return $a[0];
 	}
-	public function updateCheck($entity,$i,$week){
+	public function updateCheck($entity,$i,$week,$staffno){
 		
 		$ent = $entity."[".$i."]";
-		$stmt = "UPDATE checkadd SET $ent = 1 where week=$week;";
+		$stmt = "UPDATE checkadd SET $ent = $staffno where week=$week;";
 		$result= pg_query($stmt);
 		if($result)
 			return 1;
 		else return 0;
 	}
 	
-	public function updateStaffSchedule($staffno,$location,$day,$time){
+	
+	
+	public function updateStaffSchedule($entity,$i,$week,$staffno,$location,$day,$time){
 		$stmt = "UPDATE schedule SET staff_number=$staffno where 
 			date = (select current_date + $day) and
 			location like '$location' and 
 			time = '$time';";
 		$result= pg_query($stmt);
 		
+		$ent = $entity."[".$i."]";
+		$stmt = "UPDATE checkadd SET $ent = $staffno where week=$week;";
+		$result= pg_query($stmt);
 		if($result)
 			return 1;
 		else return 0;
