@@ -1,0 +1,524 @@
+/*font styles*/
+@font-face{
+	font-family:QuickSand;
+	src:url('QuickSand.otf');
+}
+
+@font-face{
+	font-family:Princess;
+	src:url('JellykaWesternPrincess.ttf');
+}
+
+@font-face{
+	font-family:Script;
+	src:url('FREEBSC.ttf');
+}
+
+body
+{
+	margin:0;
+	padding:0;
+	height:100%;
+	font-family:QuickSand;
+	color:white;
+	background-image: url('pics/3.jpg');
+}
+
+.downDormer, .downStaff, .upDormer, .upStaff
+{
+	color:blue;
+}
+
+/*the font family of all the input tags will be Quicksand*/
+input
+{
+	font-family:QuickSand;
+	border-radius:8px;
+}
+
+input[type=button]
+{
+	background-color:white;
+	border-radius:8px;
+}
+
+/*the div would have the same size as the body*/
+#largeContainer
+{
+	height:100%;
+	width:100%;
+	position:relative;
+	float:left;
+}
+
+/*size of the image would be the entire div*/
+img
+{
+	height:100%;
+	width:100%;
+}
+/*-----------------------------------------------sign in--------------------------------------------------*/
+/*footer for the sign in page*/
+#footer
+{
+	font-size:1.2em;
+	text-align:center;
+	color:white;
+	padding: 1%;
+	padding-top:5%;
+}
+
+/*division where the name of the system would be printed*/
+#systemName
+{
+	float:left;
+	padding-top:2%;
+	text-align:center;
+	color:white;
+	height:100%;
+	width:45%;
+	opacity:0.8;
+	position:absolute;
+	left:50%;
+}
+#titleDorm{
+	background-image: url('pics/3.jpg');
+	padding: 1%;
+	font-size:1.07em;
+}
+
+/*division for the textfields for signing in*/
+#signIn
+{
+	float: right;
+	background-image: url('pics/2.jpg');
+	margin:10%;
+	padding:3%;
+	border-radius:5px;
+	width: 50%;
+	
+	
+}
+
+/*a with the class welcom would have the font-size 2em*/
+.welcome
+{
+	font-family:Quicksand;
+	font-size:2em;
+}
+
+/*all the input tags with the class inputSignIn would have the font-size 0.5em*/
+.inputSignIn
+{
+	font-size:0.5em;
+	background-color:white;
+	border-radius:8px;
+}
+
+/*to center the signInTable, the margin should have the value auto*/
+.signInTable
+{
+	margin:auto;
+	font-size:1.5em;
+	
+}
+
+/*the label dormitory management system would have the font-size 2.7em and the font family Princess*/
+.DMS
+{
+	font-family:Princess;
+	font-size:2.7em;
+	color:white;
+	text-decoration:none;
+}
+
+/*change the color and the width of the horizontal rule*/
+hr
+{
+	width:80%;
+	border-color:gray;
+}
+/*---------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------dormer_db--------------------------------------------*/
+/*division where the name of the user would be printed*/
+#welcomeUser
+{
+	width:100%;
+	height:8%;
+	background-image: url('pics/3.jpg');
+	opacity:0.85;
+	top:2%;
+	position:absolute;
+	color:white;
+	padding-left:1%;
+	padding-top:1%;
+}
+
+/*division where all the buttons would be listed*/
+#dormerListContainer
+{
+	width:100%;
+	position:absolute;
+	top:13%;
+	left:9%;
+}
+
+/*change the font-size of all buttons in the dormerListContainer*/
+#dormerListContainer input[type=button]
+{
+	font-size:1.8em;
+	margin-right:2.5%;
+	background-color:white;
+	border-radius:8px;
+}
+
+/*on hover, the button would have the opacity 0.7*/
+#dormerListContainer input[type=button]:hover
+{
+	opacity:0.85;
+}
+
+/*onclick the button should have the apacity 0.5*/
+.opaquebutton
+{
+	opacity:0.5;
+}
+
+/*division where everything would be displayed when buttons are clicked*/
+#dormerBodyContainer
+{
+	top:26%;
+	left:4%;
+	height:68%;
+	width:92%;
+	position:absolute;
+	background-image: url('pics/3.jpg');
+	opacity:0.85;
+	overflow:auto;
+	color:white;
+	border-radius:8px;
+}
+
+iframe
+{
+	border-radius:8px;
+}
+
+#dormerBodyContainer table
+{
+	color:white;
+}
+
+/*footer for every page except the sign in page*/
+#longFooter
+{
+	top:97%;
+	font-size:0.9em;
+	color:white;
+	background-image: url('pics/3.jpg');
+	opacity:0.85;
+	position:absolute;
+	text-align:center;
+	padding-left:0.5%;
+	padding-right:0.5%;
+	width:100%;
+}
+
+.welcomeHeader
+{
+	font-size:2em;
+	margin-right:2%;
+}
+
+/*remove the bullets from the list*/
+ul.listLinks
+{
+	list-style-type:none;
+}
+
+/*display the list horizontally*/
+.listLinks > li
+{
+	display:inline;
+}
+
+.viewInfo
+{
+	color:white;
+	margin:auto;
+	font-size:1.45em;
+}
+
+.viewInfo label
+{
+	font-weight:bold;
+}
+
+.viewInfo input
+{
+	font-size:1em;
+}
+
+.editDormerInfoForm
+{
+	margin:auto;
+	font-size:1.35em;
+}
+
+.editDormerInfoForm label
+{
+	font-weight:bold;
+}
+
+.editDormerInfoForm input
+{
+	font-size:0.9em;
+}
+
+.back
+{
+	color:white;
+	font-size:1.4em;
+	text-decoration:none;
+}
+
+/*on hover, the achor tag with the class of back would have the opacity of 0.3*/
+.back:hover
+{
+	text-decoration:underline;
+	opacity:0.5;
+}
+
+.fillUpLogs
+{
+	margin:auto;
+	font-size:1.35em;
+	text-align:center;
+}
+
+.fillUpLogs td
+{
+	width:20%;
+}
+
+.fillUpLogs input
+{
+	font-size:0.9em;
+}
+
+.search
+{
+	margin:auto;
+	font-size:1.3em;
+}
+
+.search label
+{
+	font-weight:bold;
+}
+
+.search input
+{
+	font-size:0.9em;
+}
+
+.logs
+{
+	margin:auto;
+	font-size:1.3em;
+}
+/*---------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------staff_db------------------------------------------------*/
+/*division where all the buttons are listed*/
+#staffListContainer
+{
+	width:100%;
+	position:absolute;
+	top:13%;
+}
+
+/*all buttons in the staffListContainer would have the font-size of 0.95em*/
+#staffListContainer input[type=button]
+{
+	font-size:0.95em;
+	background-color:white;
+	border-radius:8px;
+}
+
+/*on hover, the buttons would have the opacity of 0.6*/
+#staffListContainer input[type=button]:hover
+{
+	opacity:0.6;
+}
+
+/*division where are the details would be displayed when buttons are clicked*/
+#staffBodyContainer
+{
+	top:23%;
+	width:92%;
+	height:70%;
+	position:absolute;
+	left:4%;
+	background-image: url('pics/3.jpg');
+	opacity:0.85;
+	border-radius:8px;
+}
+
+.viewInfoByAdmin
+{
+	font-size:1em;
+	margin:auto;
+}
+
+.addPaymentForm
+{
+	margin:auto;
+	font-size:1.35em;
+}
+
+.addPaymentForm label
+{
+	font-weight:bold;
+}
+
+.addPaymentForm input, select
+{
+	font-size:0.9em;
+}
+
+.addPaymentForm input[type=text], input[type=date],  select
+{
+	width:100%;
+}
+
+.paymentEdit
+{
+	margin:auto;
+	font-size:1.15em;
+}
+
+.updatePaymentForm
+{
+	margin:auto;
+	font-size:1.35em;
+}
+
+/*labels in the updatePaymentForm would have a font-weight of bold*/
+.updatePaymentForm label
+{
+	font-weight:bold;
+}
+
+/*all input tags in the updatePaymentForm would have the font-size of 0.9em*/
+.updatePaymentForm input
+{
+	font-size:0.9em;
+}
+
+.roomAvailabilityList
+{
+	margin:auto;
+	font-size:1.35em;
+}
+
+/*---------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------admin_db------------------------------------------*/
+/*division where all buttons are listed*/
+#adminListContainer
+{
+	width:100%;
+	position:absolute;
+	top:13%;
+}
+
+/*all buttons in the adminListContainer would have a font-size of 0.85em*/
+#adminListContainer input[type=button]
+{
+	font-size:0.85em;
+	background-color:white;
+	border-radius:8px;
+}
+
+/*on hover, the button would have the opacity of 0.6*/
+#adminListContainer input[type=button]:hover
+{
+	opacity:0.6;
+}
+
+/*division where all the details would be displayed when buttons are clicked*/
+#adminBodyContainer
+{
+	top:23%;
+	width:92%;
+	height:70%;
+	position:absolute;
+	left:4%;
+	background-image: url('pics/3.jpg');
+	opacity:0.85;
+	border-radius:8px;
+}
+
+.registerForm
+{
+	margin:auto;
+	font-size:1.35em;
+}
+
+.registerForm label
+{
+	font-weight:bold;
+}
+
+.registerForm input
+{
+	font-size:0.9em;
+}
+
+.registerForm input[type=text], input[type=password], input[type=number]
+{
+	width:100%;
+}
+
+ul.listErrors
+{
+	margin-left:25%;
+}
+
+.deleteUsers
+{
+	margin:auto;
+	font-size:1em;
+}
+
+/*change the font-size of the buttons to 1.25em*/
+.deleteButtons, .checkAllUsers, .unCheckAllUsers, .schedButtons
+{
+	font-size:1.25em;
+}
+
+/*change the color of the row that is selected to be deleted*/
+.toBeDeleted
+{
+	background-color:red;
+}
+
+/*change the background color and font-color of the anchor tag with classes stafflist or dormerlist*/
+.staffList, .dormerList
+{
+	color:black;
+	background-color:white;
+}
+
+/*change the background color and font-color of all the headers of a table*/
+th
+{
+	background-color:white;
+	color:black;
+}
+
+th.schedTable
+{
+	background-image: url('pics/3.jpg');
+	color:white;
+}
+/*---------------------------------------------------------------------------------------------------------*/
