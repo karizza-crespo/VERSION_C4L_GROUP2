@@ -36,21 +36,26 @@
 	}
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
+	//sets the value of the day to view, add,edit and delete from the schedule
 	if(!isset($_SESSION["day"]))
 		$_SESSION["day"]=0;
 	
+	//sets view as default session
 	$_SESSION["view"]=1;
+
+	//if session add,edit,delete are not yet set
 	if(!isset($_SESSION["add"]))
 		$_SESSION["add"]=0;
 	if(!isset($_SESSION["edit"]))
 		$_SESSION["edit"]=0;
 	if(!isset($_SESSION["delete"]))
 		$_SESSION["delete"]=0;
-	if(!isset($_SESSION["d"]))
+	if(!isset($_SESSION["d"])) //in deleting per day
 		$_SESSION["d"]=0;
+
 	//if add sched is clicked
-	if(isset($_POST["addSched"])){
-		//triggers
+	if(isset($_POST["addSched"]) || $_SESSION["add"]==1){
+		//triggers: add-on, the rest off
 		$_SESSION["add"]=1;
 		$_SESSION["edit"]=0;
 		$_SESSION["view"]=0;
@@ -58,16 +63,17 @@
 	}
 		
 	//if edit is clicked
-	if(isset($_POST["editSched"])){
-		//triggers
+	if(isset($_POST["editSched"]) || $_SESSION["edit"]==1){
+		//triggers: edit-on, rest off
 		$_SESSION["edit"]=1;
 		$_SESSION["add"]=0;
 		$_SESSION["view"]=0;
 		$_SESSION["delete"]=0;
 	}
 	
-	if(isset($_POST["deleteSched"])){
-		//triggers
+	//if delete is clicked
+	if(isset($_POST["deleteSched"]) || $_SESSION["delete"]==1){
+		//triggers: delete-on, the rest off
 		$_SESSION["edit"]=0;
 		$_SESSION["add"]=0;
 		$_SESSION["view"]=0;
@@ -75,18 +81,19 @@
 	}
 	
 	
-	//start the viewing session from the present day
+	//if view is clicked start the viewing session from the present day
 	if(isset($_POST["viewSched"])){
-		//triggers
+		//triggers: view-on, the rest off
 		$_SESSION["day"]=0;
 		$_SESSION["edit"]=0;
 		$_SESSION["add"]=0;
 		$_SESSION["delete"]=0;
 		$_SESSION["view"]=1;
 	}
+	
 	//checks for every session if it is add,edit or view
 	//trigger session if one is being used
-	//for viewing the next schedules
+	//for viewing the next schedule for a week
 	if(isset($_POST["nextSched"])){
 		if($_SESSION["add"]==1){
 			$_SESSION["view"]=0;
@@ -112,13 +119,12 @@
 		$_SESSION["day"]++;//increase the day
 	}
 	
-	
-	
 	//for 7 days only
 	if($_SESSION["day"]>6)
 		$_SESSION["day"]=0;
 	
 	//for viewing the previous schedules
+	//still make sure that the session is still set
 	if(isset($_POST["prevSched"])){
 		if($_SESSION["add"]==1){
 			$_SESSION["view"]=0;
@@ -147,16 +153,18 @@
 	
 	
 	$dayToSee=$_SESSION["day"];
+	
 	//used for inserting information to the database
 	//creating a new week if first time and if the
 	//current day is greater than the last date
 	//of the previous week or latest week
+	//creates a new checker for the week
 	$wCount=$dormManager->countWeek();
 
 	if($wCount==0){
-		$dormManager->addWeek(1);
+		$dormManager->addWeek(1);//first week
 	}else{
-		$dormManager->checkAddWeek($wCount,$dayToSee);
+		$dormManager->checkAddWeek($wCount,$dayToSee);//week next
 	}
 	
 	
@@ -164,23 +172,29 @@
 	$addSuccess=0;
 	$editSuccess=0;
 	
+	//week where the schedule belongs
 	$week = $dormManager->whichWeek($dayToSee);
+	//index whick to update when adding entry to the schedule
 	$index = $dormManager->whichIndex($dayToSee,$week);
 	
-	//once no more viewing and in adding info
+	
+	//once no more viewing
+	//when in add session and save is clicked
 	if(isset($_POST["saveSched"])){
 		
-		//triggers
+		//make sure other triggers are off
 		$_SESSION["view"]=0;
 		$_SESSION["edit"]=0;
 		$_SESSION["delete"]=0;
 		
 		
-		$d=array();
-		$m=array();
-		$g=array();
+		$d=array();//array for getting the posted dorm manager
+		$m=array();//for maintenance
+		$g=array();//and for the guard
 		
+		//week the schdule belongs
 		$week = $dormManager->whichWeek($dayToSee);
+		//index of the entry to be updated
 		$index = $dormManager->whichIndex($dayToSee,$week);
 		
 		for($i=1 ; $i<4 ; $i++){
@@ -188,13 +202,15 @@
 			$dm="dm$i";
 			$checkStaff=$dormManager->checkIfThereIs($dm,$index,$week);
 			
+			//if none
 			if($checkStaff==0){
 				//checks if not null or not chosen any of the options
 				if($_POST["dm$i"]!=" " ){
 					
+					//if there is no entry yet in the schedule table
 					if($dormManager->countSchedEntry()==0)
 						$schedid=1001;
-					else $schedid=$dormManager->lastSchedEntry() + 1;
+					else $schedid=$dormManager->lastSchedEntry() + 1;//if there is just add 1 from the last schedule id entered
 					
 					
 					
@@ -222,7 +238,7 @@
 					$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'informationarea',$d[$i-1]);
 					if($check==1){
 						
-						$dormManager->updateCheck($dm,$index,$week);//updates the dorm manager checker array
+						$dormManager->updateCheck($dm,$index,$week,$d[$i-1]);//updates the dorm manager checker array
 					}
 					
 				}
@@ -265,7 +281,7 @@
 					
 					if($check==1){
 						
-						$dormManager->updateCheck($man,$index,$week);
+						$dormManager->updateCheck($man,$index,$week,$m[$i-1]);
 					}
 				}
 			}
@@ -305,7 +321,7 @@
 						$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'westgate',$g[$i-1]);
 					else $check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'eastgate',$g[$i-1]);
 					if($check==1){
-						$dormManager->updateCheck($guard,$index,$week);
+						$dormManager->updateCheck($guard,$index,$week,$g[$i-1]);
 					}
 				}
 			}
@@ -313,17 +329,24 @@
 			
 	}
 	
-	//once no more viewing and in updating info
+	//for updating info
+	//same as saving info
 	if(isset($_POST["updateSched"])){
 		$_SESSION["view"]=0;
 		$_SESSION["add"]=0;
 		$_SESSION["delete"]=0;
 		
+		
+		//week the schdule belongs
+		$week = $dormManager->whichWeek($dayToSee);
+		//index of the entry to be updated
+		$index = $dormManager->whichIndex($dayToSee,$week);
+		
 		for($i=1 ; $i<4 ; $i++)
 		{
 			if(isset($_POST["dm$i"])){
 				
-			
+				$dm="dm$i";
 				//get the staff number of the chosen staff
 				$dmname=$_POST["dm$i"];
 				$stmt="SELECT staff_number from staff where name like '$dmname';";
@@ -344,7 +367,7 @@
 				
 				
 				//add to the database
-				$check = $dormManager->updateStaffSchedule($a[0],'informationarea',$dayToSee,$time);
+				$check = $dormManager->updateStaffSchedule($dm,$index,$week,$a[0],'informationarea',$dayToSee,$time);
 				
 				
 			}
@@ -354,7 +377,7 @@
 		for($i=1 ; $i<7 ; $i++){
 			if(isset($_POST["man$i"])){
 		
-			
+				$man="man$i";
 				$mname=$_POST["man$i"];
 				$stmt="SELECT staff_number from staff where name like '$mname';";
 				$result= pg_query($stmt);
@@ -373,8 +396,8 @@
 				
 				//checks for the location
 				if($i>3)
-					$check = $dormManager->updateStaffSchedule($a[0],'unit2',$dayToSee,$time);
-				else $check = $dormManager->updateStaffSchedule($a[0],'unit1',$dayToSee,$time);
+					$check = $dormManager->updateStaffSchedule($man,$index,$week,$a[0],'unit2',$dayToSee,$time);
+				else $check = $dormManager->updateStaffSchedule($man,$index,$week,$a[0],'unit1',$dayToSee,$time);
 				
 				
 			}
@@ -383,7 +406,7 @@
 		//same with the maintenance
 		for($i=1 ; $i<7 ; $i++){
 			if(isset($_POST["g$i"])){
-			
+				$guard="guard$i";
 				$gname=$_POST["g$i"];
 				$stmt="SELECT staff_number from staff where name like '$gname';";
 				$result= pg_query($stmt);
@@ -402,13 +425,15 @@
 				
 				
 				if($i>3)
-					$check = $dormManager->updateStaffSchedule($a[0],'westgate',$dayToSee,$time);
-				else $check = $dormManager->updateStaffSchedule($a[0],'eastgate',$dayToSee,$time);
+					$check = $dormManager->updateStaffSchedule($guard,$index,$week,$a[0],'westgate',$dayToSee,$time);
+				else $check = $dormManager->updateStaffSchedule($guard,$index,$week,$a[0],'eastgate',$dayToSee,$time);
 				
 			}
 		}
 	}
 	
+	
+	//when delete is clicked
 	if(isset($_POST["delete"])){
 		$_SESSION["add"]=0;
 		$_SESSION["edit"]=0;
@@ -417,11 +442,8 @@
 		
 		$week = $dormManager->whichWeek($dayToSee);
 		$index = $dormManager->whichIndex($dayToSee,$week);
+		//deletes schedule per week
 		$dormManager->deleteSchedule($dayToSee,$index);
-		/*if($check==1){
-			echo "Deleted Succesfully";
-		}*/
-		
 	}
 
 ?>
@@ -481,6 +503,7 @@
 			<br />
 			<div id="body">
 				<?php
+					//depending on the session, onsubmit changes
 					if($_SESSION["view"]==1)
 						echo '<form name="sched" action="sched.php" method="post">';
 					if($_SESSION["add"]==1)
@@ -508,23 +531,29 @@
 					<tr>
 						<th class="schedTable" align="left">Dorm Manager</th>
 						<?php
+							//list of dorm managers
 							$listOfDormMan = $dormManager->retrieveStaff('Dorm Manager');
 							
 							echo '<td align="center">';
+								//if session set is view or delete
 								if($_SESSION["view"]==1 || $_SESSION["delete"]==1){
+									//displays the name set the specified slot
 									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'22:00:00');
 									//if($printName!=0)
 										echo $printName;
 								}
+								//if session set is add
 								if($_SESSION["add"]==1){
+									//displays the name if there is already assigned person to the slot
 									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'22:00:00');
 									if($printName!=NULL)
 										echo $printName;
-									else{
+									else{//if none, shows a dropdown of options from the list of dorm managers
 										echo '<select id="selItem"   name="dm1">';
+											//default is " " used for posting info
 											echo '<option selected="true" value=" "></option>';
 											for($i=0; $i<count($listOfDormMan); $i++){
-												
+												//name of the dorm manger to choose from
 												echo '<option  value="'.$listOfDormMan[$i].'">';
 												echo $listOfDormMan[$i];
 												echo '</option>';
@@ -532,9 +561,14 @@
 										echo '</select>';
 									}
 								}
+								//if session set is edit
 								if($_SESSION["edit"]==1){
 									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'22:00:00');
 									if($printName!=NULL){
+										//dropdown options
+										//default is the one already set on the specified slot
+										//can't set to null or " "
+										//only those slots with already added entry can be edited
 										echo '<select id="selItem"  name="dm1">';
 											for($i=0; $i<count($listOfDormMan); $i++){
 												if($printName==$listOfDormMan[$i])
@@ -549,6 +583,11 @@
 								}
 								
 							echo '</td>';
+							
+							//----------------------------------------------------------------------
+							//same for the other slots just changes the list if maintenance or guard
+							//----------------------------------------------------------------------
+							
 							echo '<td align="center">';
 								if($_SESSION["view"]==1 || $_SESSION["delete"]==1){
 									$printName=$dormManager->retrieveStafffromSched('informationarea',$dayToSee,'06:00:00');
@@ -721,7 +760,7 @@
 									$printName=$dormManager->retrieveStafffromSched('unit1',$dayToSee,'14:00:00');
 									//if($printName!=0)
 										echo $printName; 
-								}else
+								}
 								if($_SESSION["add"]==1){
 									$printName=$dormManager->retrieveStafffromSched('unit1',$dayToSee,'14:00:00');
 									if($printName!=NULL)
