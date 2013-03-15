@@ -43,6 +43,7 @@ $current_user = $_SESSION['username'];
 			<img src="css/pics/7.jpg" />
 		</div>
 		<div id='welcomeUser'>
+
 			<a class='welcomeHeader'><span class="refreshpage" title="Home Page">Welcome</span>, Administrator: <?php echo $current_user ?>!</a>
 			<input type="button" onclick="location.href='signout.php'" title="Sign Out" value="Sign Out" /></br>
 		</div>

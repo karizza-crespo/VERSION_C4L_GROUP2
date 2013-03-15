@@ -133,6 +133,5 @@ session_start();
 				Copyright &copy;2013. CMSC 128 C-4L Group 2. All rights reserved.
 			</div>
 		</div>
-		
 	</body>
 </html>

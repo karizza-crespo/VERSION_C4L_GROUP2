@@ -361,7 +361,6 @@ class databaseManager
 		echo "</table>";
 	}
 	
-	
 	//function for deleting accounts from the database
 	public function deleteAccounts($deleteDormers, $deleteStaff)
 	{
@@ -429,7 +428,6 @@ class databaseManager
 			//then delete
 			$stmt="DELETE FROM staff WHERE staff_number='$deleteStaff[$ctr]';";
 			pg_query($stmt);
-			
 		}
 	}
 	
@@ -815,7 +813,7 @@ class databaseManager
 		$result= pg_query($stmt);
 		$a = pg_fetch_array($result);
 		$staff=$a[0];
-		
+
 		return $staff;
 	}
 	
@@ -959,6 +957,7 @@ class databaseManager
 
 		return $a[0];
 	}
+	
 	public function updateCheck($entity,$i,$week,$staffno){
 		
 		$ent = $entity."[".$i."]";
@@ -968,8 +967,6 @@ class databaseManager
 			return 1;
 		else return 0;
 	}
-	
-	
 	
 	public function updateStaffSchedule($entity,$i,$week,$staffno,$location,$day,$time){
 		$stmt = "UPDATE schedule SET staff_number=$staffno where 
