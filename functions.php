@@ -550,7 +550,7 @@ class databaseManager
 					echo "<td><input type='text' id='name' name='name' pattern='[A-za-z\s\.\-]{1,80}' value='".$_POST['name']."'></td>";
 			echo "</tr>
 			<tr>
-				<td><label for='homeaddress'>Address: </label></td>";
+				<td><label for='address'>Address: </label></td>";
 				if(isset($_POST["viewstaffinfo"]) || ($i!='-1' && isset($_POST["editstaffinfobyadmin$i"])))
 					echo "<td><input type='text' id='address' name='address' pattern='[A-za-z0-9\s,\.\-/]{1,150}' value='".$username->getAddress()."'></td>";
 				else
@@ -733,7 +733,7 @@ class databaseManager
 		$stmt="SELECT current_date;";
 		$date=pg_fetch_array(pg_query($stmt));
 		
-		if($birthdate>$date[0])
+		if($birthdate>=$date[0])
 			return 3;
 		
 		$stmt="UPDATE DORMER SET name='$name', course='$course',";

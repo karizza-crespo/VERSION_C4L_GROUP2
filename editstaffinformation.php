@@ -28,7 +28,7 @@ if($_SESSION['accountType']!='staff')
 			if(isset($_POST["editstaffinfo"]))
 			{
 
-				$success=$manager->editStaffInformation($_SESSION['staffNumber'],
+				$success=$manager->editStaffInformation($_SESSION['staffNumber'], $_POST['name'], $_POST['address'], $_POST['contactnumber']);
 				if($success==1)
 					echo "<center><h2>Information successfully edited.</h2></center><br/>";
 				else

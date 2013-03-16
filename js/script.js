@@ -188,6 +188,14 @@ function validateRegister()
 	var box, i;
 	var form = document.registerForm;
 	
+	if(form.elements[1].value!=form.elements[2].value)
+	{
+		$().toastmessage({position:'middle-center', stayTime:2000});
+		$().toastmessage('showErrorToast', "Passwords do not match.");
+		form.elements[2].focus();
+		return false;
+	}
+	
 	//if the staff option is checked, skip checking the fields for student number and room number
 	if(form.elements[4].checked)
 	{
