@@ -83,7 +83,6 @@
 		$_SESSION["delete"]=0;
 		$_SESSION["view"]=1;
 	}
-
 	
 	//checks for every session if it is add,edit or view
 	//trigger session if one is being used
@@ -118,7 +117,6 @@
 		$_SESSION["day"]=0;
 	
 	//for viewing the previous schedules
-
 	//still make sure that the session is still set
 	if(isset($_POST["prevSched"])){
 		if($_SESSION["add"]==1){
@@ -148,11 +146,11 @@
 	
 	
 	$dayToSee=$_SESSION["day"];
+	
 	//used for inserting information to the database
 	//creating a new week if first time and if the
 	//current day is greater than the last date
 	//of the previous week or latest week
-
 	//creates a new checker for the week
 	$wCount=$dormManager->countWeek();
 
@@ -161,8 +159,6 @@
 	}else{
 		$dormManager->checkAddWeek($wCount,$dayToSee);//week next
 	}
-	
-	
 	
 	$addSuccess=0;
 	$editSuccess=0;
@@ -226,8 +222,6 @@
 					//add to the database
 					$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'informationarea',$d[$i-1]);
 					if($check==1){
-						
-
 						$dormManager->updateCheck($dm,$index,$week,$d[$i-1]);//updates the dorm manager checker array
 					}
 				}
@@ -303,8 +297,6 @@
 						$time='14:00';
 					}
 					
-					
-					
 					if($i>3)
 						$check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'westgate',$g[$i-1]);
 					else $check = $dormManager->addScheduleEntry($schedid,$dayToSee,$time,'eastgate',$g[$i-1]);
@@ -323,7 +315,6 @@
 		$_SESSION["view"]=0;
 		$_SESSION["add"]=0;
 		$_SESSION["delete"]=0;
-		
 		//week the schdule belongs
 		$week = $dormManager->whichWeek($dayToSee);
 		//index of the entry to be updated
@@ -407,7 +398,6 @@
 			}
 		}
 	}
-	
 	//when delete is clicked
 	if(isset($_POST["delete"])){
 		$_SESSION["add"]=0;
@@ -417,7 +407,6 @@
 		
 		$week = $dormManager->whichWeek($dayToSee);
 		$index = $dormManager->whichIndex($dayToSee,$week);
-
 		//deletes schedule per week
 		$dormManager->deleteSchedule($dayToSee,$index);
 	}
@@ -559,6 +548,7 @@
 								}
 								
 							echo '</td>';
+
 							//----------------------------------------------------------------------
 							//same for the other slots just changes the list if maintenance or guard
 							//----------------------------------------------------------------------
